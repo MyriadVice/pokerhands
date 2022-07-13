@@ -1,5 +1,7 @@
+package pokerhands;
+
 /**
- * Card class representing a poker card with its suit {@link CardSuit} and value {@link CardValue}.
+ * pokerhands.Card class representing a poker card with its suit {@link CardSuit} and value {@link CardValue}.
  */
 public class Card {
     private CardSuit suit;
