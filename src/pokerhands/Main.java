@@ -1,9 +1,11 @@
 package pokerhands;
 
 import pokerhands.strategies.HighCardStrategy;
+import pokerhands.strategies.PairStrategy;
 import pokerhands.strategies.PokerHandStrategy;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -35,7 +37,16 @@ public class Main {
         //strategy e.g. the high card strategy is the lowest thus the last element in the list while the straight flush
         //strategy is the highest and thus the first element of the list
         List<PokerHandStrategy> strategies = new LinkedList<>();
+        strategies.add(new PairStrategy());
         strategies.add(new HighCardStrategy());
+
+        //we sort the hands by their card values in descending order prior to processing, thus we can assume that the
+        //hands are always sorted when passed to the strategies as long as we do not modify them
+        Collections.sort(hand1);
+        Collections.reverse(hand1);
+
+        Collections.sort(hand2);
+        Collections.reverse(hand2);
 
         boolean firstHandPermissible;
         boolean secondHandPermissible;

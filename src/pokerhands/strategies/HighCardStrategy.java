@@ -2,10 +2,7 @@ package pokerhands.strategies;
 
 import pokerhands.Card;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.PriorityQueue;
-import java.util.Queue;
 
 /**
  * A class representing the {@link PokerHandStrategy} for the high card strategy: Hands which do not fit any higher
@@ -23,21 +20,12 @@ public class HighCardStrategy extends PokerHandStrategy {
     public List<Card> evaluatePair(List<Card> hand1, List<Card> hand2) {
         //to compare two cards by this strategy, we compare the values of their highest cards. If the values for the
         // highest cards are equal, we continue with the second highest
-        Queue<Card> sortedHand1 = new PriorityQueue<>(Collections.reverseOrder());
-        sortedHand1.addAll(hand1);
-        Queue<Card> sortedHand2 = new PriorityQueue<>(Collections.reverseOrder());
-        sortedHand2.addAll(hand2);
 
-        Card fistHandCard;
-        Card secondHandCard;
-        for (int i = 0; i < sortedHand1.size(); i++) {
-            //get highest cards
-            fistHandCard = sortedHand1.poll();
-            secondHandCard = sortedHand2.poll();
-
+        //we assume the hands sorted in descending order according to their cards values
+        for (int i = 0; i < hand1.size(); i++) {
             //compare
-            if (fistHandCard.getValue().ordinal() > secondHandCard.getValue().ordinal()) return hand1;
-            if (fistHandCard.getValue().ordinal() < secondHandCard.getValue().ordinal()) return hand2;
+            if (hand1.get(i).getValue().ordinal() > hand2.get(i).getValue().ordinal()) return hand1;
+            if (hand1.get(i).getValue().ordinal() < hand2.get(i).getValue().ordinal()) return hand2;
             //else, continue with next cards
         }
 
