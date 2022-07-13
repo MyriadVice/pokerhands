@@ -34,6 +34,15 @@ import java.util.List;
  * </p>
  **/
 public abstract class PokerHandStrategy {
+    private final String strategyName;
+
+    protected PokerHandStrategy(String strategyName) {
+        this.strategyName = strategyName;
+    }
+
+    public String getStrategyName() {
+        return strategyName;
+    }
 
     public abstract boolean isPermissible(List<Card> hand);
 

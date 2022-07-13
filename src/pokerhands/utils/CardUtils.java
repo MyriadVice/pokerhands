@@ -31,6 +31,7 @@ public class CardUtils {
                 //else, if this value is not the same as the previous, we adjust the lastSequenceStart pointer and try
                 //to look for a new sequence of amount many consecutive same values
                 lastSequenceStart = i;
+                consecutiveEntries = 0;
             }
         }
 

@@ -3,6 +3,7 @@ package pokerhands;
 import pokerhands.strategies.HighCardStrategy;
 import pokerhands.strategies.PairStrategy;
 import pokerhands.strategies.PokerHandStrategy;
+import pokerhands.strategies.ThreeOfAKindStrategy;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -37,6 +38,8 @@ public class Main {
         //strategy e.g. the high card strategy is the lowest thus the last element in the list while the straight flush
         //strategy is the highest and thus the first element of the list
         List<PokerHandStrategy> strategies = new LinkedList<>();
+        strategies.add(new ThreeOfAKindStrategy());
+        //two pair strategy
         strategies.add(new PairStrategy());
         strategies.add(new HighCardStrategy());
 
@@ -50,7 +53,7 @@ public class Main {
 
         boolean firstHandPermissible;
         boolean secondHandPermissible;
-        PokerHandStrategy strategy;
+        PokerHandStrategy strategy = null;
         //now we iterate over all strategies from the highest rank strategy to the lowest rank strategy
         for (int i = 0; i < strategies.size(); i++) {
             //we get the next strategy and see if at least one of the hands could be evaluated by this strategy
@@ -83,7 +86,7 @@ public class Main {
                     + Arrays.toString(hand1.toArray()) + "\n hand2: " + Arrays.toString(hand2.toArray()));
         } else {
             String handStr = "hand" + ((winnerHand == hand1) ? "1" : "2");
-            System.out.println(handStr + " has won!");
+            System.out.println(handStr + " has won by " + strategy.getStrategyName() + "!");
         }
     }
 }

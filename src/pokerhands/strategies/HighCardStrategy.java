@@ -10,6 +10,11 @@ import java.util.List;
  * value, the hands are ranked by the next highest, and so on
  */
 public class HighCardStrategy extends PokerHandStrategy {
+
+    public HighCardStrategy() {
+        super("High Card");
+    }
+
     @Override
     public boolean isPermissible(List<Card> hand) {
         //for very card it is always possible to evaluate the card under this strategy

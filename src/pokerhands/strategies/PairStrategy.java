@@ -12,6 +12,11 @@ import java.util.List;
  * same, the hands are ranked by the values of the cards not forming the pair, in decreasing order.
  */
 public class PairStrategy extends PokerHandStrategy {
+
+    public PairStrategy() {
+        super("Pair");
+    }
+
     @Override
     public boolean isPermissible(List<Card> hand) {
         //this card is permissible if at least one value pair is found
