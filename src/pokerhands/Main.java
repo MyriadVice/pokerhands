@@ -1,5 +1,6 @@
 package pokerhands;
 
+import pokerhands.strategies.HighCardStrategy;
 import pokerhands.strategies.PokerHandStrategy;
 
 import java.util.Arrays;
@@ -34,7 +35,7 @@ public class Main {
         //strategy e.g. the high card strategy is the lowest thus the last element in the list while the straight flush
         //strategy is the highest and thus the first element of the list
         List<PokerHandStrategy> strategies = new LinkedList<>();
-        //todo: add all strategies in descending order
+        strategies.add(new HighCardStrategy());
 
         boolean firstHandPermissible;
         boolean secondHandPermissible;
@@ -65,7 +66,7 @@ public class Main {
         }
 
         //in case we could yet not determine a winning hand, there must be an error since the last high card strategy
-        //should be save to determine a winner
+        //should be save to determine a winner (since we ignore the cards suit for scoring)
         if (winnerHand == null) {
             System.err.println("[Main:main] Unknown error. Could not determine winning hand from: \n hand1: "
                     + Arrays.toString(hand1.toArray()) + "\n hand2: " + Arrays.toString(hand2.toArray()));
