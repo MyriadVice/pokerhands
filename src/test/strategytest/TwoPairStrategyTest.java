@@ -45,11 +45,11 @@ public class TwoPairStrategyTest {
         assertNull(strategy.evaluatePair(null, Collections.emptyList()));
         assertNull(strategy.evaluatePair(Collections.emptyList(), Collections.emptyList()));
 
-        assertNull(strategy.evaluatePair(TestHands.ValuePairs.NO_VALUE_PAIR, null));
-        assertNull(strategy.evaluatePair(null, TestHands.ValuePairs.NO_VALUE_PAIR));
+        assertNull(strategy.evaluatePair(TestHands.ValuePairs.VALUE_PAIR_OF_2_KING_2_QUEEN, null));
+        assertNull(strategy.evaluatePair(null, TestHands.ValuePairs.VALUE_PAIR_OF_2_KING_2_QUEEN));
 
-        assertNull(strategy.evaluatePair(TestHands.ValuePairs.NO_VALUE_PAIR, Collections.emptyList()));
-        assertNull(strategy.evaluatePair(Collections.emptyList(), TestHands.ValuePairs.NO_VALUE_PAIR));
+        assertNull(strategy.evaluatePair(TestHands.ValuePairs.VALUE_PAIR_OF_2_KING_2_QUEEN, Collections.emptyList()));
+        assertNull(strategy.evaluatePair(Collections.emptyList(), TestHands.ValuePairs.VALUE_PAIR_OF_2_KING_2_QUEEN));
     }
 
     @Test
