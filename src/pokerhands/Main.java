@@ -41,7 +41,7 @@ public class Main {
         strategies.add(new FlushStrategy());
         strategies.add(new StraightStrategy());
         strategies.add(new ThreeOfAKindStrategy());
-        //two pair strategy
+        strategies.add(new TwoPairsStrategy());
         strategies.add(new PairStrategy());
         strategies.add(new HighCardStrategy());
 

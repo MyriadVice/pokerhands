@@ -28,13 +28,14 @@ public class CardUtils {
             //in case this value is the same as the previous, we increment the consecutive entries length
             if (cards.get(i).getValue().ordinal() == cards.get(lastSequenceStart).getValue().ordinal()) {
                 consecutiveEntries++;
-                //check if we have reached the required amount of same entries
-                if (consecutiveEntries == amount) return cards.subList(lastSequenceStart, lastSequenceStart + amount);
+                //check if we have reached the required amount of same entries and return new list
+                if (consecutiveEntries == amount)
+                    return new LinkedList<>(cards.subList(lastSequenceStart, lastSequenceStart + amount));
             } else {
                 //else, if this value is not the same as the previous, we adjust the lastSequenceStart pointer and try
                 //to look for a new sequence of amount many consecutive same values
                 lastSequenceStart = i;
-                consecutiveEntries = 0;
+                consecutiveEntries = 1;
             }
         }
 
