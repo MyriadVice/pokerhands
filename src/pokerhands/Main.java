@@ -35,6 +35,7 @@ public class Main {
         //strategy e.g. the high card strategy is the lowest thus the last element in the list while the straight flush
         //strategy is the highest and thus the first element of the list
         List<PokerHandStrategy> strategies = new LinkedList<>();
+        strategies.add(new FourOfAKindStrategy());
         strategies.add(new FullHouseStrategy());
         strategies.add(new FlushStrategy());
         strategies.add(new StraightStrategy());
