@@ -80,6 +80,13 @@ public class TestHands {
                 new Card(CardSuit.C, CardValue.FIVE),
                 new Card(CardSuit.C, CardValue.NINE)
         );
+        public static List<Card> SEQUENCE_THREE_TO_SIX = Arrays.asList(
+                new Card(CardSuit.C, CardValue.ACE),
+                new Card(CardSuit.C, CardValue.THREE),
+                new Card(CardSuit.C, CardValue.FOUR),
+                new Card(CardSuit.C, CardValue.FIVE),
+                new Card(CardSuit.C, CardValue.SIX)
+        );
         public static List<Card> FULL_SEQUENCE_THREE_TO_SEVEN = Arrays.asList(
                 new Card(CardSuit.C, CardValue.THREE),
                 new Card(CardSuit.C, CardValue.FOUR),
@@ -152,6 +159,9 @@ public class TestHands {
 
         Collections.sort(Sequences.SEQUENCE_THREE_TO_FIVE);
         Collections.reverse(Sequences.SEQUENCE_THREE_TO_FIVE);
+
+        Collections.sort(Sequences.SEQUENCE_THREE_TO_SIX);
+        Collections.reverse(Sequences.SEQUENCE_THREE_TO_SIX);
 
         Collections.sort(Sequences.SEQUENCE_THREE_TO_FOUR);
         Collections.reverse(Sequences.SEQUENCE_THREE_TO_FOUR);
