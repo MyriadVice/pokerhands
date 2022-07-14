@@ -35,6 +35,10 @@ public class TwoPairsStrategy extends PokerHandStrategy {
 
     @Override
     public List<Card> evaluatePair(List<Card> hand1, List<Card> hand2) {
+
+        //check for malformed input
+        if (hand1 == null || hand2 == null || hand1.size() == 0 || hand2.size() == 0) return null;
+
         //the cards we will compare for ranking
         Card firstHandCard = null;
         Card secondHandCard = null;
