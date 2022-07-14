@@ -20,11 +20,14 @@ public class PairStrategy extends PokerHandStrategy {
     @Override
     public boolean isPermissible(List<Card> hand) {
         //this card is permissible if at least one value pair is found
-        return CardUtils.getValuePair(hand, 2) != null;
+        return hand != null && hand.size() > 0 && CardUtils.getValuePair(hand, 2) != null;
     }
 
     @Override
     public List<Card> evaluatePair(List<Card> hand1, List<Card> hand2) {
+        //check for malformed input
+        if (hand1 == null || hand2 == null || hand1.size() == 0 || hand2.size() == 0) return null;
+
         //we can assume both pairs exist, thus are not null
         List<Card> firstHandPair = CardUtils.getValuePair(hand1, 2);
         List<Card> secondHandPair = CardUtils.getValuePair(hand2, 2);

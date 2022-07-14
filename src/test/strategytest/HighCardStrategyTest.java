@@ -50,7 +50,7 @@ public class HighCardStrategyTest {
     }
 
     @Test
-    @DisplayName("High card strategy returns null if at least one hand is invalid")
+    @DisplayName("High card strategy returns null if both hands are equal")
     void nullEvaluationOnEqualHands() {
         assertNull(strategy.evaluatePair(TestHands.ValuePairs.NO_VALUE_PAIR, TestHands.ValuePairs.NO_VALUE_PAIR));
     }
