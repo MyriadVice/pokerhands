@@ -1,7 +1,10 @@
 package pokerhands.utils;
 
 import pokerhands.Card;
+import pokerhands.CardSuit;
 
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -69,6 +72,35 @@ public class CardUtils {
         }
 
         //else, no sequence of consecutive values found
+        return null;
+    }
+
+    /**
+     * Function for retrieving a pair of amount many cards from the passed list that all share the same {@link pokerhands.CardSuit}.
+     * If more then one such pairs exists, the pair with the suit of the highest value {@link pokerhands.CardValue} card
+     * is returned.
+     */
+    public static List<Card> getSuitPair(List<Card> hand, int amount) {
+        //note: we could also to this another way by generalizing the code from getValuePair to test for a passed BiPredicate for
+        //addition to the set. Then, we could use the same code base for both, value pairs and suit pairs. However, I choose
+        //this implementation since I think its easier to understand in just a read what this function is supposed to do.
+
+        HashMap<CardSuit, List<Card>> suitOccurrences = new HashMap<>();
+        //count occurrences for a  suits
+        for (Card c : hand) {
+            //first count
+            if (!suitOccurrences.containsKey(c.getSuit())) {
+                suitOccurrences.put(c.getSuit(), new LinkedList<>());
+            }
+            suitOccurrences.get(c.getSuit()).add(c);
+        }
+
+        //check if one list of length amount exists and return it
+        for (CardSuit suit : suitOccurrences.keySet()) {
+            if (suitOccurrences.get(suit).size() >= amount) return suitOccurrences.get(suit).subList(0, amount);
+        }
+
+        //no pair of suits found
         return null;
     }
 }
