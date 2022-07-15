@@ -43,6 +43,13 @@ public class StraightStrategyTest {
     }
 
     @Test
+    @DisplayName("Straight strategy is permissible on a hand containing a sequence of 5 regardless of suit")
+    void isPermissibleOnSequenceOf5() {
+        assertTrue(strategy.isPermissible(TestHands.Sequences.FULL_SEQUENCE_THREE_TO_SEVEN_SAME_SUIT));
+        assertTrue(strategy.isPermissible(TestHands.Sequences.FULL_SEQUENCE_THREE_TO_SEVEN_DIFF_SUIT));
+    }
+
+    @Test
     @DisplayName("Straight strategy returns null if at least one hand is invalid")
     void nullEvaluationOnOneHandInvalid() {
         assertNull(strategy.evaluatePair(null, null));

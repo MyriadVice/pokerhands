@@ -47,6 +47,12 @@ public class StraightFlushStrategyTest {
     }
 
     @Test
+    @DisplayName("Straight flush strategy is permissible on a containing a sequence of 5 of same suit cards")
+    void isPermissibleOnSequenceOfSameSuit() {
+        assertTrue(strategy.isPermissible(TestHands.Sequences.FULL_SEQUENCE_THREE_TO_SEVEN_SAME_SUIT));
+    }
+
+    @Test
     @DisplayName("Straight flush strategy returns null if at least one hand is invalid")
     void nullEvaluationOnOneHandInvalid() {
         assertNull(strategy.evaluatePair(null, null));

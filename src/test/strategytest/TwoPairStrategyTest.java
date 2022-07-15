@@ -38,6 +38,14 @@ public class TwoPairStrategyTest {
     }
 
     @Test
+    @DisplayName("Two pair strategy is permissible on a hand containing two pairs of at least 2")
+    void isPermissibleOnTwoPairs() {
+        assertTrue(strategy.isPermissible(TestHands.ValuePairs.VALUE_PAIR_OF_2_KING_2_QUEEN));
+        assertTrue(strategy.isPermissible(TestHands.ValuePairs.VALUE_PAIR_OF_3_JACK_2_TEN));
+        assertTrue(strategy.isPermissible(TestHands.ValuePairs.VALUE_PAIR_5_ACE)); //two sets with same value
+    }
+
+    @Test
     @DisplayName("Two pair strategy returns null if at least one hand is invalid")
     void nullEvaluationOnOneHandInvalid() {
         assertNull(strategy.evaluatePair(null, null));

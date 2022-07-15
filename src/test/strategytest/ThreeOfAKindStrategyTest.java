@@ -38,6 +38,14 @@ public class ThreeOfAKindStrategyTest {
     }
 
     @Test
+    @DisplayName("Three of a kind strategy is permissible on a hand containing a pair of three or higher")
+    void isPermissibleOnPairOf3() {
+        assertTrue(strategy.isPermissible(TestHands.ValuePairs.VALUE_PAIR_3_ACE));
+        assertTrue(strategy.isPermissible(TestHands.ValuePairs.VALUE_PAIR_4_ACE));
+        assertTrue(strategy.isPermissible(TestHands.ValuePairs.VALUE_PAIR_5_ACE));
+    }
+
+    @Test
     @DisplayName("Three of a kind strategy returns null if at least one hand is invalid")
     void nullEvaluationOnOneHandInvalid() {
         assertNull(strategy.evaluatePair(null, null));

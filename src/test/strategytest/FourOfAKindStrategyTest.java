@@ -41,6 +41,13 @@ public class FourOfAKindStrategyTest {
     }
 
     @Test
+    @DisplayName("Four of a kind strategy is permissible on a hand containing a value pair of four or higher")
+    void isPermissibleOnPairOfFourOrHigher() {
+        assertTrue(strategy.isPermissible(TestHands.ValuePairs.VALUE_PAIR_4_ACE));
+        assertTrue(strategy.isPermissible(TestHands.ValuePairs.VALUE_PAIR_5_ACE));
+    }
+
+    @Test
     @DisplayName("Four of a kind strategy returns null if at least one hand is invalid")
     void nullEvaluationOnOneHandInvalid() {
         assertNull(strategy.evaluatePair(null, null));

@@ -40,6 +40,12 @@ public class FullHouseStrategyTest {
     }
 
     @Test
+    @DisplayName("Full house strategy is permissible on a hand containing a values pair of 3 and 2")
+    void isPermissibleOnHandWithPairOf3And2() {
+        assertTrue(strategy.isPermissible(TestHands.ValuePairs.VALUE_PAIR_OF_3_JACK_2_TEN));
+    }
+
+    @Test
     @DisplayName("Full house strategy returns null if at least one hand is invalid")
     void nullEvaluationOnOneHandInvalid() {
         assertNull(strategy.evaluatePair(null, null));

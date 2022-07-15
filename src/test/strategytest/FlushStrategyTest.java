@@ -39,6 +39,13 @@ public class FlushStrategyTest {
     }
 
     @Test
+    @DisplayName("Flush strategy is permissible on a hand containing a suit pair of 5 regardless of card values")
+    void isPermissibleOnSequenceOf5() {
+        assertTrue(strategy.isPermissible(TestHands.SuitPairs.FULL_SUIT_PAIR_S_FULL_SEQ));
+        assertTrue(strategy.isPermissible(TestHands.SuitPairs.FULL_SUIT_PAIR_S_NO_SEQ));
+    }
+
+    @Test
     @DisplayName("Flush strategy returns null if at least one hand is invalid")
     void nullEvaluationOnOneHandInvalid() {
         assertNull(strategy.evaluatePair(null, null));

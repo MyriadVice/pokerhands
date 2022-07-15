@@ -36,6 +36,15 @@ public class PairStrategyTest {
     }
 
     @Test
+    @DisplayName("Pair strategy is permissible on a hand or contain a pair (of two cards) or higher")
+    void isPermissibleOnPairOf2() {
+        assertTrue(strategy.isPermissible(TestHands.ValuePairs.VALUE_PAIR_OF_2_ACE));
+        assertTrue(strategy.isPermissible(TestHands.ValuePairs.VALUE_PAIR_3_ACE));
+        assertTrue(strategy.isPermissible(TestHands.ValuePairs.VALUE_PAIR_4_ACE));
+        assertTrue(strategy.isPermissible(TestHands.ValuePairs.VALUE_PAIR_5_ACE));
+    }
+
+    @Test
     @DisplayName("Pair strategy returns null if at least one hand is invalid")
     void nullEvaluationOnOneHandInvalid() {
         assertNull(strategy.evaluatePair(null, null));
