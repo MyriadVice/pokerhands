@@ -18,6 +18,9 @@ public class FullHouseStrategy extends PokerHandStrategy {
 
     @Override
     public boolean isPermissible(List<Card> hand) {
+        //check for malformed input
+        if (hand == null || hand.size() == 0) return false;
+
         //this strategy is permissible if  we have 3 cards of the same value with the remaining 2 cards forming a pair
         //thus, we have a value pair of 3 and a value pair of 2
 
@@ -35,6 +38,9 @@ public class FullHouseStrategy extends PokerHandStrategy {
 
     @Override
     public List<Card> evaluatePair(List<Card> hand1, List<Card> hand2) {
+        //check for malformed input
+        if (hand1 == null || hand2 == null || hand1.size() == 0 || hand2.size() == 0) return null;
+
         //Ranked by the value of the 3 cards
         List<Card> firstHandPairOfThree = CardUtils.getValuePair(hand1, 3);
         List<Card> secondHandPairOfThree = CardUtils.getValuePair(hand2, 3);
