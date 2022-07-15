@@ -103,6 +103,20 @@ public class MainTest {
         }
     }
 
+    @Test
+    @DisplayName("Check all three of a kind cases, checking should return correct result")
+    void checkThreeOfAKindCases() {
+        int i = 0;
+        for (TestHandPair testHandPair : TestHands.TestHandPairs.ThreeOfAKindCases.ALL) {
+            if (testHandPair.expectedResult == null) {
+                assertNull(main.rankHands(testHandPair.hand1, testHandPair.hand2));
+            } else {
+                assertEquals(testHandPair.expectedResult, main.rankHands(testHandPair.hand1, testHandPair.hand2).getKey());
+            }
+            System.out.println("[MainTest:checkThreeOfAKindCases] Passed test " + (i++) + ".");
+        }
+    }
+
     //... todo: all the other cases for input of hands of same rank
 
     @Test

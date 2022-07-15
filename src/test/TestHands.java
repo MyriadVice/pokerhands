@@ -577,6 +577,21 @@ public class TestHands {
                     new Card(CardSuit.C, CardValue.THREE)
             ), 1);
 
+            //equal high pair, equal low pair, differing rest
+            public static TestHandPair TWO_PAIR_11 = new TestHandPair(Arrays.asList(
+                    new Card(CardSuit.C, CardValue.ACE),
+                    new Card(CardSuit.D, CardValue.ACE),
+                    new Card(CardSuit.S, CardValue.NINE),
+                    new Card(CardSuit.H, CardValue.NINE),
+                    new Card(CardSuit.C, CardValue.TWO)
+            ), Arrays.asList(
+                    new Card(CardSuit.C, CardValue.ACE),
+                    new Card(CardSuit.D, CardValue.ACE),
+                    new Card(CardSuit.S, CardValue.NINE),
+                    new Card(CardSuit.H, CardValue.NINE),
+                    new Card(CardSuit.C, CardValue.THREE)
+            ), 2);
+
             public static List<TestHandPair> ALL = Arrays.asList(
                     TWO_PAIR_0,
                     TWO_PAIR_1,
@@ -588,7 +603,94 @@ public class TestHands {
                     TWO_PAIR_7,
                     TWO_PAIR_8,
                     TWO_PAIR_9,
-                    TWO_PAIR_10
+                    TWO_PAIR_10,
+                    TWO_PAIR_11
+            );
+        }
+
+        //three of kind
+        public static class ThreeOfAKindCases {
+            //pair equal, rest equal
+            public static TestHandPair TWO_PAIR_0 = new TestHandPair(Arrays.asList(
+                    new Card(CardSuit.C, CardValue.ACE),
+                    new Card(CardSuit.D, CardValue.ACE),
+                    new Card(CardSuit.S, CardValue.ACE),
+                    new Card(CardSuit.H, CardValue.TEN),
+                    new Card(CardSuit.C, CardValue.SIX)
+            ), Arrays.asList(
+                    new Card(CardSuit.C, CardValue.ACE),
+                    new Card(CardSuit.D, CardValue.ACE),
+                    new Card(CardSuit.S, CardValue.ACE),
+                    new Card(CardSuit.H, CardValue.TEN),
+                    new Card(CardSuit.C, CardValue.SIX)
+            ), 0);
+
+            //pair equal, rest different
+            public static TestHandPair TWO_PAIR_1 = new TestHandPair(Arrays.asList(
+                    new Card(CardSuit.C, CardValue.ACE),
+                    new Card(CardSuit.D, CardValue.ACE),
+                    new Card(CardSuit.S, CardValue.ACE),
+                    new Card(CardSuit.H, CardValue.NINE),
+                    new Card(CardSuit.C, CardValue.THREE)
+            ), Arrays.asList(
+                    new Card(CardSuit.C, CardValue.ACE),
+                    new Card(CardSuit.D, CardValue.ACE),
+                    new Card(CardSuit.S, CardValue.ACE),
+                    new Card(CardSuit.H, CardValue.TEN),
+                    new Card(CardSuit.C, CardValue.SIX)
+            ), 2); //2 wins by pair
+
+            //pair different, rest equal (rest lower than pair value)
+            public static TestHandPair TWO_PAIR_2 = new TestHandPair(Arrays.asList(
+                    new Card(CardSuit.C, CardValue.ACE),
+                    new Card(CardSuit.D, CardValue.ACE),
+                    new Card(CardSuit.S, CardValue.ACE),
+                    new Card(CardSuit.H, CardValue.NINE),
+                    new Card(CardSuit.C, CardValue.THREE)
+            ), Arrays.asList(
+                    new Card(CardSuit.C, CardValue.QUEEN),
+                    new Card(CardSuit.D, CardValue.QUEEN),
+                    new Card(CardSuit.S, CardValue.QUEEN),
+                    new Card(CardSuit.H, CardValue.NINE),
+                    new Card(CardSuit.C, CardValue.THREE)
+            ), 1);
+
+            //pair different, rest equal (rest higher than pair value for card with higher pair)
+            public static TestHandPair TWO_PAIR_3 = new TestHandPair(Arrays.asList(
+                    new Card(CardSuit.C, CardValue.SEVEN),
+                    new Card(CardSuit.D, CardValue.SEVEN),
+                    new Card(CardSuit.S, CardValue.SEVEN),
+                    new Card(CardSuit.H, CardValue.FIVE),
+                    new Card(CardSuit.C, CardValue.TWO)
+            ), Arrays.asList(
+                    new Card(CardSuit.H, CardValue.ACE),
+                    new Card(CardSuit.C, CardValue.JACK),
+                    new Card(CardSuit.C, CardValue.NINE),
+                    new Card(CardSuit.D, CardValue.NINE),
+                    new Card(CardSuit.S, CardValue.NINE)
+            ), 2);
+
+            //pair different, rest equal (rest higher than pair value for card with lower pair)
+            public static TestHandPair TWO_PAIR_4 = new TestHandPair(Arrays.asList(
+                    new Card(CardSuit.H, CardValue.ACE),
+                    new Card(CardSuit.C, CardValue.JACK),
+                    new Card(CardSuit.C, CardValue.SEVEN),
+                    new Card(CardSuit.D, CardValue.SEVEN),
+                    new Card(CardSuit.S, CardValue.SEVEN)
+            ), Arrays.asList(
+                    new Card(CardSuit.C, CardValue.NINE),
+                    new Card(CardSuit.D, CardValue.NINE),
+                    new Card(CardSuit.S, CardValue.NINE),
+                    new Card(CardSuit.H, CardValue.TWO),
+                    new Card(CardSuit.C, CardValue.FOUR)
+            ), 2);
+
+            public static List<TestHandPair> ALL = Arrays.asList(
+                    TWO_PAIR_0,
+                    TWO_PAIR_1,
+                    TWO_PAIR_2,
+                    TWO_PAIR_3,
+                    TWO_PAIR_4
             );
         }
 
