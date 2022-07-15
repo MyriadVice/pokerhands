@@ -77,7 +77,7 @@ public class MainTest {
 
     @Test
     @DisplayName("Check all pair cases, checking should return correct result")
-    void checkPairCardCases() {
+    void checkPairCases() {
         int i = 0;
         for (TestHandPair testHandPair : TestHands.TestHandPairs.PairCases.ALL) {
             if (testHandPair.expectedResult == null) {
@@ -86,6 +86,20 @@ public class MainTest {
                 assertEquals(testHandPair.expectedResult, main.rankHands(testHandPair.hand1, testHandPair.hand2).getKey());
             }
             System.out.println("[MainTest:checkPairCardCases] Passed test " + (i++) + ".");
+        }
+    }
+
+    @Test
+    @DisplayName("Check all two pair cases, checking should return correct result")
+    void checkTwoPairCases() {
+        int i = 0;
+        for (TestHandPair testHandPair : TestHands.TestHandPairs.TwoPairsCases.ALL) {
+            if (testHandPair.expectedResult == null) {
+                assertNull(main.rankHands(testHandPair.hand1, testHandPair.hand2));
+            } else {
+                assertEquals(testHandPair.expectedResult, main.rankHands(testHandPair.hand1, testHandPair.hand2).getKey());
+            }
+            System.out.println("[MainTest:checkTwoPairCardCases] Passed test " + (i++) + ".");
         }
     }
 
