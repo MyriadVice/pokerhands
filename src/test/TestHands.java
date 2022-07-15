@@ -101,10 +101,17 @@ public class TestHands {
                 new Card(CardSuit.C, CardValue.FIVE),
                 new Card(CardSuit.C, CardValue.SIX)
         );
-        public static List<Card> FULL_SEQUENCE_THREE_TO_SEVEN = Arrays.asList(
+        public static List<Card> FULL_SEQUENCE_THREE_TO_SEVEN_SAME_SUIT = Arrays.asList(
                 new Card(CardSuit.C, CardValue.THREE),
                 new Card(CardSuit.C, CardValue.FOUR),
                 new Card(CardSuit.C, CardValue.FIVE),
+                new Card(CardSuit.C, CardValue.SIX),
+                new Card(CardSuit.C, CardValue.SEVEN)
+        );
+        public static List<Card> FULL_SEQUENCE_THREE_TO_SEVEN_DIFF_SUIT = Arrays.asList(
+                new Card(CardSuit.C, CardValue.THREE),
+                new Card(CardSuit.C, CardValue.FOUR),
+                new Card(CardSuit.S, CardValue.FIVE),
                 new Card(CardSuit.C, CardValue.SIX),
                 new Card(CardSuit.C, CardValue.SEVEN)
         );
@@ -140,12 +147,19 @@ public class TestHands {
                 new Card(CardSuit.H, CardValue.QUEEN),
                 new Card(CardSuit.S, CardValue.QUEEN)
         );
-        public static List<Card> FULL_SUIT_PAIR_S = Arrays.asList(
+        public static List<Card> FULL_SUIT_PAIR_S_NO_SEQ = Arrays.asList(
+                new Card(CardSuit.S, CardValue.ACE),
+                new Card(CardSuit.S, CardValue.QUEEN),
+                new Card(CardSuit.S, CardValue.TEN),
+                new Card(CardSuit.S, CardValue.EIGHT),
+                new Card(CardSuit.S, CardValue.SIX)
+        );
+        public static List<Card> FULL_SUIT_PAIR_S_FULL_SEQ = Arrays.asList(
                 new Card(CardSuit.S, CardValue.ACE),
                 new Card(CardSuit.S, CardValue.KING),
-                new Card(CardSuit.S, CardValue.KING),
                 new Card(CardSuit.S, CardValue.QUEEN),
-                new Card(CardSuit.S, CardValue.QUEEN)
+                new Card(CardSuit.S, CardValue.JACK),
+                new Card(CardSuit.S, CardValue.TEN)
         );
     }
 
@@ -186,8 +200,11 @@ public class TestHands {
         Collections.sort(Sequences.SEQUENCE_THREE_TO_FOUR);
         Collections.reverse(Sequences.SEQUENCE_THREE_TO_FOUR);
 
-        Collections.sort(Sequences.FULL_SEQUENCE_THREE_TO_SEVEN);
-        Collections.reverse(Sequences.FULL_SEQUENCE_THREE_TO_SEVEN);
+        Collections.sort(Sequences.FULL_SEQUENCE_THREE_TO_SEVEN_SAME_SUIT);
+        Collections.reverse(Sequences.FULL_SEQUENCE_THREE_TO_SEVEN_SAME_SUIT);
+
+        Collections.sort(Sequences.FULL_SEQUENCE_THREE_TO_SEVEN_DIFF_SUIT);
+        Collections.reverse(Sequences.FULL_SEQUENCE_THREE_TO_SEVEN_DIFF_SUIT);
 
         Collections.sort(Sequences.SEQUENCES_THREE_TO_FIVE_NINE_TO_TEN);
         Collections.reverse(Sequences.SEQUENCES_THREE_TO_FIVE_NINE_TO_TEN);
@@ -201,7 +218,10 @@ public class TestHands {
         Collections.sort(SuitPairs.SUIT_PAIR_3_H);
         Collections.reverse(SuitPairs.SUIT_PAIR_3_H);
 
-        Collections.sort(SuitPairs.FULL_SUIT_PAIR_S);
-        Collections.reverse(SuitPairs.FULL_SUIT_PAIR_S);
+        Collections.sort(SuitPairs.FULL_SUIT_PAIR_S_NO_SEQ);
+        Collections.reverse(SuitPairs.FULL_SUIT_PAIR_S_NO_SEQ);
+
+        Collections.sort(SuitPairs.FULL_SUIT_PAIR_S_FULL_SEQ);
+        Collections.reverse(SuitPairs.FULL_SUIT_PAIR_S_FULL_SEQ);
     }
 }

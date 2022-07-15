@@ -46,17 +46,17 @@ public class FlushStrategyTest {
         assertNull(strategy.evaluatePair(null, Collections.emptyList()));
         assertNull(strategy.evaluatePair(Collections.emptyList(), Collections.emptyList()));
 
-        assertNull(strategy.evaluatePair(TestHands.SuitPairs.FULL_SUIT_PAIR_S, null));
-        assertNull(strategy.evaluatePair(null, TestHands.SuitPairs.FULL_SUIT_PAIR_S));
+        assertNull(strategy.evaluatePair(TestHands.SuitPairs.FULL_SUIT_PAIR_S_NO_SEQ, null));
+        assertNull(strategy.evaluatePair(null, TestHands.SuitPairs.FULL_SUIT_PAIR_S_NO_SEQ));
 
-        assertNull(strategy.evaluatePair(TestHands.SuitPairs.FULL_SUIT_PAIR_S, Collections.emptyList()));
-        assertNull(strategy.evaluatePair(Collections.emptyList(), TestHands.SuitPairs.FULL_SUIT_PAIR_S));
+        assertNull(strategy.evaluatePair(TestHands.SuitPairs.FULL_SUIT_PAIR_S_NO_SEQ, Collections.emptyList()));
+        assertNull(strategy.evaluatePair(Collections.emptyList(), TestHands.SuitPairs.FULL_SUIT_PAIR_S_NO_SEQ));
     }
 
     @Test
     @DisplayName("Flush strategy returns null if both hands are equal")
     void nullEvaluationOnEqualHands() {
-        assertNull(strategy.evaluatePair(TestHands.SuitPairs.FULL_SUIT_PAIR_S, TestHands.SuitPairs.FULL_SUIT_PAIR_S));
+        assertNull(strategy.evaluatePair(TestHands.SuitPairs.FULL_SUIT_PAIR_S_NO_SEQ, TestHands.SuitPairs.FULL_SUIT_PAIR_S_NO_SEQ));
     }
 
     @Test

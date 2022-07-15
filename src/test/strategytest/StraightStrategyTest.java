@@ -50,17 +50,17 @@ public class StraightStrategyTest {
         assertNull(strategy.evaluatePair(null, Collections.emptyList()));
         assertNull(strategy.evaluatePair(Collections.emptyList(), Collections.emptyList()));
 
-        assertNull(strategy.evaluatePair(TestHands.Sequences.FULL_SEQUENCE_THREE_TO_SEVEN, null));
-        assertNull(strategy.evaluatePair(null, TestHands.Sequences.FULL_SEQUENCE_THREE_TO_SEVEN));
+        assertNull(strategy.evaluatePair(TestHands.Sequences.FULL_SEQUENCE_THREE_TO_SEVEN_SAME_SUIT, null));
+        assertNull(strategy.evaluatePair(null, TestHands.Sequences.FULL_SEQUENCE_THREE_TO_SEVEN_SAME_SUIT));
 
-        assertNull(strategy.evaluatePair(TestHands.Sequences.FULL_SEQUENCE_THREE_TO_SEVEN, Collections.emptyList()));
-        assertNull(strategy.evaluatePair(Collections.emptyList(), TestHands.Sequences.FULL_SEQUENCE_THREE_TO_SEVEN));
+        assertNull(strategy.evaluatePair(TestHands.Sequences.FULL_SEQUENCE_THREE_TO_SEVEN_SAME_SUIT, Collections.emptyList()));
+        assertNull(strategy.evaluatePair(Collections.emptyList(), TestHands.Sequences.FULL_SEQUENCE_THREE_TO_SEVEN_SAME_SUIT));
     }
 
     @Test
     @DisplayName("Straight strategy returns null if both hands are equal")
     void nullEvaluationOnEqualHands() {
-        assertNull(strategy.evaluatePair(TestHands.Sequences.FULL_SEQUENCE_THREE_TO_SEVEN, TestHands.Sequences.FULL_SEQUENCE_THREE_TO_SEVEN));
+        assertNull(strategy.evaluatePair(TestHands.Sequences.FULL_SEQUENCE_THREE_TO_SEVEN_SAME_SUIT, TestHands.Sequences.FULL_SEQUENCE_THREE_TO_SEVEN_SAME_SUIT));
     }
 
     @Test
