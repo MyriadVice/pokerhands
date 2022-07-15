@@ -55,6 +55,13 @@ public class TestHands {
                 new Card(CardSuit.C, CardValue.THREE),
                 new Card(CardSuit.C, CardValue.NINE)
         );
+        public static List<Card> VALUE_PAIR_4_ACE = Arrays.asList(
+                new Card(CardSuit.C, CardValue.ACE),
+                new Card(CardSuit.C, CardValue.ACE),
+                new Card(CardSuit.C, CardValue.ACE),
+                new Card(CardSuit.C, CardValue.ACE),
+                new Card(CardSuit.C, CardValue.QUEEN)
+        );
         public static List<Card> VALUE_PAIR_5_ACE = Arrays.asList(
                 new Card(CardSuit.C, CardValue.ACE),
                 new Card(CardSuit.C, CardValue.ACE),
@@ -163,6 +170,9 @@ public class TestHands {
 
         Collections.sort(ValuePairs.VALUE_PAIR_5_ACE);
         Collections.reverse(ValuePairs.VALUE_PAIR_5_ACE);
+
+        Collections.sort(ValuePairs.VALUE_PAIR_4_ACE);
+        Collections.reverse(ValuePairs.VALUE_PAIR_4_ACE);
 
         Collections.sort(Sequences.NO_SEQUENCE);
         Collections.reverse(Sequences.NO_SEQUENCE);

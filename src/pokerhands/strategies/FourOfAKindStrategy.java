@@ -17,11 +17,14 @@ public class FourOfAKindStrategy extends PokerHandStrategy {
     @Override
     public boolean isPermissible(List<Card> hand) {
         //the strategy is permissible if the hand contains a pair of four same values
-        return CardUtils.getValuePair(hand, 4) != null;
+        return hand != null && hand.size() > 0 && CardUtils.getValuePair(hand, 4) != null;
     }
 
     @Override
     public List<Card> evaluatePair(List<Card> hand1, List<Card> hand2) {
+        //check for malformed input
+        if (hand1 == null || hand2 == null || hand1.size() == 0 || hand2.size() == 0) return null;
+
         //in case both of hands satisfy this strategy we rank them against each other comparing the values of the pair
         List<Card> firstHandPair = CardUtils.getValuePair(hand1, 4);
         List<Card> secondHandPair = CardUtils.getValuePair(hand2, 4);
