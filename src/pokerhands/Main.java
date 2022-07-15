@@ -1,10 +1,10 @@
 package pokerhands;
 
+import javafx.util.Pair;
 import pokerhands.strategies.*;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -26,25 +26,36 @@ public class Main {
             new Card(CardSuit.D, CardValue.QUEEN),
             new Card(CardSuit.S, CardValue.THREE)
     );
+    private List<PokerHandStrategy> strategies;
 
     public static void main(String... args) {
-        List<Card> winnerHand = null;
 
-        //for each strategy that could be used to determine the winning hand, we create a dedicated strategy and add it
-        //to the list of strategies. The list is ordered descending according to the rank of the hand associated with the
-        //strategy e.g. the high card strategy is the lowest thus the last element in the list while the straight flush
-        //strategy is the highest and thus the first element of the list
-        List<PokerHandStrategy> strategies = new LinkedList<>();
-        strategies.add(new StraightFlushStrategy());
-        strategies.add(new FourOfAKindStrategy());
-        strategies.add(new FullHouseStrategy());
-        strategies.add(new FlushStrategy());
-        strategies.add(new StraightStrategy());
-        strategies.add(new ThreeOfAKindStrategy());
-        strategies.add(new TwoPairsStrategy());
-        strategies.add(new PairStrategy());
-        strategies.add(new HighCardStrategy());
+        //create a main instance, both hands are sorted and all strategies prepares
+        Main handRanker = new Main();
 
+        //get the winning hand
+        Pair<List<Card>, PokerHandStrategy> winner = handRanker.rankHands(hand1, hand2);
+
+        //in case we could not determine a winning hand, both hands are equal to each other in values (since otherwise
+        //the high card strategy would have determined a winner)
+        if (winner == null) {
+            System.err.println("[Main:main] Could not determine winning hand from hands: \n hand1: "
+                    + Arrays.toString(hand1.toArray()) + "\n hand2: " + Arrays.toString(hand2.toArray()));
+        } else {
+            String handStr = "hand" + ((winner.getKey() == hand1) ? "1" : "2");
+            System.out.println(handStr + " has won by " + winner.getValue().getStrategyName() + "!");
+        }
+    }
+
+    public Main() {
+        prepareHands();
+        setupStrategies();
+    }
+
+    /**
+     * Method used to prepare the two hands we want to rank against each other
+     */
+    private void prepareHands() {
         //we sort the hands by their card values in descending order prior to processing, thus we can assume that the
         //hands are always sorted when passed to the strategies as long as we do not modify them
         Collections.sort(hand1);
@@ -52,6 +63,35 @@ public class Main {
 
         Collections.sort(hand2);
         Collections.reverse(hand2);
+    }
+
+    /**
+     * Method used to set up all possible strategies to rank two hands against each other.
+     */
+    private void setupStrategies() {
+        //for each strategy that could be used to determine the winning hand, we create a dedicated strategy and add it
+        //to the list of strategies. The list is ordered descending according to the rank of the hand associated with the
+        //strategy e.g. the high card strategy is the lowest thus the last element in the list while the straight flush
+        //strategy is the highest and thus the first element of the list
+        strategies = Arrays.asList(
+                new StraightFlushStrategy(),
+                new FourOfAKindStrategy(),
+                new FullHouseStrategy(),
+                new FlushStrategy(),
+                new StraightStrategy(),
+                new ThreeOfAKindStrategy(),
+                new TwoPairsStrategy(),
+                new PairStrategy(),
+                new HighCardStrategy()
+        );
+    }
+
+    /**
+     * Method used to rank two input hands passed as two lists of {@link Card}s against each other. Returns the higher
+     * ranked hand, thus the winner of the both hands passed as arguments
+     **/
+    public Pair<List<Card>, PokerHandStrategy> rankHands(List<Card> hand1, List<Card> hand2) {
+        List<Card> winnerHand = null;
 
         boolean firstHandPermissible;
         boolean secondHandPermissible;
@@ -81,14 +121,6 @@ public class Main {
             }
         }
 
-        //in case we could yet not determine a winning hand, there must be an error since the last high card strategy
-        //should be save to determine a winner (since we ignore the cards suit for scoring)
-        if (winnerHand == null) {
-            System.err.println("[Main:main] Unknown error. Could not determine winning hand from: \n hand1: "
-                    + Arrays.toString(hand1.toArray()) + "\n hand2: " + Arrays.toString(hand2.toArray()));
-        } else {
-            String handStr = "hand" + ((winnerHand == hand1) ? "1" : "2");
-            System.out.println(handStr + " has won by " + strategy.getStrategyName() + "!");
-        }
+        return winnerHand != null ? new Pair<>(winnerHand, strategy) : null;
     }
 }
