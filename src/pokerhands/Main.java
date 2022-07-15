@@ -91,6 +91,9 @@ public class Main {
      * ranked hand, thus the winner of the both hands passed as arguments
      **/
     public Pair<List<Card>, PokerHandStrategy> rankHands(List<Card> hand1, List<Card> hand2) {
+        //check for malformed input
+        if (hand1 == null || hand2 == null || hand1.size() == 0 || hand2.size() == 0) return null;
+
         List<Card> winnerHand = null;
 
         boolean firstHandPermissible;
@@ -122,5 +125,9 @@ public class Main {
         }
 
         return winnerHand != null ? new Pair<>(winnerHand, strategy) : null;
+    }
+
+    public List<PokerHandStrategy> getStrategies() {
+        return strategies;
     }
 }
