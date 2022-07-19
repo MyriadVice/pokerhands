@@ -28,11 +28,8 @@ public class FullHouseStrategyTest {
     }
 
     @Test
-    @DisplayName("Full house strategy is not permissible on an empty hand or null or on a hand not containing a values pair of 3 and 2")
+    @DisplayName("Full house strategy is not permissible on a hand not containing a values pair of 3 and 2")
     void notPermissibleOnInvalidHand() {
-        assertFalse(strategy.isPermissible(null));
-        assertFalse(strategy.isPermissible(Collections.emptyList()));
-
         assertFalse(strategy.isPermissible(TestHands.ValuePairs.NO_VALUE_PAIR));
         assertFalse(strategy.isPermissible(TestHands.ValuePairs.VALUE_PAIR_OF_2_ACE));
         assertFalse(strategy.isPermissible(TestHands.ValuePairs.VALUE_PAIR_3_ACE));
@@ -43,21 +40,6 @@ public class FullHouseStrategyTest {
     @DisplayName("Full house strategy is permissible on a hand containing a values pair of 3 and 2")
     void isPermissibleOnHandWithPairOf3And2() {
         assertTrue(strategy.isPermissible(TestHands.ValuePairs.VALUE_PAIR_OF_3_JACK_2_TEN));
-    }
-
-    @Test
-    @DisplayName("Full house strategy returns null if at least one hand is invalid")
-    void nullEvaluationOnOneHandInvalid() {
-        assertNull(strategy.evaluatePair(null, null));
-        assertNull(strategy.evaluatePair(Collections.emptyList(), null));
-        assertNull(strategy.evaluatePair(null, Collections.emptyList()));
-        assertNull(strategy.evaluatePair(Collections.emptyList(), Collections.emptyList()));
-
-        assertNull(strategy.evaluatePair(TestHands.ValuePairs.VALUE_PAIR_OF_3_JACK_2_TEN, null));
-        assertNull(strategy.evaluatePair(null, TestHands.ValuePairs.VALUE_PAIR_OF_3_JACK_2_TEN));
-
-        assertNull(strategy.evaluatePair(TestHands.ValuePairs.VALUE_PAIR_OF_3_JACK_2_TEN, Collections.emptyList()));
-        assertNull(strategy.evaluatePair(Collections.emptyList(), TestHands.ValuePairs.VALUE_PAIR_OF_3_JACK_2_TEN));
     }
 
     @Test

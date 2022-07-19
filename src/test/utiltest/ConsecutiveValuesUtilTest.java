@@ -24,18 +24,6 @@ public class ConsecutiveValuesUtilTest {
     }
 
     @Test
-    @DisplayName("Getting a sequence from an empty hand should return null")
-    void noSequenceFromEmptyHand() {
-        assertNull(CardUtils.getConsecutiveValues(TestHands.EMPTY_HAND, TestHands.DEFAULT_SEQUENCE_SIZE));
-    }
-
-    @Test
-    @DisplayName("Getting a sequence from null should return null")
-    void noSequenceFromNullHand() {
-        assertNull(CardUtils.getConsecutiveValues(null, TestHands.DEFAULT_SEQUENCE_SIZE));
-    }
-
-    @Test
     @DisplayName("Getting a sequence of negative length from a hand should return null")
     void noSequenceOfNegativeLength() {
         assertNull(CardUtils.getConsecutiveValues(TestHands.Sequences.SEQUENCE_THREE_TO_FIVE, -1));

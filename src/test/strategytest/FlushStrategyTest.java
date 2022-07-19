@@ -28,11 +28,8 @@ public class FlushStrategyTest {
     }
 
     @Test
-    @DisplayName("Flush strategy is not permissible on an empty hand or null or a hand not containing a suit pair of 5")
+    @DisplayName("Flush strategy is not permissible on a hand not containing a suit pair of 5")
     void notPermissibleOnInvalidHand() {
-        assertFalse(strategy.isPermissible(null));
-        assertFalse(strategy.isPermissible(Collections.emptyList()));
-
         assertFalse(strategy.isPermissible(TestHands.SuitPairs.SUIT_PAIR_H));
         assertFalse(strategy.isPermissible(TestHands.SuitPairs.SUIT_PAIR_3_H));
         assertFalse(strategy.isPermissible(TestHands.SuitPairs.SUIT_PAIR_H_AND_S));
@@ -43,21 +40,6 @@ public class FlushStrategyTest {
     void isPermissibleOnSequenceOf5() {
         assertTrue(strategy.isPermissible(TestHands.SuitPairs.FULL_SUIT_PAIR_S_FULL_SEQ));
         assertTrue(strategy.isPermissible(TestHands.SuitPairs.FULL_SUIT_PAIR_S_NO_SEQ));
-    }
-
-    @Test
-    @DisplayName("Flush strategy returns null if at least one hand is invalid")
-    void nullEvaluationOnOneHandInvalid() {
-        assertNull(strategy.evaluatePair(null, null));
-        assertNull(strategy.evaluatePair(Collections.emptyList(), null));
-        assertNull(strategy.evaluatePair(null, Collections.emptyList()));
-        assertNull(strategy.evaluatePair(Collections.emptyList(), Collections.emptyList()));
-
-        assertNull(strategy.evaluatePair(TestHands.SuitPairs.FULL_SUIT_PAIR_S_NO_SEQ, null));
-        assertNull(strategy.evaluatePair(null, TestHands.SuitPairs.FULL_SUIT_PAIR_S_NO_SEQ));
-
-        assertNull(strategy.evaluatePair(TestHands.SuitPairs.FULL_SUIT_PAIR_S_NO_SEQ, Collections.emptyList()));
-        assertNull(strategy.evaluatePair(Collections.emptyList(), TestHands.SuitPairs.FULL_SUIT_PAIR_S_NO_SEQ));
     }
 
     @Test

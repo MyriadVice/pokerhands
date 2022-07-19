@@ -29,7 +29,6 @@ public class Main {
     private List<PokerHandStrategy> strategies;
 
     public static void main(String... args) {
-
         //create a main instance, both hands are sorted and all strategies prepares
         Main handRanker = new Main();
 

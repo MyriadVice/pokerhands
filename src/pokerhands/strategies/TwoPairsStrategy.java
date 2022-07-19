@@ -19,27 +19,18 @@ public class TwoPairsStrategy extends PokerHandStrategy {
 
     @Override
     public boolean isPermissible(List<Card> hand) {
-        //this strategy is valid if the hand contains two pairs
-
-        //find first pair
         List<Card> firstPair = CardUtils.getValuePair(hand, 2);
         if (firstPair == null) return false; //no pair found
 
-        //find the second pair
         List<Card> remainingCards = new LinkedList<>(hand);
         remainingCards.removeAll(firstPair);
         List<Card> secondPair = CardUtils.getValuePair(remainingCards, 2);
 
-        return secondPair != null; //firstPair == null is true
+        return secondPair != null;
     }
 
     @Override
     public List<Card> evaluatePair(List<Card> hand1, List<Card> hand2) {
-
-        //check for malformed input
-        if (hand1 == null || hand2 == null || hand1.size() == 0 || hand2.size() == 0) return null;
-
-        //the cards we will compare for ranking
         Card firstHandCard = null;
         Card secondHandCard = null;
 
@@ -52,7 +43,7 @@ public class TwoPairsStrategy extends PokerHandStrategy {
         secondHandCard = secondHandHighPair.get(0);
 
         //in case the highest values are equal, we rank by the value of the other pair instead
-        if (firstHandHighPair.get(0).getValue().ordinal() == secondHandHighPair.get(0).getValue().ordinal()) {
+        if (firstHandHighPair.get(0).compareTo(secondHandHighPair.get(0)) == 0) {
             //get second pair of the cards
             List<Card> firstHandRemainingCards = new LinkedList<>(hand1);
             firstHandRemainingCards.removeAll(firstHandHighPair);
@@ -67,7 +58,7 @@ public class TwoPairsStrategy extends PokerHandStrategy {
 
             //in case, the two values of the lower pair of the cards are also the equal, we compare by the value of the
             //remaining card
-            if (firstHandLowPair.get(0).getValue().ordinal() == secondHandLowPair.get(0).getValue().ordinal()) {
+            if (firstHandLowPair.get(0).compareTo(secondHandLowPair.get(0)) == 0) {
                 //remove second pair, thus that only one card remains which is the leftover card
                 List<Card> firstHandLeftover = new LinkedList(hand1);
                 firstHandLeftover.removeAll(firstHandHighPair);
@@ -83,10 +74,9 @@ public class TwoPairsStrategy extends PokerHandStrategy {
             }
         }
 
-        if (firstHandCard.getValue().ordinal() > secondHandCard.getValue().ordinal()) return hand1;
-        if (firstHandCard.getValue().ordinal() < secondHandCard.getValue().ordinal()) return hand2;
+        if (firstHandCard.getValue().compareTo(secondHandCard.getValue()) > 0) return hand1;
+        if (firstHandCard.getValue().compareTo(secondHandCard.getValue()) < 0) return hand2;
 
-        //else, resort to next lower strategy
         return null;
     }
 }

@@ -17,20 +17,14 @@ public class StraightFlushStrategy extends PokerHandStrategy {
 
     @Override
     public boolean isPermissible(List<Card> hand) {
-        //this strategy is permissible if hand contains 5 cards of the same suit with consecutive values
-        return hand != null && hand.size() > 0 && CardUtils.getSuitPair(hand, 5) != null && CardUtils.getConsecutiveValues(hand, 5) != null;
+        return CardUtils.getSuitPair(hand, 5) != null && CardUtils.getConsecutiveValues(hand, 5) != null;
     }
 
     @Override
     public List<Card> evaluatePair(List<Card> hand1, List<Card> hand2) {
-        //check for malformed input
-        if (hand1 == null || hand2 == null || hand1.size() == 0 || hand2.size() == 0) return null;
+        if (hand1.get(0).getValue().compareTo(hand2.get(0).getValue()) > 0) return hand1;
+        if (hand1.get(0).getValue().compareTo(hand2.get(0).getValue()) < 0) return hand2;
 
-        //ranked by the highest card in the hand
-        if (hand1.get(0).getValue().ordinal() > hand2.get(0).getValue().ordinal()) return hand1;
-        if (hand1.get(0).getValue().ordinal() < hand2.get(0).getValue().ordinal()) return hand2;
-
-        //or resort to next lower strategy
         return null;
     }
 }

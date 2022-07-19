@@ -24,18 +24,6 @@ public class ValuePairUtilTest {
     }
 
     @Test
-    @DisplayName("Getting a value pair from an empty hand should return null")
-    void noPairFromEmptyHand() {
-        assertNull(CardUtils.getValuePair(TestHands.EMPTY_HAND, TestHands.DEFAULT_PAIR_SIZE));
-    }
-
-    @Test
-    @DisplayName("Getting a value pair from null should return null")
-    void noPairFromNullHand() {
-        assertNull(CardUtils.getValuePair(null, TestHands.DEFAULT_PAIR_SIZE));
-    }
-
-    @Test
     @DisplayName("Getting a value pair of a negative length from a hand should return null")
     void noPairOfNegativeLength() {
         assertNull(CardUtils.getValuePair(TestHands.ValuePairs.VALUE_PAIR_OF_2_ACE, -1));

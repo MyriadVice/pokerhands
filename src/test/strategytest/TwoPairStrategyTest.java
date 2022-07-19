@@ -28,13 +28,11 @@ public class TwoPairStrategyTest {
     }
 
     @Test
-    @DisplayName("Two pair strategy is not permissible on an empty hand or null or on a hand not containing two pairs")
+    @DisplayName("Two pair strategy is not permissible on a hand not containing two pairs")
     void notPermissibleOnInvalidHand() {
-        assertFalse(strategy.isPermissible(null));
-        assertFalse(strategy.isPermissible(Collections.emptyList()));
-
         assertFalse(strategy.isPermissible(TestHands.ValuePairs.NO_VALUE_PAIR));
         assertFalse(strategy.isPermissible(TestHands.ValuePairs.VALUE_PAIR_OF_2_ACE));
+        assertFalse(strategy.isPermissible(TestHands.ValuePairs.VALUE_PAIR_3_ACE));
     }
 
     @Test
@@ -43,21 +41,6 @@ public class TwoPairStrategyTest {
         assertTrue(strategy.isPermissible(TestHands.ValuePairs.VALUE_PAIR_OF_2_KING_2_QUEEN));
         assertTrue(strategy.isPermissible(TestHands.ValuePairs.VALUE_PAIR_OF_3_JACK_2_TEN));
         assertTrue(strategy.isPermissible(TestHands.ValuePairs.VALUE_PAIR_5_ACE)); //two sets with same value
-    }
-
-    @Test
-    @DisplayName("Two pair strategy returns null if at least one hand is invalid")
-    void nullEvaluationOnOneHandInvalid() {
-        assertNull(strategy.evaluatePair(null, null));
-        assertNull(strategy.evaluatePair(Collections.emptyList(), null));
-        assertNull(strategy.evaluatePair(null, Collections.emptyList()));
-        assertNull(strategy.evaluatePair(Collections.emptyList(), Collections.emptyList()));
-
-        assertNull(strategy.evaluatePair(TestHands.ValuePairs.VALUE_PAIR_OF_2_KING_2_QUEEN, null));
-        assertNull(strategy.evaluatePair(null, TestHands.ValuePairs.VALUE_PAIR_OF_2_KING_2_QUEEN));
-
-        assertNull(strategy.evaluatePair(TestHands.ValuePairs.VALUE_PAIR_OF_2_KING_2_QUEEN, Collections.emptyList()));
-        assertNull(strategy.evaluatePair(Collections.emptyList(), TestHands.ValuePairs.VALUE_PAIR_OF_2_KING_2_QUEEN));
     }
 
     @Test

@@ -20,20 +20,15 @@ public class Card implements Comparable<Card> {
         return value;
     }
 
-    //we implement the Comparator interface for easy card comparision
     @Override
     public int compareTo(Card c) {
-        //Returns a negative integer, zero, or a positive integer as this object is less than, equal to, or greater than
-        //the specified object
-        if (this.value.ordinal() < c.value.ordinal()) return -1;
-        if (this.value.ordinal() == c.value.ordinal()) return 0;
-        return 1; //default
+        int valueCmp = this.value.compareTo(c.value);
+        if (valueCmp == 0) return this.getSuit().compareTo(c.suit);
+        return valueCmp;
     }
-
-    //no setter since we do not allow a cards properties to change after creation
 
     @Override
     public String toString() {
-        return "(" + suit + "/" + value + ")";
+        return "(" + suit.value + "/" + value.value + ")";
     }
 }

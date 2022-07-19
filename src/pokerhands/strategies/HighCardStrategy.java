@@ -17,27 +17,16 @@ public class HighCardStrategy extends PokerHandStrategy {
 
     @Override
     public boolean isPermissible(List<Card> hand) {
-        //for very card it is always possible to evaluate the card under this strategy
-        return hand != null && hand.size() > 0;
+        return true;
     }
 
     @Override
     public List<Card> evaluatePair(List<Card> hand1, List<Card> hand2) {
-        //to compare two cards by this strategy, we compare the values of their highest cards. If the values for the
-        // highest cards are equal, we continue with the second highest
-
-        //check for malformed input
-        if (hand1 == null || hand2 == null || hand1.size() == 0 || hand2.size() == 0) return null;
-
-        //we assume the hands sorted in descending order according to their cards values
         for (int i = 0; i < hand1.size(); i++) {
-            //compare
-            if (hand1.get(i).getValue().ordinal() > hand2.get(i).getValue().ordinal()) return hand1;
-            if (hand1.get(i).getValue().ordinal() < hand2.get(i).getValue().ordinal()) return hand2;
-            //else, continue with next cards
+            if (hand1.get(i).getValue().compareTo(hand2.get(i).getValue()) > 0) return hand1;
+            if (hand1.get(i).getValue().compareTo(hand2.get(i).getValue()) < 0) return hand2;
         }
 
-        //no winning card could be found
         return null;
     }
 }

@@ -28,10 +28,8 @@ public class PairStrategyTest {
     }
 
     @Test
-    @DisplayName("Pair strategy is not permissible on an empty hand or null or if the hand does not contain a pair (of two cards)")
+    @DisplayName("Pair strategy is not permissible on a hand not containing a pair (of two cards)")
     void notPermissibleOnInvalidHand() {
-        assertFalse(strategy.isPermissible(null));
-        assertFalse(strategy.isPermissible(Collections.emptyList()));
         assertFalse(strategy.isPermissible(TestHands.ValuePairs.NO_VALUE_PAIR));
     }
 
@@ -42,21 +40,6 @@ public class PairStrategyTest {
         assertTrue(strategy.isPermissible(TestHands.ValuePairs.VALUE_PAIR_3_ACE));
         assertTrue(strategy.isPermissible(TestHands.ValuePairs.VALUE_PAIR_4_ACE));
         assertTrue(strategy.isPermissible(TestHands.ValuePairs.VALUE_PAIR_5_ACE));
-    }
-
-    @Test
-    @DisplayName("Pair strategy returns null if at least one hand is invalid")
-    void nullEvaluationOnOneHandInvalid() {
-        assertNull(strategy.evaluatePair(null, null));
-        assertNull(strategy.evaluatePair(Collections.emptyList(), null));
-        assertNull(strategy.evaluatePair(null, Collections.emptyList()));
-        assertNull(strategy.evaluatePair(Collections.emptyList(), Collections.emptyList()));
-
-        assertNull(strategy.evaluatePair(TestHands.ValuePairs.VALUE_PAIR_OF_2_ACE, null));
-        assertNull(strategy.evaluatePair(null, TestHands.ValuePairs.VALUE_PAIR_OF_2_ACE));
-
-        assertNull(strategy.evaluatePair(TestHands.ValuePairs.VALUE_PAIR_OF_2_ACE, Collections.emptyList()));
-        assertNull(strategy.evaluatePair(Collections.emptyList(), TestHands.ValuePairs.VALUE_PAIR_OF_2_ACE));
     }
 
     @Test

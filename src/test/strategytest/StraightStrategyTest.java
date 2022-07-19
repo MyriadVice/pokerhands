@@ -28,11 +28,8 @@ public class StraightStrategyTest {
     }
 
     @Test
-    @DisplayName("Straight strategy is not permissible on an empty hand or null or a hand not containing a sequence of 5")
+    @DisplayName("Straight strategy is not permissible on a hand not containing a sequence of 5")
     void notPermissibleOnInvalidHand() {
-        assertFalse(strategy.isPermissible(null));
-        assertFalse(strategy.isPermissible(Collections.emptyList()));
-
         assertFalse(strategy.isPermissible(TestHands.Sequences.NO_SEQUENCE));
 
         assertFalse(strategy.isPermissible(TestHands.Sequences.SEQUENCE_THREE_TO_FOUR));
@@ -47,21 +44,6 @@ public class StraightStrategyTest {
     void isPermissibleOnSequenceOf5() {
         assertTrue(strategy.isPermissible(TestHands.Sequences.FULL_SEQUENCE_THREE_TO_SEVEN_SAME_SUIT));
         assertTrue(strategy.isPermissible(TestHands.Sequences.FULL_SEQUENCE_THREE_TO_SEVEN_DIFF_SUIT));
-    }
-
-    @Test
-    @DisplayName("Straight strategy returns null if at least one hand is invalid")
-    void nullEvaluationOnOneHandInvalid() {
-        assertNull(strategy.evaluatePair(null, null));
-        assertNull(strategy.evaluatePair(Collections.emptyList(), null));
-        assertNull(strategy.evaluatePair(null, Collections.emptyList()));
-        assertNull(strategy.evaluatePair(Collections.emptyList(), Collections.emptyList()));
-
-        assertNull(strategy.evaluatePair(TestHands.Sequences.FULL_SEQUENCE_THREE_TO_SEVEN_SAME_SUIT, null));
-        assertNull(strategy.evaluatePair(null, TestHands.Sequences.FULL_SEQUENCE_THREE_TO_SEVEN_SAME_SUIT));
-
-        assertNull(strategy.evaluatePair(TestHands.Sequences.FULL_SEQUENCE_THREE_TO_SEVEN_SAME_SUIT, Collections.emptyList()));
-        assertNull(strategy.evaluatePair(Collections.emptyList(), TestHands.Sequences.FULL_SEQUENCE_THREE_TO_SEVEN_SAME_SUIT));
     }
 
     @Test

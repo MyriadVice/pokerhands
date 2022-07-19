@@ -28,11 +28,8 @@ public class FourOfAKindStrategyTest {
     }
 
     @Test
-    @DisplayName("Four of a kind strategy is not permissible on an empty hand or null or a hand not containing a value pair of four")
+    @DisplayName("Four of a kind strategy is not permissible on a hand not containing a value pair of four")
     void notPermissibleOnInvalidHand() {
-        assertFalse(strategy.isPermissible(null));
-        assertFalse(strategy.isPermissible(Collections.emptyList()));
-
         assertFalse(strategy.isPermissible(TestHands.ValuePairs.NO_VALUE_PAIR));
         assertFalse(strategy.isPermissible(TestHands.ValuePairs.VALUE_PAIR_OF_2_ACE));
         assertFalse(strategy.isPermissible(TestHands.ValuePairs.VALUE_PAIR_3_ACE));
@@ -45,21 +42,6 @@ public class FourOfAKindStrategyTest {
     void isPermissibleOnPairOfFourOrHigher() {
         assertTrue(strategy.isPermissible(TestHands.ValuePairs.VALUE_PAIR_4_ACE));
         assertTrue(strategy.isPermissible(TestHands.ValuePairs.VALUE_PAIR_5_ACE));
-    }
-
-    @Test
-    @DisplayName("Four of a kind strategy returns null if at least one hand is invalid")
-    void nullEvaluationOnOneHandInvalid() {
-        assertNull(strategy.evaluatePair(null, null));
-        assertNull(strategy.evaluatePair(Collections.emptyList(), null));
-        assertNull(strategy.evaluatePair(null, Collections.emptyList()));
-        assertNull(strategy.evaluatePair(Collections.emptyList(), Collections.emptyList()));
-
-        assertNull(strategy.evaluatePair(TestHands.ValuePairs.VALUE_PAIR_4_ACE, null));
-        assertNull(strategy.evaluatePair(null, TestHands.ValuePairs.VALUE_PAIR_4_ACE));
-
-        assertNull(strategy.evaluatePair(TestHands.ValuePairs.VALUE_PAIR_4_ACE, Collections.emptyList()));
-        assertNull(strategy.evaluatePair(Collections.emptyList(), TestHands.ValuePairs.VALUE_PAIR_4_ACE));
     }
 
     @Test

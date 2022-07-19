@@ -13,7 +13,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * Test class for the {@link pokerhands.strategies.HighCardStrategy}
@@ -25,28 +26,6 @@ public class HighCardStrategyTest {
     void setup() {
         TestHands.setup();
         strategy = new HighCardStrategy();
-    }
-
-    @Test
-    @DisplayName("High card strategy is not permissible on an empty hand or null")
-    void notPermissibleOnInvalidHand() {
-        assertFalse(strategy.isPermissible(null));
-        assertFalse(strategy.isPermissible(Collections.emptyList()));
-    }
-
-    @Test
-    @DisplayName("High card strategy returns null if at least one hand is invalid")
-    void nullEvaluationOnOneHandInvalid() {
-        assertNull(strategy.evaluatePair(null, null));
-        assertNull(strategy.evaluatePair(Collections.emptyList(), null));
-        assertNull(strategy.evaluatePair(null, Collections.emptyList()));
-        assertNull(strategy.evaluatePair(Collections.emptyList(), Collections.emptyList()));
-
-        assertNull(strategy.evaluatePair(TestHands.ValuePairs.NO_VALUE_PAIR, null));
-        assertNull(strategy.evaluatePair(null, TestHands.ValuePairs.NO_VALUE_PAIR));
-
-        assertNull(strategy.evaluatePair(TestHands.ValuePairs.NO_VALUE_PAIR, Collections.emptyList()));
-        assertNull(strategy.evaluatePair(Collections.emptyList(), TestHands.ValuePairs.NO_VALUE_PAIR));
     }
 
     @Test

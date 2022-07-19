@@ -33,18 +33,18 @@ public class MainTest {
         //hand1 sorted check
         Card last = Main.hand1.get(0);
         for (int i = 1; i < Main.hand1.size(); i++) {
-            if (Main.hand1.get(i).getValue().ordinal() > last.getValue().ordinal()) fail();
+            if (Main.hand1.get(i).compareTo(last) > 0) fail();
             last = Main.hand1.get(i);
         }
 
         //hand2 sorted check
         last = Main.hand2.get(0);
         for (int i = 1; i < Main.hand2.size(); i++) {
-            if (Main.hand2.get(i).getValue().ordinal() > last.getValue().ordinal()) fail();
+            if (Main.hand2.get(i).compareTo(last) > 0) fail();
             last = Main.hand2.get(i);
         }
 
-        assertTrue(true); //succeed
+        assertTrue(true);
     }
 
     @Test

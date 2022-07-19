@@ -28,11 +28,8 @@ public class ThreeOfAKindStrategyTest {
     }
 
     @Test
-    @DisplayName("Three of a kind strategy is not permissible on an empty hand or null or if hand does not contain a pair of three")
+    @DisplayName("Three of a kind strategy is not permissible if hand does not contain a pair of three")
     void notPermissibleOnInvalidHand() {
-        assertFalse(strategy.isPermissible(null));
-        assertFalse(strategy.isPermissible(Collections.emptyList()));
-
         assertFalse(strategy.isPermissible(TestHands.ValuePairs.NO_VALUE_PAIR));
         assertFalse(strategy.isPermissible(TestHands.ValuePairs.VALUE_PAIR_OF_2_ACE));
     }
@@ -43,21 +40,6 @@ public class ThreeOfAKindStrategyTest {
         assertTrue(strategy.isPermissible(TestHands.ValuePairs.VALUE_PAIR_3_ACE));
         assertTrue(strategy.isPermissible(TestHands.ValuePairs.VALUE_PAIR_4_ACE));
         assertTrue(strategy.isPermissible(TestHands.ValuePairs.VALUE_PAIR_5_ACE));
-    }
-
-    @Test
-    @DisplayName("Three of a kind strategy returns null if at least one hand is invalid")
-    void nullEvaluationOnOneHandInvalid() {
-        assertNull(strategy.evaluatePair(null, null));
-        assertNull(strategy.evaluatePair(Collections.emptyList(), null));
-        assertNull(strategy.evaluatePair(null, Collections.emptyList()));
-        assertNull(strategy.evaluatePair(Collections.emptyList(), Collections.emptyList()));
-
-        assertNull(strategy.evaluatePair(TestHands.ValuePairs.VALUE_PAIR_3_ACE, null));
-        assertNull(strategy.evaluatePair(null, TestHands.ValuePairs.VALUE_PAIR_3_ACE));
-
-        assertNull(strategy.evaluatePair(TestHands.ValuePairs.VALUE_PAIR_3_ACE, Collections.emptyList()));
-        assertNull(strategy.evaluatePair(Collections.emptyList(), TestHands.ValuePairs.VALUE_PAIR_3_ACE));
     }
 
     @Test

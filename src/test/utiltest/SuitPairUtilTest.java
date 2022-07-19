@@ -24,18 +24,6 @@ public class SuitPairUtilTest {
     }
 
     @Test
-    @DisplayName("Getting a suit pair from an empty hand should return null")
-    void noPairFromEmptyHand() {
-        assertNull(CardUtils.getSuitPair(TestHands.EMPTY_HAND, TestHands.DEFAULT_PAIR_SIZE));
-    }
-
-    @Test
-    @DisplayName("Getting a suit pair from null should return null")
-    void noPairFromNullHand() {
-        assertNull(CardUtils.getSuitPair(null, TestHands.DEFAULT_PAIR_SIZE));
-    }
-
-    @Test
     @DisplayName("Getting a suit pair of a negative length from a hand should return null")
     void noPairOfNegativeLength() {
         assertNull(CardUtils.getSuitPair(TestHands.SuitPairs.SUIT_PAIR_H, -1));
