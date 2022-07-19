@@ -1,12 +1,17 @@
 package test.logictest;
 
+import javafx.util.Pair;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pokerhands.Card;
 import pokerhands.Main;
+import pokerhands.strategies.PokerHandStrategy;
 import test.TestHandPair;
 import test.TestHands;
+
+import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -52,11 +57,8 @@ public class MainTest {
     void checkSpecialCases() {
         int i = 0;
         for (TestHandPair testHandPair : TestHands.TestHandPairs.SpecialCases.ALL) {
-            if (testHandPair.expectedResult == null) {
-                assertNull(main.rankHands(testHandPair.hand1, testHandPair.hand2));
-            } else {
-                assertEquals(testHandPair.expectedResult, main.rankHands(testHandPair.hand1, testHandPair.hand2).getKey());
-            }
+            Optional<Pair<List<Card>, PokerHandStrategy>> result = main.rankHands(testHandPair.hand1, testHandPair.hand2);
+            assertEquals(testHandPair.expectedResult, result.isPresent() ? result.get().getKey() : null);
             System.out.println("[MainTest:checkSpecialCases] Passed test " + (i++) + ".");
         }
     }
@@ -66,11 +68,8 @@ public class MainTest {
     void checkHighCardCases() {
         int i = 0;
         for (TestHandPair testHandPair : TestHands.TestHandPairs.HighCardCases.ALL) {
-            if (testHandPair.expectedResult == null) {
-                assertNull(main.rankHands(testHandPair.hand1, testHandPair.hand2));
-            } else {
-                assertEquals(testHandPair.expectedResult, main.rankHands(testHandPair.hand1, testHandPair.hand2).getKey());
-            }
+            Optional<Pair<List<Card>, PokerHandStrategy>> result = main.rankHands(testHandPair.hand1, testHandPair.hand2);
+            assertEquals(testHandPair.expectedResult, result.isPresent() ? result.get().getKey() : null);
             System.out.println("[MainTest:checkHighCardCases] Passed test " + (i++) + ".");
         }
     }
@@ -80,11 +79,8 @@ public class MainTest {
     void checkPairCases() {
         int i = 0;
         for (TestHandPair testHandPair : TestHands.TestHandPairs.PairCases.ALL) {
-            if (testHandPair.expectedResult == null) {
-                assertNull(main.rankHands(testHandPair.hand1, testHandPair.hand2));
-            } else {
-                assertEquals(testHandPair.expectedResult, main.rankHands(testHandPair.hand1, testHandPair.hand2).getKey());
-            }
+            Optional<Pair<List<Card>, PokerHandStrategy>> result = main.rankHands(testHandPair.hand1, testHandPair.hand2);
+            assertEquals(testHandPair.expectedResult, result.isPresent() ? result.get().getKey() : null);
             System.out.println("[MainTest:checkPairCardCases] Passed test " + (i++) + ".");
         }
     }
@@ -94,11 +90,8 @@ public class MainTest {
     void checkTwoPairCases() {
         int i = 0;
         for (TestHandPair testHandPair : TestHands.TestHandPairs.TwoPairsCases.ALL) {
-            if (testHandPair.expectedResult == null) {
-                assertNull(main.rankHands(testHandPair.hand1, testHandPair.hand2));
-            } else {
-                assertEquals(testHandPair.expectedResult, main.rankHands(testHandPair.hand1, testHandPair.hand2).getKey());
-            }
+            Optional<Pair<List<Card>, PokerHandStrategy>> result = main.rankHands(testHandPair.hand1, testHandPair.hand2);
+            assertEquals(testHandPair.expectedResult, result.isPresent() ? result.get().getKey() : null);
             System.out.println("[MainTest:checkTwoPairCardCases] Passed test " + (i++) + ".");
         }
     }
@@ -108,11 +101,8 @@ public class MainTest {
     void checkThreeOfAKindCases() {
         int i = 0;
         for (TestHandPair testHandPair : TestHands.TestHandPairs.ThreeOfAKindCases.ALL) {
-            if (testHandPair.expectedResult == null) {
-                assertNull(main.rankHands(testHandPair.hand1, testHandPair.hand2));
-            } else {
-                assertEquals(testHandPair.expectedResult, main.rankHands(testHandPair.hand1, testHandPair.hand2).getKey());
-            }
+            Optional<Pair<List<Card>, PokerHandStrategy>> result = main.rankHands(testHandPair.hand1, testHandPair.hand2);
+            assertEquals(testHandPair.expectedResult, result.isPresent() ? result.get().getKey() : null);
             System.out.println("[MainTest:checkThreeOfAKindCases] Passed test " + (i++) + ".");
         }
     }
@@ -124,11 +114,8 @@ public class MainTest {
     void checkDifferingHighCardCases() {
         int i = 0;
         for (TestHandPair testHandPair : TestHands.TestHandPairs.DifferingCases.HighCardCases.ALL) {
-            if (testHandPair.expectedResult == null) {
-                assertNull(main.rankHands(testHandPair.hand1, testHandPair.hand2));
-            } else {
-                assertEquals(testHandPair.expectedResult, main.rankHands(testHandPair.hand1, testHandPair.hand2).getKey());
-            }
+            Optional<Pair<List<Card>, PokerHandStrategy>> result = main.rankHands(testHandPair.hand1, testHandPair.hand2);
+            assertEquals(testHandPair.expectedResult, result.isPresent() ? result.get().getKey() : null);
             System.out.println("[MainTest:checkDifferingHighCardCases] Passed test " + (i++) + ".");
         }
     }
@@ -138,11 +125,8 @@ public class MainTest {
     void checkDifferingPairCases() {
         int i = 0;
         for (TestHandPair testHandPair : TestHands.TestHandPairs.DifferingCases.PairCases.ALL) {
-            if (testHandPair.expectedResult == null) {
-                assertNull(main.rankHands(testHandPair.hand1, testHandPair.hand2));
-            } else {
-                assertEquals(testHandPair.expectedResult, main.rankHands(testHandPair.hand1, testHandPair.hand2).getKey());
-            }
+            Optional<Pair<List<Card>, PokerHandStrategy>> result = main.rankHands(testHandPair.hand1, testHandPair.hand2);
+            assertEquals(testHandPair.expectedResult, result.isPresent() ? result.get().getKey() : null);
             System.out.println("[MainTest:checkDifferingPairCases] Passed test " + (i++) + ".");
         }
     }
@@ -152,11 +136,8 @@ public class MainTest {
     void checkDifferingTwoPairCases() {
         int i = 0;
         for (TestHandPair testHandPair : TestHands.TestHandPairs.DifferingCases.TwoPairCases.ALL) {
-            if (testHandPair.expectedResult == null) {
-                assertNull(main.rankHands(testHandPair.hand1, testHandPair.hand2));
-            } else {
-                assertEquals(testHandPair.expectedResult, main.rankHands(testHandPair.hand1, testHandPair.hand2).getKey());
-            }
+            Optional<Pair<List<Card>, PokerHandStrategy>> result = main.rankHands(testHandPair.hand1, testHandPair.hand2);
+            assertEquals(testHandPair.expectedResult, result.isPresent() ? result.get().getKey() : null);
             System.out.println("[MainTest:checkDifferingTwoPairCases] Passed test " + (i++) + ".");
         }
     }
@@ -166,11 +147,8 @@ public class MainTest {
     void checkDifferingThreeOfKindCases() {
         int i = 0;
         for (TestHandPair testHandPair : TestHands.TestHandPairs.DifferingCases.ThreeOfAKindCases.ALL) {
-            if (testHandPair.expectedResult == null) {
-                assertNull(main.rankHands(testHandPair.hand1, testHandPair.hand2));
-            } else {
-                assertEquals(testHandPair.expectedResult, main.rankHands(testHandPair.hand1, testHandPair.hand2).getKey());
-            }
+            Optional<Pair<List<Card>, PokerHandStrategy>> result = main.rankHands(testHandPair.hand1, testHandPair.hand2);
+            assertEquals(testHandPair.expectedResult, result.isPresent() ? result.get().getKey() : null);
             System.out.println("[MainTest:checkDifferingThreeOfKindCases] Passed test " + (i++) + ".");
         }
     }
@@ -180,11 +158,8 @@ public class MainTest {
     void checkDifferingStraightCases() {
         int i = 0;
         for (TestHandPair testHandPair : TestHands.TestHandPairs.DifferingCases.StraightCases.ALL) {
-            if (testHandPair.expectedResult == null) {
-                assertNull(main.rankHands(testHandPair.hand1, testHandPair.hand2));
-            } else {
-                assertEquals(testHandPair.expectedResult, main.rankHands(testHandPair.hand1, testHandPair.hand2).getKey());
-            }
+            Optional<Pair<List<Card>, PokerHandStrategy>> result = main.rankHands(testHandPair.hand1, testHandPair.hand2);
+            assertEquals(testHandPair.expectedResult, result.isPresent() ? result.get().getKey() : null);
             System.out.println("[MainTest:checkDifferingStraightCases] Passed test " + (i++) + ".");
         }
     }
@@ -194,11 +169,8 @@ public class MainTest {
     void checkDifferingFlushCases() {
         int i = 0;
         for (TestHandPair testHandPair : TestHands.TestHandPairs.DifferingCases.FlushCases.ALL) {
-            if (testHandPair.expectedResult == null) {
-                assertNull(main.rankHands(testHandPair.hand1, testHandPair.hand2));
-            } else {
-                assertEquals(testHandPair.expectedResult, main.rankHands(testHandPair.hand1, testHandPair.hand2).getKey());
-            }
+            Optional<Pair<List<Card>, PokerHandStrategy>> result = main.rankHands(testHandPair.hand1, testHandPair.hand2);
+            assertEquals(testHandPair.expectedResult, result.isPresent() ? result.get().getKey() : null);
             System.out.println("[MainTest:checkDifferingFlushCases] Passed test " + (i++) + ".");
         }
     }
@@ -208,11 +180,8 @@ public class MainTest {
     void checkDifferingFullHouseCases() {
         int i = 0;
         for (TestHandPair testHandPair : TestHands.TestHandPairs.DifferingCases.FullHouseCases.ALL) {
-            if (testHandPair.expectedResult == null) {
-                assertNull(main.rankHands(testHandPair.hand1, testHandPair.hand2));
-            } else {
-                assertEquals(testHandPair.expectedResult, main.rankHands(testHandPair.hand1, testHandPair.hand2).getKey());
-            }
+            Optional<Pair<List<Card>, PokerHandStrategy>> result = main.rankHands(testHandPair.hand1, testHandPair.hand2);
+            assertEquals(testHandPair.expectedResult, result.isPresent() ? result.get().getKey() : null);
             System.out.println("[MainTest:checkDifferingFullHouseCases] Passed test " + (i++) + ".");
         }
     }
@@ -222,11 +191,8 @@ public class MainTest {
     void checkDifferingFourOfKindCases() {
         int i = 0;
         for (TestHandPair testHandPair : TestHands.TestHandPairs.DifferingCases.FourOfAKindCases.ALL) {
-            if (testHandPair.expectedResult == null) {
-                assertNull(main.rankHands(testHandPair.hand1, testHandPair.hand2));
-            } else {
-                assertEquals(testHandPair.expectedResult, main.rankHands(testHandPair.hand1, testHandPair.hand2).getKey());
-            }
+            Optional<Pair<List<Card>, PokerHandStrategy>> result = main.rankHands(testHandPair.hand1, testHandPair.hand2);
+            assertEquals(testHandPair.expectedResult, result.isPresent() ? result.get().getKey() : null);
             System.out.println("[MainTest:checkDifferingFourOfKindCases] Passed test " + (i++) + ".");
         }
     }
@@ -236,11 +202,8 @@ public class MainTest {
     void checkDifferingStraightFlushCases() {
         int i = 0;
         for (TestHandPair testHandPair : TestHands.TestHandPairs.DifferingCases.StraightFlushCases.ALL) {
-            if (testHandPair.expectedResult == null) {
-                assertNull(main.rankHands(testHandPair.hand1, testHandPair.hand2));
-            } else {
-                assertEquals(testHandPair.expectedResult, main.rankHands(testHandPair.hand1, testHandPair.hand2).getKey());
-            }
+            Optional<Pair<List<Card>, PokerHandStrategy>> result = main.rankHands(testHandPair.hand1, testHandPair.hand2);
+            assertEquals(testHandPair.expectedResult, result.isPresent() ? result.get().getKey() : null);
             System.out.println("[MainTest:checkDifferingStraightFlushCases] Passed test " + (i++) + ".");
         }
     }

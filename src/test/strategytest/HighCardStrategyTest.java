@@ -1,5 +1,6 @@
 package test.strategytest;
 
+import javafx.util.Pair;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -7,14 +8,15 @@ import pokerhands.Card;
 import pokerhands.CardSuit;
 import pokerhands.CardValue;
 import pokerhands.strategies.HighCardStrategy;
+import pokerhands.strategies.PokerHandStrategy;
 import test.TestHands;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Test class for the {@link pokerhands.strategies.HighCardStrategy}
@@ -31,7 +33,7 @@ public class HighCardStrategyTest {
     @Test
     @DisplayName("High card strategy returns null if both hands are equal")
     void nullEvaluationOnEqualHands() {
-        assertNull(strategy.evaluatePair(TestHands.ValuePairs.NO_VALUE_PAIR, TestHands.ValuePairs.NO_VALUE_PAIR));
+        assertFalse(strategy.evaluatePair(TestHands.ValuePairs.NO_VALUE_PAIR, TestHands.ValuePairs.NO_VALUE_PAIR).isPresent());
     }
 
     @Test
@@ -60,8 +62,9 @@ public class HighCardStrategyTest {
         Collections.sort(hand2);
         Collections.reverse(hand2);
 
-        assertEquals(hand1, strategy.evaluatePair(hand1, hand2));
-        assertEquals(hand1, strategy.evaluatePair(hand2, hand1));
+        Optional<Pair<List<Card>, PokerHandStrategy>> result = strategy.evaluatePair(hand1, hand2);
+        assertTrue(result.isPresent());
+        assertEquals(hand1, strategy.evaluatePair(hand2, hand1).get().getKey());
     }
 
     @Test
@@ -90,7 +93,8 @@ public class HighCardStrategyTest {
         Collections.sort(hand2);
         Collections.reverse(hand2);
 
-        assertEquals(hand2, strategy.evaluatePair(hand1, hand2));
-        assertEquals(hand2, strategy.evaluatePair(hand2, hand1));
+        Optional<Pair<List<Card>, PokerHandStrategy>> result = strategy.evaluatePair(hand1, hand2);
+        assertTrue(result.isPresent());
+        assertEquals(hand2, result.get().getKey());
     }
 }

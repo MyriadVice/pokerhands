@@ -1,5 +1,6 @@
 package test.strategytest;
 
+import javafx.util.Pair;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -7,11 +8,13 @@ import pokerhands.Card;
 import pokerhands.CardSuit;
 import pokerhands.CardValue;
 import pokerhands.strategies.FourOfAKindStrategy;
+import pokerhands.strategies.PokerHandStrategy;
 import test.TestHands;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -47,7 +50,7 @@ public class FourOfAKindStrategyTest {
     @Test
     @DisplayName("Four of a kind strategy returns null if both hands are equal")
     void nullEvaluationOnEqualHands() {
-        assertNull(strategy.evaluatePair(TestHands.ValuePairs.VALUE_PAIR_4_ACE, TestHands.ValuePairs.VALUE_PAIR_4_ACE));
+        assertFalse(strategy.evaluatePair(TestHands.ValuePairs.VALUE_PAIR_4_ACE, TestHands.ValuePairs.VALUE_PAIR_4_ACE).isPresent());
     }
 
     @Test
@@ -77,8 +80,9 @@ public class FourOfAKindStrategyTest {
         Collections.sort(hand2);
         Collections.reverse(hand2);
 
-        assertEquals(hand1, strategy.evaluatePair(hand1, hand2));
-        assertEquals(hand1, strategy.evaluatePair(hand2, hand1));
+        Optional<Pair<List<Card>, PokerHandStrategy>> result = strategy.evaluatePair(hand1, hand2);
+        assertTrue(result.isPresent());
+        assertEquals(hand1, strategy.evaluatePair(hand1, hand2).get().getKey());
 
         //hand1 with higher ranked pair of four, hand1s remaining card ranked below its pair, hand2s remaining card
         //ranked above its pair
@@ -104,8 +108,9 @@ public class FourOfAKindStrategyTest {
         Collections.sort(hand2);
         Collections.reverse(hand2);
 
-        assertEquals(hand1, strategy.evaluatePair(hand1, hand2));
-        assertEquals(hand1, strategy.evaluatePair(hand2, hand1));
+        result = strategy.evaluatePair(hand1, hand2);
+        assertTrue(result.isPresent());
+        assertEquals(hand1, strategy.evaluatePair(hand1, hand2).get().getKey());
 
         //hand1 with higher ranked pair of four, hand1s remaining card ranked above its pair, hand2s remaining card
         //ranked below its pair
@@ -131,8 +136,9 @@ public class FourOfAKindStrategyTest {
         Collections.sort(hand2);
         Collections.reverse(hand2);
 
-        assertEquals(hand1, strategy.evaluatePair(hand1, hand2));
-        assertEquals(hand1, strategy.evaluatePair(hand2, hand1));
+        result = strategy.evaluatePair(hand1, hand2);
+        assertTrue(result.isPresent());
+        assertEquals(hand1, strategy.evaluatePair(hand1, hand2).get().getKey());
 
         //hand1 with higher ranked pair of four, both hands remaining cards values above their and the others pair of four
         hand1 = Arrays.asList(
@@ -157,8 +163,9 @@ public class FourOfAKindStrategyTest {
         Collections.sort(hand2);
         Collections.reverse(hand2);
 
-        assertEquals(hand1, strategy.evaluatePair(hand1, hand2));
-        assertEquals(hand1, strategy.evaluatePair(hand2, hand1));
+        result = strategy.evaluatePair(hand1, hand2);
+        assertTrue(result.isPresent());
+        assertEquals(hand1, strategy.evaluatePair(hand1, hand2).get().getKey());
     }
 
     @Test
@@ -188,8 +195,8 @@ public class FourOfAKindStrategyTest {
         Collections.sort(hand2);
         Collections.reverse(hand2);
 
-        assertNull(strategy.evaluatePair(hand1, hand2));
-        assertNull(strategy.evaluatePair(hand2, hand1));
+        assertFalse(strategy.evaluatePair(hand1, hand2).isPresent());
+        assertFalse(strategy.evaluatePair(hand2, hand1).isPresent());
 
         //hand1s remaining card ranked below its pair, hand2s remaining card
         //ranked above its pair
@@ -215,8 +222,8 @@ public class FourOfAKindStrategyTest {
         Collections.sort(hand2);
         Collections.reverse(hand2);
 
-        assertNull(strategy.evaluatePair(hand1, hand2));
-        assertNull(strategy.evaluatePair(hand2, hand1));
+        assertFalse(strategy.evaluatePair(hand1, hand2).isPresent());
+        assertFalse(strategy.evaluatePair(hand2, hand1).isPresent());
 
         //both hands remaining cards values above their pair of four
         hand1 = Arrays.asList(
@@ -241,7 +248,7 @@ public class FourOfAKindStrategyTest {
         Collections.sort(hand2);
         Collections.reverse(hand2);
 
-        assertNull(strategy.evaluatePair(hand1, hand2));
-        assertNull(strategy.evaluatePair(hand2, hand1));
+        assertFalse(strategy.evaluatePair(hand1, hand2).isPresent());
+        assertFalse(strategy.evaluatePair(hand2, hand1).isPresent());
     }
 }

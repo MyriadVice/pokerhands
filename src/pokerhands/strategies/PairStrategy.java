@@ -1,10 +1,12 @@
 package pokerhands.strategies;
 
+import javafx.util.Pair;
 import pokerhands.Card;
 import pokerhands.utils.CardUtils;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * A class representing the {@link PokerHandStrategy} for the pair strategy: 2 of the 5 cards in the hand have the same
@@ -23,7 +25,7 @@ public class PairStrategy extends PokerHandStrategy {
     }
 
     @Override
-    public List<Card> evaluatePair(List<Card> hand1, List<Card> hand2) {
+    public Optional<Pair<List<Card>, PokerHandStrategy>> evaluatePair(List<Card> hand1, List<Card> hand2) {
         List<Card> firstHandPair = CardUtils.getValuePair(hand1, 2);
         List<Card> secondHandPair = CardUtils.getValuePair(hand2, 2);
 
@@ -35,10 +37,12 @@ public class PairStrategy extends PokerHandStrategy {
             secondHandRemainingCards.removeAll(secondHandPair);
         }
 
-        List<Card> higherRankingHand = new HighCardStrategy().evaluatePair(firstHandRemainingCards, secondHandRemainingCards);
-        if (higherRankingHand == firstHandRemainingCards) return hand1;
-        if (higherRankingHand == secondHandRemainingCards) return hand2;
+        Optional<Pair<List<Card>, PokerHandStrategy>> higherRankingHand = new HighCardStrategy().evaluatePair(firstHandRemainingCards, secondHandRemainingCards);
+        if (!higherRankingHand.isPresent()) return higherRankingHand;
 
-        return null;
+        if (higherRankingHand.get().getKey() == firstHandRemainingCards) return Optional.of(new Pair<>(hand1, this));
+        if (higherRankingHand.get().getKey() == secondHandRemainingCards) return Optional.of(new Pair<>(hand2, this));
+
+        return Optional.empty();
     }
 }

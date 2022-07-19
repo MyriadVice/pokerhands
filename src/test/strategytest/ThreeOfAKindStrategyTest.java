@@ -1,17 +1,20 @@
 package test.strategytest;
 
+import javafx.util.Pair;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pokerhands.Card;
 import pokerhands.CardSuit;
 import pokerhands.CardValue;
+import pokerhands.strategies.PokerHandStrategy;
 import pokerhands.strategies.ThreeOfAKindStrategy;
 import test.TestHands;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -45,7 +48,7 @@ public class ThreeOfAKindStrategyTest {
     @Test
     @DisplayName("High card strategy returns null if both hands are equal")
     void nullEvaluationOnEqualHands() {
-        assertNull(strategy.evaluatePair(TestHands.ValuePairs.VALUE_PAIR_3_ACE, TestHands.ValuePairs.VALUE_PAIR_3_ACE));
+        assertFalse(strategy.evaluatePair(TestHands.ValuePairs.VALUE_PAIR_3_ACE, TestHands.ValuePairs.VALUE_PAIR_3_ACE).isPresent());
     }
 
     @Test
@@ -74,8 +77,9 @@ public class ThreeOfAKindStrategyTest {
         Collections.sort(hand2);
         Collections.reverse(hand2);
 
-        assertEquals(hand1, strategy.evaluatePair(hand1, hand2));
-        assertEquals(hand1, strategy.evaluatePair(hand2, hand1));
+        Optional<Pair<List<Card>, PokerHandStrategy>> result = strategy.evaluatePair(hand1, hand2);
+        assertEquals(hand1, result.get().getKey());
+        assertEquals(hand1, result.get().getKey());
 
         //hand1 with higher ranked pair, rest above rank of pair
         hand1 = Arrays.asList(
@@ -100,8 +104,9 @@ public class ThreeOfAKindStrategyTest {
         Collections.sort(hand2);
         Collections.reverse(hand2);
 
-        assertEquals(hand1, strategy.evaluatePair(hand1, hand2));
-        assertEquals(hand1, strategy.evaluatePair(hand2, hand1));
+        result = strategy.evaluatePair(hand1, hand2);
+        assertEquals(hand1, result.get().getKey());
+        assertEquals(hand1, result.get().getKey());
     }
 
     @Test
@@ -127,7 +132,7 @@ public class ThreeOfAKindStrategyTest {
         Collections.sort(hand1);
         Collections.reverse(hand1);
 
-        assertNull(strategy.evaluatePair(hand1, hand2));
-        assertNull(strategy.evaluatePair(hand2, hand1));
+        Optional<Pair<List<Card>, PokerHandStrategy>> result = strategy.evaluatePair(hand1, hand2);
+        assertFalse(result.isPresent());
     }
 }

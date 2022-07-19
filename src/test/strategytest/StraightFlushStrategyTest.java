@@ -1,17 +1,20 @@
 package test.strategytest;
 
+import javafx.util.Pair;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pokerhands.Card;
 import pokerhands.CardSuit;
 import pokerhands.CardValue;
+import pokerhands.strategies.PokerHandStrategy;
 import pokerhands.strategies.StraightFlushStrategy;
 import test.TestHands;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -52,7 +55,7 @@ public class StraightFlushStrategyTest {
     @Test
     @DisplayName("Straight flush strategy returns null if both hands are equal")
     void nullEvaluationOnEqualHands() {
-        assertNull(strategy.evaluatePair(TestHands.SuitPairs.FULL_SUIT_PAIR_S_FULL_SEQ, TestHands.SuitPairs.FULL_SUIT_PAIR_S_FULL_SEQ));
+        assertFalse(strategy.evaluatePair(TestHands.SuitPairs.FULL_SUIT_PAIR_S_FULL_SEQ, TestHands.SuitPairs.FULL_SUIT_PAIR_S_FULL_SEQ).isPresent());
     }
 
     @Test
@@ -81,8 +84,9 @@ public class StraightFlushStrategyTest {
         Collections.sort(hand2);
         Collections.reverse(hand2);
 
-        assertEquals(hand1, strategy.evaluatePair(hand1, hand2));
-        assertEquals(hand1, strategy.evaluatePair(hand2, hand1));
+        Optional<Pair<List<Card>, PokerHandStrategy>> result = strategy.evaluatePair(hand1, hand2);
+        assertTrue(result.isPresent());
+        assertEquals(hand1, result.get().getKey());
     }
 
     @Test
@@ -111,7 +115,7 @@ public class StraightFlushStrategyTest {
         Collections.sort(hand2);
         Collections.reverse(hand2);
 
-        assertNull(strategy.evaluatePair(hand1, hand2));
-        assertNull(strategy.evaluatePair(hand2, hand1));
+        Optional<Pair<List<Card>, PokerHandStrategy>> result = strategy.evaluatePair(hand2, hand1);
+        assertFalse(result.isPresent());
     }
 }

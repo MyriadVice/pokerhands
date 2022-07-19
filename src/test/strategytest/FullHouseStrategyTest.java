@@ -1,5 +1,6 @@
 package test.strategytest;
 
+import javafx.util.Pair;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -7,11 +8,13 @@ import pokerhands.Card;
 import pokerhands.CardSuit;
 import pokerhands.CardValue;
 import pokerhands.strategies.FullHouseStrategy;
+import pokerhands.strategies.PokerHandStrategy;
 import test.TestHands;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -45,7 +48,7 @@ public class FullHouseStrategyTest {
     @Test
     @DisplayName("Full house strategy returns null if both hands are equal")
     void nullEvaluationOnEqualHands() {
-        assertNull(strategy.evaluatePair(TestHands.ValuePairs.VALUE_PAIR_OF_3_JACK_2_TEN, TestHands.ValuePairs.VALUE_PAIR_OF_3_JACK_2_TEN));
+        assertFalse(strategy.evaluatePair(TestHands.ValuePairs.VALUE_PAIR_OF_3_JACK_2_TEN, TestHands.ValuePairs.VALUE_PAIR_OF_3_JACK_2_TEN).isPresent());
     }
 
     @Test
@@ -74,8 +77,9 @@ public class FullHouseStrategyTest {
         Collections.sort(hand2);
         Collections.reverse(hand2);
 
-        assertEquals(hand1, strategy.evaluatePair(hand1, hand2));
-        assertEquals(hand1, strategy.evaluatePair(hand2, hand1));
+        Optional<Pair<List<Card>, PokerHandStrategy>> result = strategy.evaluatePair(hand1, hand2);
+        assertTrue(result.isPresent());
+        assertEquals(hand1, result.get().getKey());
 
         //hand1 with higher ranked triple pair and lower ranked double pair
         hand1 = Arrays.asList(
@@ -100,8 +104,9 @@ public class FullHouseStrategyTest {
         Collections.sort(hand2);
         Collections.reverse(hand2);
 
-        assertEquals(hand1, strategy.evaluatePair(hand1, hand2));
-        assertEquals(hand1, strategy.evaluatePair(hand2, hand1));
+        result = strategy.evaluatePair(hand1, hand2);
+        assertTrue(result.isPresent());
+        assertEquals(hand1, result.get().getKey());
 
         //hand1 with higher ranked triple pair and equally ranked double pair
         hand1 = Arrays.asList(
@@ -126,8 +131,9 @@ public class FullHouseStrategyTest {
         Collections.sort(hand2);
         Collections.reverse(hand2);
 
-        assertEquals(hand1, strategy.evaluatePair(hand1, hand2));
-        assertEquals(hand1, strategy.evaluatePair(hand2, hand1));
+        result = strategy.evaluatePair(hand1, hand2);
+        assertTrue(result.isPresent());
+        assertEquals(hand1, result.get().getKey());
     }
 
     @Test
@@ -156,8 +162,9 @@ public class FullHouseStrategyTest {
         Collections.sort(hand2);
         Collections.reverse(hand2);
 
-        assertEquals(hand1, strategy.evaluatePair(hand1, hand2));
-        assertEquals(hand1, strategy.evaluatePair(hand2, hand1));
+        Optional<Pair<List<Card>, PokerHandStrategy>> result = strategy.evaluatePair(hand1, hand2);
+        assertTrue(result.isPresent());
+        assertEquals(hand1, result.get().getKey());
 
         //both hands with higher pair of two
         hand1 = Arrays.asList(
@@ -182,8 +189,9 @@ public class FullHouseStrategyTest {
         Collections.sort(hand2);
         Collections.reverse(hand2);
 
-        assertEquals(hand1, strategy.evaluatePair(hand1, hand2));
-        assertEquals(hand1, strategy.evaluatePair(hand2, hand1));
+        result = strategy.evaluatePair(hand1, hand2);
+        assertTrue(result.isPresent());
+        assertEquals(hand1, result.get().getKey());
 
         //hand2 with higher pair of two
         hand1 = Arrays.asList(
@@ -208,8 +216,9 @@ public class FullHouseStrategyTest {
         Collections.sort(hand2);
         Collections.reverse(hand2);
 
-        assertEquals(hand1, strategy.evaluatePair(hand1, hand2));
-        assertEquals(hand1, strategy.evaluatePair(hand2, hand1));
+        result = strategy.evaluatePair(hand1, hand2);
+        assertTrue(result.isPresent());
+        assertEquals(hand1, result.get().getKey());
     }
 
     @Test
@@ -239,8 +248,8 @@ public class FullHouseStrategyTest {
         Collections.sort(hand2);
         Collections.reverse(hand2);
 
-        assertNull(strategy.evaluatePair(hand1, hand2));
-        assertNull(strategy.evaluatePair(hand2, hand1));
+        Optional<Pair<List<Card>, PokerHandStrategy>> result = strategy.evaluatePair(hand1, hand2);
+        assertFalse(result.isPresent());
 
         //hand1 with higher ranked triple pair and lower ranked double pair
         hand1 = Arrays.asList(
@@ -265,8 +274,8 @@ public class FullHouseStrategyTest {
         Collections.sort(hand2);
         Collections.reverse(hand2);
 
-        assertNull(strategy.evaluatePair(hand1, hand2));
-        assertNull(strategy.evaluatePair(hand2, hand1));
+        result = strategy.evaluatePair(hand1, hand2);
+        assertFalse(result.isPresent());
 
         //hands with equally ranked pair of three, hand1 with higher pair of 2 than pair of three
         hand1 = Arrays.asList(
@@ -291,8 +300,8 @@ public class FullHouseStrategyTest {
         Collections.sort(hand2);
         Collections.reverse(hand2);
 
-        assertNull(strategy.evaluatePair(hand1, hand2));
-        assertNull(strategy.evaluatePair(hand2, hand1));
+        result = strategy.evaluatePair(hand1, hand2);
+        assertFalse(result.isPresent());
 
         //hands with equally ranked pair of three, both hands with higher pair of 2 than pair of three
         hand1 = Arrays.asList(
@@ -317,7 +326,7 @@ public class FullHouseStrategyTest {
         Collections.sort(hand2);
         Collections.reverse(hand2);
 
-        assertNull(strategy.evaluatePair(hand1, hand2));
-        assertNull(strategy.evaluatePair(hand2, hand1));
+        result = strategy.evaluatePair(hand1, hand2);
+        assertFalse(result.isPresent());
     }
 }

@@ -1,17 +1,20 @@
 package test.strategytest;
 
+import javafx.util.Pair;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pokerhands.Card;
 import pokerhands.CardSuit;
 import pokerhands.CardValue;
+import pokerhands.strategies.PokerHandStrategy;
 import pokerhands.strategies.StraightStrategy;
 import test.TestHands;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -49,7 +52,7 @@ public class StraightStrategyTest {
     @Test
     @DisplayName("Straight strategy returns null if both hands are equal")
     void nullEvaluationOnEqualHands() {
-        assertNull(strategy.evaluatePair(TestHands.Sequences.FULL_SEQUENCE_THREE_TO_SEVEN_SAME_SUIT, TestHands.Sequences.FULL_SEQUENCE_THREE_TO_SEVEN_SAME_SUIT));
+        assertFalse(strategy.evaluatePair(TestHands.Sequences.FULL_SEQUENCE_THREE_TO_SEVEN_SAME_SUIT, TestHands.Sequences.FULL_SEQUENCE_THREE_TO_SEVEN_SAME_SUIT).isPresent());
     }
 
     @Test
@@ -78,7 +81,8 @@ public class StraightStrategyTest {
         Collections.sort(hand2);
         Collections.reverse(hand2);
 
-        assertEquals(hand1, strategy.evaluatePair(hand1, hand2));
-        assertEquals(hand1, strategy.evaluatePair(hand2, hand1));
+        Optional<Pair<List<Card>, PokerHandStrategy>> result = strategy.evaluatePair(hand1, hand2);
+        assertEquals(hand1, result.get().getKey());
+        assertEquals(hand1, result.get().getKey());
     }
 }

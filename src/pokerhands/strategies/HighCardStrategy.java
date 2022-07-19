@@ -1,8 +1,10 @@
 package pokerhands.strategies;
 
+import javafx.util.Pair;
 import pokerhands.Card;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * A class representing the {@link PokerHandStrategy} for the high card strategy: Hands which do not fit any higher
@@ -21,12 +23,14 @@ public class HighCardStrategy extends PokerHandStrategy {
     }
 
     @Override
-    public List<Card> evaluatePair(List<Card> hand1, List<Card> hand2) {
+    public Optional<Pair<List<Card>, PokerHandStrategy>> evaluatePair(List<Card> hand1, List<Card> hand2) {
         for (int i = 0; i < hand1.size(); i++) {
-            if (hand1.get(i).getValue().compareTo(hand2.get(i).getValue()) > 0) return hand1;
-            if (hand1.get(i).getValue().compareTo(hand2.get(i).getValue()) < 0) return hand2;
+            if (hand1.get(i).getValue().compareTo(hand2.get(i).getValue()) > 0)
+                return Optional.of(new Pair<>(hand1, this));
+            if (hand1.get(i).getValue().compareTo(hand2.get(i).getValue()) < 0)
+                return Optional.of(new Pair<>(hand2, this));
         }
 
-        return null;
+        return Optional.empty();
     }
 }

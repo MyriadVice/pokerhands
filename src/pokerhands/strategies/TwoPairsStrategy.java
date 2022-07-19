@@ -1,10 +1,12 @@
 package pokerhands.strategies;
 
+import javafx.util.Pair;
 import pokerhands.Card;
 import pokerhands.utils.CardUtils;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * A class representing the {@link PokerHandStrategy} for the two pairs strategy: he hand contains 2 different pairs.
@@ -30,7 +32,7 @@ public class TwoPairsStrategy extends PokerHandStrategy {
     }
 
     @Override
-    public List<Card> evaluatePair(List<Card> hand1, List<Card> hand2) {
+    public Optional<Pair<List<Card>, PokerHandStrategy>> evaluatePair(List<Card> hand1, List<Card> hand2) {
         Card firstHandCard = null;
         Card secondHandCard = null;
 
@@ -74,9 +76,11 @@ public class TwoPairsStrategy extends PokerHandStrategy {
             }
         }
 
-        if (firstHandCard.getValue().compareTo(secondHandCard.getValue()) > 0) return hand1;
-        if (firstHandCard.getValue().compareTo(secondHandCard.getValue()) < 0) return hand2;
+        if (firstHandCard.getValue().compareTo(secondHandCard.getValue()) > 0)
+            return Optional.of(new Pair<>(hand1, this));
+        if (firstHandCard.getValue().compareTo(secondHandCard.getValue()) < 0)
+            return Optional.of(new Pair<>(hand2, this));
 
-        return null;
+        return Optional.empty();
     }
 }

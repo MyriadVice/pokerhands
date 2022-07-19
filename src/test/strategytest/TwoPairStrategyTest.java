@@ -1,17 +1,20 @@
 package test.strategytest;
 
+import javafx.util.Pair;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pokerhands.Card;
 import pokerhands.CardSuit;
 import pokerhands.CardValue;
+import pokerhands.strategies.PokerHandStrategy;
 import pokerhands.strategies.TwoPairsStrategy;
 import test.TestHands;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -46,7 +49,7 @@ public class TwoPairStrategyTest {
     @Test
     @DisplayName("Two pair strategy returns null if both hands are equal")
     void nullEvaluationOnEqualHands() {
-        assertNull(strategy.evaluatePair(TestHands.ValuePairs.VALUE_PAIR_OF_2_KING_2_QUEEN, TestHands.ValuePairs.VALUE_PAIR_OF_2_KING_2_QUEEN));
+        assertFalse(strategy.evaluatePair(TestHands.ValuePairs.VALUE_PAIR_OF_2_KING_2_QUEEN, TestHands.ValuePairs.VALUE_PAIR_OF_2_KING_2_QUEEN).isPresent());
     }
 
     @Test
@@ -75,8 +78,9 @@ public class TwoPairStrategyTest {
         Collections.sort(hand2);
         Collections.reverse(hand2);
 
-        assertEquals(hand1, strategy.evaluatePair(hand1, hand2));
-        assertEquals(hand1, strategy.evaluatePair(hand2, hand1));
+        Optional<Pair<List<Card>, PokerHandStrategy>> result = strategy.evaluatePair(hand1, hand2);
+        assertTrue(result.isPresent());
+        assertEquals(hand1, result.get().getKey());
 
         //hand 1 with higher high pair, hand 2 with higher low pair
         hand1 = Arrays.asList(
@@ -101,8 +105,9 @@ public class TwoPairStrategyTest {
         Collections.sort(hand2);
         Collections.reverse(hand2);
 
-        assertEquals(hand1, strategy.evaluatePair(hand1, hand2));
-        assertEquals(hand1, strategy.evaluatePair(hand2, hand1));
+        result = strategy.evaluatePair(hand1, hand2);
+        assertTrue(result.isPresent());
+        assertEquals(hand1, result.get().getKey());
     }
 
     @Test
@@ -131,8 +136,9 @@ public class TwoPairStrategyTest {
         Collections.sort(hand2);
         Collections.reverse(hand2);
 
-        assertEquals(hand2, strategy.evaluatePair(hand1, hand2));
-        assertEquals(hand2, strategy.evaluatePair(hand2, hand1));
+        Optional<Pair<List<Card>, PokerHandStrategy>> result = strategy.evaluatePair(hand1, hand2);
+        assertEquals(hand2, result.get().getKey());
+        assertEquals(hand2, result.get().getKey());
 
         //hand 2 with higher low pair, rest different
         hand1 = Arrays.asList(
@@ -157,8 +163,9 @@ public class TwoPairStrategyTest {
         Collections.sort(hand2);
         Collections.reverse(hand2);
 
-        assertEquals(hand2, strategy.evaluatePair(hand1, hand2));
-        assertEquals(hand2, strategy.evaluatePair(hand2, hand1));
+        result = strategy.evaluatePair(hand1, hand2);
+        assertEquals(hand2, result.get().getKey());
+        assertEquals(hand2, result.get().getKey());
     }
 
     @Test
@@ -187,8 +194,9 @@ public class TwoPairStrategyTest {
         Collections.sort(hand2);
         Collections.reverse(hand2);
 
-        assertEquals(hand1, strategy.evaluatePair(hand1, hand2));
-        assertEquals(hand1, strategy.evaluatePair(hand2, hand1));
+        Optional<Pair<List<Card>, PokerHandStrategy>> result = strategy.evaluatePair(hand1, hand2);
+        assertTrue(result.isPresent());
+        assertEquals(hand1, result.get().getKey());
 
         //same pairs, remaining value ranked between pairs
         hand1 = Arrays.asList(
@@ -213,8 +221,9 @@ public class TwoPairStrategyTest {
         Collections.sort(hand2);
         Collections.reverse(hand2);
 
-        assertEquals(hand1, strategy.evaluatePair(hand1, hand2));
-        assertEquals(hand1, strategy.evaluatePair(hand2, hand1));
+        result = strategy.evaluatePair(hand1, hand2);
+        assertTrue(result.isPresent());
+        assertEquals(hand1, result.get().getKey());
 
         //same pairs, remaining value ranked higher than pairs
         hand1 = Arrays.asList(
@@ -239,7 +248,8 @@ public class TwoPairStrategyTest {
         Collections.sort(hand2);
         Collections.reverse(hand2);
 
-        assertEquals(hand1, strategy.evaluatePair(hand1, hand2));
-        assertEquals(hand1, strategy.evaluatePair(hand2, hand1));
+        result = strategy.evaluatePair(hand1, hand2);
+        assertTrue(result.isPresent());
+        assertEquals(hand1, result.get().getKey());
     }
 }

@@ -1,5 +1,6 @@
 package test.strategytest;
 
+import javafx.util.Pair;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -7,11 +8,13 @@ import pokerhands.Card;
 import pokerhands.CardSuit;
 import pokerhands.CardValue;
 import pokerhands.strategies.FlushStrategy;
+import pokerhands.strategies.PokerHandStrategy;
 import test.TestHands;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -45,7 +48,7 @@ public class FlushStrategyTest {
     @Test
     @DisplayName("Flush strategy returns null if both hands are equal")
     void nullEvaluationOnEqualHands() {
-        assertNull(strategy.evaluatePair(TestHands.SuitPairs.FULL_SUIT_PAIR_S_NO_SEQ, TestHands.SuitPairs.FULL_SUIT_PAIR_S_NO_SEQ));
+        assertFalse(strategy.evaluatePair(TestHands.SuitPairs.FULL_SUIT_PAIR_S_NO_SEQ, TestHands.SuitPairs.FULL_SUIT_PAIR_S_NO_SEQ).isPresent());
     }
 
     @Test
@@ -74,8 +77,9 @@ public class FlushStrategyTest {
         Collections.sort(hand2);
         Collections.reverse(hand2);
 
-        assertEquals(hand1, strategy.evaluatePair(hand1, hand2));
-        assertEquals(hand1, strategy.evaluatePair(hand2, hand1));
+        Optional<Pair<List<Card>, PokerHandStrategy>> result = strategy.evaluatePair(hand1, hand2);
+        assertTrue(result.isPresent());
+        assertEquals(hand1, strategy.evaluatePair(hand1, hand2).get().getKey());
     }
 
     @Test
@@ -104,8 +108,9 @@ public class FlushStrategyTest {
         Collections.sort(hand2);
         Collections.reverse(hand2);
 
-        assertEquals(hand2, strategy.evaluatePair(hand1, hand2));
-        assertEquals(hand2, strategy.evaluatePair(hand2, hand1));
+        Optional<Pair<List<Card>, PokerHandStrategy>> result = strategy.evaluatePair(hand1, hand2);
+        assertTrue(result.isPresent());
+        assertEquals(hand2, strategy.evaluatePair(hand1, hand2).get().getKey());
     }
 
     @Test
@@ -134,6 +139,6 @@ public class FlushStrategyTest {
         Collections.sort(hand2);
         Collections.reverse(hand2);
 
-        assertNull(strategy.evaluatePair(hand1, hand2));
+        assertFalse(strategy.evaluatePair(hand1, hand2).isPresent());
     }
 }

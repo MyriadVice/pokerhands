@@ -1,5 +1,6 @@
 package test.strategytest;
 
+import javafx.util.Pair;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -7,11 +8,13 @@ import pokerhands.Card;
 import pokerhands.CardSuit;
 import pokerhands.CardValue;
 import pokerhands.strategies.PairStrategy;
+import pokerhands.strategies.PokerHandStrategy;
 import test.TestHands;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -45,7 +48,7 @@ public class PairStrategyTest {
     @Test
     @DisplayName("Pair strategy returns null if both hands are equal")
     void nullEvaluationOnEqualHands() {
-        assertNull(strategy.evaluatePair(TestHands.ValuePairs.VALUE_PAIR_OF_2_ACE, TestHands.ValuePairs.VALUE_PAIR_OF_2_ACE));
+        assertFalse(strategy.evaluatePair(TestHands.ValuePairs.VALUE_PAIR_OF_2_ACE, TestHands.ValuePairs.VALUE_PAIR_OF_2_ACE).isPresent());
     }
 
     @Test
@@ -74,8 +77,9 @@ public class PairStrategyTest {
         Collections.sort(hand2);
         Collections.reverse(hand2);
 
-        assertEquals(hand1, strategy.evaluatePair(hand1, hand2));
-        assertEquals(hand1, strategy.evaluatePair(hand2, hand1));
+        Optional<Pair<List<Card>, PokerHandStrategy>> result = strategy.evaluatePair(hand1, hand2);
+        assertTrue(result.isPresent());
+        assertEquals(hand1, result.get().getKey());
 
         //differing pair, different rest
         hand1 = Arrays.asList(
@@ -100,8 +104,9 @@ public class PairStrategyTest {
         Collections.sort(hand2);
         Collections.reverse(hand2);
 
-        assertEquals(hand1, strategy.evaluatePair(hand1, hand2));
-        assertEquals(hand1, strategy.evaluatePair(hand2, hand1));
+        result = strategy.evaluatePair(hand1, hand2);
+        assertTrue(result.isPresent());
+        assertEquals(hand1, result.get().getKey());
     }
 
     @Test
@@ -130,8 +135,9 @@ public class PairStrategyTest {
         Collections.sort(hand2);
         Collections.reverse(hand2);
 
-        assertEquals(hand2, strategy.evaluatePair(hand1, hand2));
-        assertEquals(hand2, strategy.evaluatePair(hand2, hand1));
+        Optional<Pair<List<Card>, PokerHandStrategy>> result = strategy.evaluatePair(hand1, hand2);
+        assertTrue(result.isPresent());
+        assertEquals(hand2, result.get().getKey());
 
         //same pair, differing rest from later position
         hand1 = Arrays.asList(
@@ -156,7 +162,8 @@ public class PairStrategyTest {
         Collections.sort(hand2);
         Collections.reverse(hand2);
 
-        assertEquals(hand2, strategy.evaluatePair(hand1, hand2));
-        assertEquals(hand2, strategy.evaluatePair(hand2, hand1));
+        result = strategy.evaluatePair(hand1, hand2);
+        assertTrue(result.isPresent());
+        assertEquals(hand2, result.get().getKey());
     }
 }

@@ -1,8 +1,10 @@
 package pokerhands.strategies;
 
+import javafx.util.Pair;
 import pokerhands.Card;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * <p>
@@ -22,9 +24,9 @@ import java.util.List;
  * <p>Three of a Kind: Three of the cards in the hand have the same value. Hands which both contain three of a kind are
  * ranked by the value of the 3 cards.
  * </p><br>
- * <p>Straight: Hand contains 5 cards with consecutive values. Hands which both contain a straight are ranked by their highest card.
+ * <p>Straight: pokerhands.Hand contains 5 cards with consecutive values. Hands which both contain a straight are ranked by their highest card.
  * </p><br>
- * <p>Flush: Hand contains 5 cards of the same suit. Hands which are both flushes are ranked using the rules for High Card.
+ * <p>Flush: pokerhands.Hand contains 5 cards of the same suit. Hands which are both flushes are ranked using the rules for High Card.
  * </p><br>
  * <p>Full House: 3 cards of the same value, with the remaining 2 cards forming a pair. Ranked by the value of the 3 cards.
  * </p><br>
@@ -46,5 +48,5 @@ public abstract class PokerHandStrategy {
 
     public abstract boolean isPermissible(List<Card> hand);
 
-    public abstract List<Card> evaluatePair(List<Card> hand1, List<Card> hand2);
+    public abstract Optional<Pair<List<Card>, PokerHandStrategy>> evaluatePair(List<Card> hand1, List<Card> hand2);
 }
