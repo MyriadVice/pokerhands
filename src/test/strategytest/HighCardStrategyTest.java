@@ -1,19 +1,13 @@
 package test.strategytest;
 
-import javafx.util.Pair;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import pokerhands.Card;
-import pokerhands.CardSuit;
-import pokerhands.CardValue;
+import pokerhands.*;
 import pokerhands.strategies.HighCardStrategy;
-import pokerhands.strategies.PokerHandStrategy;
 import test.TestHands;
 
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -26,7 +20,6 @@ public class HighCardStrategyTest {
 
     @BeforeEach
     void setup() {
-        TestHands.setup();
         strategy = new HighCardStrategy();
     }
 
@@ -40,61 +33,47 @@ public class HighCardStrategyTest {
     @DisplayName("High card strategy returns the correct hand for hands with differing highest values")
     void correctEvaluationOnDifferentHighValues() {
         //hand1 with higher ranked high card
-        List<Card> hand1 = Arrays.asList(
+        Hand hand1 = new Hand(Arrays.asList(
                 new Card(CardSuit.C, CardValue.ACE),
                 new Card(CardSuit.C, CardValue.KING),
                 new Card(CardSuit.C, CardValue.QUEEN),
                 new Card(CardSuit.C, CardValue.JACK),
                 new Card(CardSuit.C, CardValue.TEN)
-        );
-        List<Card> hand2 = Arrays.asList(
+        ));
+        Hand hand2 = new Hand(Arrays.asList(
                 new Card(CardSuit.C, CardValue.SIX),
                 new Card(CardSuit.C, CardValue.FIVE),
                 new Card(CardSuit.C, CardValue.FOUR),
                 new Card(CardSuit.C, CardValue.THREE),
                 new Card(CardSuit.C, CardValue.TWO)
-        );
+        ));
 
-        //sort to keep invariants
-        Collections.sort(hand1);
-        Collections.reverse(hand1);
-
-        Collections.sort(hand2);
-        Collections.reverse(hand2);
-
-        Optional<Pair<List<Card>, PokerHandStrategy>> result = strategy.evaluatePair(hand1, hand2);
+        Optional<HandView> result = strategy.evaluatePair(hand1.createView(), hand2.createView());
         assertTrue(result.isPresent());
-        assertEquals(hand1, strategy.evaluatePair(hand2, hand1).get().getKey());
+        assertEquals(hand1, result.get().getHand());
     }
 
     @Test
     @DisplayName("High card strategy returns the correct hand for hands with same highest values")
     void correctEvaluationOnSameHighValues() {
         //hand1 and hand2 with second most highest cards of equal values, ranking should be based on third highest card
-        List<Card> hand1 = Arrays.asList(
+        Hand hand1 = new Hand(Arrays.asList(
                 new Card(CardSuit.C, CardValue.ACE),
                 new Card(CardSuit.C, CardValue.KING),
                 new Card(CardSuit.C, CardValue.FIVE),
                 new Card(CardSuit.C, CardValue.FOUR),
                 new Card(CardSuit.C, CardValue.THREE)
-        );
-        List<Card> hand2 = Arrays.asList(
+        ));
+        Hand hand2 = new Hand(Arrays.asList(
                 new Card(CardSuit.C, CardValue.ACE),
                 new Card(CardSuit.C, CardValue.KING),
                 new Card(CardSuit.C, CardValue.SEVEN),
                 new Card(CardSuit.C, CardValue.SIX),
                 new Card(CardSuit.C, CardValue.FIVE)
-        );
+        ));
 
-        //sort to keep invariants
-        Collections.sort(hand1);
-        Collections.reverse(hand1);
-
-        Collections.sort(hand2);
-        Collections.reverse(hand2);
-
-        Optional<Pair<List<Card>, PokerHandStrategy>> result = strategy.evaluatePair(hand1, hand2);
+        Optional<HandView> result = strategy.evaluatePair(hand1.createView(), hand2.createView());
         assertTrue(result.isPresent());
-        assertEquals(hand2, result.get().getKey());
+        assertEquals(hand2, result.get().getHand());
     }
 }

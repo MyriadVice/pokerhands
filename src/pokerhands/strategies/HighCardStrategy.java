@@ -1,15 +1,14 @@
 package pokerhands.strategies;
 
-import javafx.util.Pair;
 import pokerhands.Card;
+import pokerhands.HandView;
 
-import java.util.List;
 import java.util.Optional;
 
 /**
- * A class representing the {@link PokerHandStrategy} for the high card strategy: Hands which do not fit any higher
- * category are ranked by the value of their highest card (high card strategy). If the highest cards have the same
- * value, the hands are ranked by the next highest, and so on
+ * A class representing the {@link PokerHandStrategy} for the high card strategy. This strategy is generally permissible on a
+ * {@link pokerhands.Hand}. Hands which are ranked against each other using this strategy are ranked comparing the {@link pokerhands.CardValue}
+ * of their highest {@link Card}s. If the highest cards have the same value, the hands are ranked by the next highest, and so on.
  */
 public class HighCardStrategy extends PokerHandStrategy {
 
@@ -18,17 +17,17 @@ public class HighCardStrategy extends PokerHandStrategy {
     }
 
     @Override
-    public boolean isPermissible(List<Card> hand) {
+    public boolean isPermissible(HandView hand) {
         return true;
     }
 
     @Override
-    public Optional<Pair<List<Card>, PokerHandStrategy>> evaluatePair(List<Card> hand1, List<Card> hand2) {
+    public Optional<HandView> evaluatePair(HandView hand1, HandView hand2) {
         for (int i = 0; i < hand1.size(); i++) {
-            if (hand1.get(i).getValue().compareTo(hand2.get(i).getValue()) > 0)
-                return Optional.of(new Pair<>(hand1, this));
-            if (hand1.get(i).getValue().compareTo(hand2.get(i).getValue()) < 0)
-                return Optional.of(new Pair<>(hand2, this));
+            if (hand1.compareValues(hand2, i, i) > 0)
+                return Optional.of(hand1);
+            if (hand1.compareValues(hand2, i, i) < 0)
+                return Optional.of(hand2);
         }
 
         return Optional.empty();

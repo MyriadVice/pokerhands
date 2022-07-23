@@ -1,15 +1,15 @@
 package test.utiltest;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import pokerhands.Card;
 import pokerhands.CardSuit;
+import pokerhands.HandView;
 import pokerhands.utils.CardUtils;
 import test.TestHands;
 
+import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,95 +18,92 @@ import static org.junit.jupiter.api.Assertions.*;
  **/
 public class SuitPairUtilTest {
 
-    @BeforeEach
-    void setup() {
-        TestHands.setup();
-    }
-
     @Test
-    @DisplayName("Getting a suit pair of a negative length from a hand should return null")
+    @DisplayName("Getting a suit pair of a negative length from a hand should return no value")
     void noPairOfNegativeLength() {
-        assertNull(CardUtils.getSuitPair(TestHands.SuitPairs.SUIT_PAIR_H, -1));
+        assertFalse(CardUtils.getSuitPair(TestHands.SuitPairs.SUIT_PAIR_H, -1).isPresent());
     }
 
     @Test
     @DisplayName("Getting a suit pair with zero length from a hand should return an empty list")
     void noPairOfZeroLength() {
-        assertEquals(Collections.emptyList(), CardUtils.getSuitPair(TestHands.SuitPairs.SUIT_PAIR_H, 0));
+        assertTrue(CardUtils.getSuitPair(TestHands.SuitPairs.SUIT_PAIR_H, 0).isPresent());
+
+        assertEquals(Collections.emptyList(), CardUtils.getSuitPair(TestHands.SuitPairs.SUIT_PAIR_H, 0).get().getCards());
     }
 
     @Test
-    @DisplayName("Modifying the pair returned from a call to getSuitPair should not change source list")
+    @DisplayName("Modifying the pair returned from a call to getSuitPair should not change its source hand")
     void pairModifiableWithoutModifyingSource() {
-        List<Card> source = TestHands.SuitPairs.SUIT_PAIR_H;
-        List<Card> pair = CardUtils.getSuitPair(source, TestHands.DEFAULT_PAIR_SIZE);
+        HandView source = TestHands.SuitPairs.SUIT_PAIR_H;
+        Optional<HandView> pair = CardUtils.getSuitPair(source, TestHands.DEFAULT_PAIR_SIZE);
 
-        assertNotNull(pair);
-        assertEquals(TestHands.DEFAULT_PAIR_SIZE, pair.size());
+        assertTrue(pair.isPresent());
+        assertEquals(TestHands.DEFAULT_PAIR_SIZE, pair.get().size());
 
         //modifying the pair should not affect the source (deep copy)
         assertEquals(TestHands.HAND_SIZE, source.size());
-        pair.remove(0);
+        pair.get().remove(Arrays.asList(source.getHand().getCards().get(2), (source.getHand().getCards().get(3))));
         assertEquals(TestHands.HAND_SIZE, source.size());
     }
 
     @Test
-    @DisplayName("Getting a suit pair from a hand containing exactly one suit pair should return a list with the contained pair")
+    @DisplayName("Getting a suit pair from a hand containing exactly one suit pair should return the contained pair")
     void getPairFromHandWithAPair() {
         CardSuit expectedValue = CardSuit.H;
-        List<Card> pair = CardUtils.getSuitPair(TestHands.SuitPairs.SUIT_PAIR_H, TestHands.DEFAULT_PAIR_SIZE);
+        Optional<HandView> pair = CardUtils.getSuitPair(TestHands.SuitPairs.SUIT_PAIR_H, TestHands.DEFAULT_PAIR_SIZE);
 
-        assertNotNull(pair);
-        assertEquals(TestHands.DEFAULT_PAIR_SIZE, pair.size());
+        assertTrue(pair.isPresent());
+        assertEquals(TestHands.DEFAULT_PAIR_SIZE, pair.get().size());
 
         //check for expected suits
-        assertEquals(expectedValue, pair.get(0).getSuit());
-        assertEquals(expectedValue, pair.get(1).getSuit());
+        assertEquals(expectedValue, pair.get().suitAt(0));
+        assertEquals(expectedValue, pair.get().suitAt(1));
     }
 
     @Test
-    @DisplayName("Trying to get a suit pair from a hand with the requested pair size larger than the size of the hand should return null")
+    @DisplayName("Trying to get a suit pair from a hand with the requested pair size larger than the size of the hand should return no value")
     void noPairOfOverflowingLength() {
-        List<Card> pair = CardUtils.getSuitPair(TestHands.SuitPairs.SUIT_PAIR_H, TestHands.HAND_SIZE + 1);
-        assertNull(pair);
+        Optional<HandView> pair = CardUtils.getSuitPair(TestHands.SuitPairs.SUIT_PAIR_H, TestHands.HAND_SIZE + 1);
+        assertFalse(pair.isPresent());
     }
 
     @Test
     @DisplayName("Getting a suit pair of length one from a hand should return a list with exactly one element")
     void getPairWithOneAmount() {
-        List<Card> source = TestHands.SuitPairs.SUIT_PAIR_H;
-        List<Card> pair = CardUtils.getSuitPair(source, 1);
+        HandView source = TestHands.SuitPairs.SUIT_PAIR_H;
+        Optional<HandView> pair = CardUtils.getSuitPair(source, 1);
 
-        assertNotNull(pair);
-        assertEquals(1, pair.size());
+        assertTrue(pair.isPresent());
+        assertEquals(1, pair.get().size());
     }
 
     @Test
     @DisplayName("Getting a suit pair from a hand containing more potential elements for the pair then requested " +
-            "should return a list of elements from the hand of the exact requested amount")
+            "should return a pair of elements from the hand of the exact requested amount")
     void getPairFromHandWithLongerPair() {
-        List<Card> pair = CardUtils.getSuitPair(TestHands.SuitPairs.SUIT_PAIR_3_H, TestHands.DEFAULT_PAIR_SIZE);
+        Optional<HandView> pair = CardUtils.getSuitPair(TestHands.SuitPairs.SUIT_PAIR_3_H, TestHands.DEFAULT_PAIR_SIZE);
 
-        assertNotNull(pair);
-        assertEquals(TestHands.DEFAULT_PAIR_SIZE, pair.size());
+        assertTrue(pair.isPresent());
+        assertEquals(TestHands.DEFAULT_PAIR_SIZE, pair.get().size());
     }
 
     @Test
-    @DisplayName("Getting a suit pair from a hand containing only shorter pairs should return null")
+    @DisplayName("Getting a suit pair from a hand containing only shorter pairs should return no value")
     void noPairFromHandWithShorterPair() {
-        List<Card> pair = CardUtils.getSuitPair(TestHands.SuitPairs.SUIT_PAIR_H, TestHands.DEFAULT_PAIR_SIZE + 1);
-        assertNull(pair);
+        Optional<HandView> pair = CardUtils.getSuitPair(TestHands.SuitPairs.SUIT_PAIR_H, TestHands.DEFAULT_PAIR_SIZE + 1);
+        assertFalse(pair.isPresent());
     }
 
     @Test
     @DisplayName("Getting a suit pair from a hand with multiple pairs returns a valid pair of the requested length")
     void getHighestPairOfMultiplePairs() {
-        List<Card> pair = CardUtils.getSuitPair(TestHands.SuitPairs.SUIT_PAIR_H_AND_S, TestHands.DEFAULT_PAIR_SIZE);
+        Optional<HandView> pair = CardUtils.getSuitPair(TestHands.SuitPairs.SUIT_PAIR_H_AND_S, TestHands.DEFAULT_PAIR_SIZE);
 
-        assertNotNull(pair);
-        assertEquals(TestHands.DEFAULT_PAIR_SIZE, pair.size());
+        assertTrue(pair.isPresent());
+        assertEquals(TestHands.DEFAULT_PAIR_SIZE, pair.get().size());
 
         //check matching suit
-        assertEquals(pair.get(0).getSuit(), pair.get(1).getSuit());
+        assertEquals(pair.get().suitAt(0), pair.get().suitAt(1));
     }
 }

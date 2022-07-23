@@ -1,19 +1,13 @@
 package test.strategytest;
 
-import javafx.util.Pair;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import pokerhands.Card;
-import pokerhands.CardSuit;
-import pokerhands.CardValue;
-import pokerhands.strategies.PokerHandStrategy;
+import pokerhands.*;
 import pokerhands.strategies.StraightFlushStrategy;
 import test.TestHands;
 
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -26,7 +20,6 @@ public class StraightFlushStrategyTest {
 
     @BeforeEach
     void setup() {
-        TestHands.setup();
         strategy = new StraightFlushStrategy();
     }
 
@@ -62,60 +55,46 @@ public class StraightFlushStrategyTest {
     @DisplayName("Straight flush strategy returns the correct hand for hands with differing highest values")
     void correctEvaluationOnDifferentHighValues() {
         //hand1 with higher ranked high card
-        List<Card> hand1 = Arrays.asList(
+        Hand hand1 = new Hand(Arrays.asList(
                 new Card(CardSuit.C, CardValue.ACE),
                 new Card(CardSuit.C, CardValue.KING),
                 new Card(CardSuit.C, CardValue.QUEEN),
                 new Card(CardSuit.C, CardValue.JACK),
                 new Card(CardSuit.C, CardValue.TEN)
-        );
-        List<Card> hand2 = Arrays.asList(
+        ));
+        Hand hand2 = new Hand(Arrays.asList(
                 new Card(CardSuit.C, CardValue.SIX),
                 new Card(CardSuit.C, CardValue.FIVE),
                 new Card(CardSuit.C, CardValue.FOUR),
                 new Card(CardSuit.C, CardValue.THREE),
                 new Card(CardSuit.C, CardValue.TWO)
-        );
+        ));
 
-        //sort to keep invariants
-        Collections.sort(hand1);
-        Collections.reverse(hand1);
-
-        Collections.sort(hand2);
-        Collections.reverse(hand2);
-
-        Optional<Pair<List<Card>, PokerHandStrategy>> result = strategy.evaluatePair(hand1, hand2);
+        Optional<HandView> result = strategy.evaluatePair(hand1.createView(), hand2.createView());
         assertTrue(result.isPresent());
-        assertEquals(hand1, result.get().getKey());
+        assertEquals(hand1, result.get().getHand());
     }
 
     @Test
     @DisplayName("Straight flush strategy returns null for hands with equal highest values regardless of the other values")
     void noEvaluationOnEqualHighValues() {
         //hands with equal high cards
-        List<Card> hand1 = Arrays.asList(
+        Hand hand1 = new Hand(Arrays.asList(
                 new Card(CardSuit.C, CardValue.ACE),
                 new Card(CardSuit.C, CardValue.KING),
                 new Card(CardSuit.C, CardValue.QUEEN),
                 new Card(CardSuit.C, CardValue.JACK),
                 new Card(CardSuit.C, CardValue.TEN)
-        );
-        List<Card> hand2 = Arrays.asList(
+        ));
+        Hand hand2 = new Hand(Arrays.asList(
                 new Card(CardSuit.C, CardValue.ACE),
                 new Card(CardSuit.C, CardValue.FIVE),
                 new Card(CardSuit.C, CardValue.FOUR),
                 new Card(CardSuit.C, CardValue.THREE),
                 new Card(CardSuit.C, CardValue.TWO)
-        );
+        ));
 
-        //sort to keep invariants
-        Collections.sort(hand1);
-        Collections.reverse(hand1);
-
-        Collections.sort(hand2);
-        Collections.reverse(hand2);
-
-        Optional<Pair<List<Card>, PokerHandStrategy>> result = strategy.evaluatePair(hand2, hand1);
+        Optional<HandView> result = strategy.evaluatePair(hand2.createView(), hand1.createView());
         assertFalse(result.isPresent());
     }
 }

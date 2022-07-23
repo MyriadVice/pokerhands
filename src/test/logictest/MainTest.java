@@ -4,13 +4,13 @@ import javafx.util.Pair;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import pokerhands.Card;
+import pokerhands.CardValue;
+import pokerhands.Hand;
 import pokerhands.Main;
 import pokerhands.strategies.PokerHandStrategy;
 import test.TestHandPair;
 import test.TestHands;
 
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -36,175 +36,139 @@ public class MainTest {
         assertTrue(Main.hand2.size() > 0);
 
         //hand1 sorted check
-        Card last = Main.hand1.get(0);
+        CardValue last = Main.hand1.valueAt(0);
         for (int i = 1; i < Main.hand1.size(); i++) {
-            if (Main.hand1.get(i).compareTo(last) > 0) fail();
-            last = Main.hand1.get(i);
+            if (Main.hand1.valueAt(i).compareTo(last) > 0) fail();
+            last = Main.hand1.valueAt(i);
         }
 
         //hand2 sorted check
-        last = Main.hand2.get(0);
+        last = Main.hand2.valueAt(0);
         for (int i = 1; i < Main.hand2.size(); i++) {
-            if (Main.hand2.get(i).compareTo(last) > 0) fail();
-            last = Main.hand2.get(i);
+            if (Main.hand2.valueAt(i).compareTo(last) > 0) fail();
+            last = Main.hand2.valueAt(i);
         }
 
         assertTrue(true);
     }
 
     @Test
-    @DisplayName("Check all special cases with null or empty hands, checking should return correct")
+    @DisplayName("Check all special cases with null or empty hands, checking should return correct results")
     void checkSpecialCases() {
+        int j = TestHands.TestHandPairs.SpecialCases.ALL.size();
         int i = 0;
         for (TestHandPair testHandPair : TestHands.TestHandPairs.SpecialCases.ALL) {
-            Optional<Pair<List<Card>, PokerHandStrategy>> result = main.rankHands(testHandPair.hand1, testHandPair.hand2);
+            Optional<Pair<Hand, PokerHandStrategy>> result = main.rankHands(testHandPair.hand1, testHandPair.hand2);
             assertEquals(testHandPair.expectedResult, result.isPresent() ? result.get().getKey() : null);
-            System.out.println("[MainTest:checkSpecialCases] Passed test " + (i++) + ".");
+            System.out.println("[MainTest:checkSpecialCases] Passed test (" + (++i) + "/" + j + ")");
         }
     }
 
     @Test
-    @DisplayName("Check all high card cases, checking should return correct result")
-    void checkHighCardCases() {
-        int i = 0;
-        for (TestHandPair testHandPair : TestHands.TestHandPairs.HighCardCases.ALL) {
-            Optional<Pair<List<Card>, PokerHandStrategy>> result = main.rankHands(testHandPair.hand1, testHandPair.hand2);
-            assertEquals(testHandPair.expectedResult, result.isPresent() ? result.get().getKey() : null);
-            System.out.println("[MainTest:checkHighCardCases] Passed test " + (i++) + ".");
-        }
-    }
-
-    @Test
-    @DisplayName("Check all pair cases, checking should return correct result")
-    void checkPairCases() {
-        int i = 0;
-        for (TestHandPair testHandPair : TestHands.TestHandPairs.PairCases.ALL) {
-            Optional<Pair<List<Card>, PokerHandStrategy>> result = main.rankHands(testHandPair.hand1, testHandPair.hand2);
-            assertEquals(testHandPair.expectedResult, result.isPresent() ? result.get().getKey() : null);
-            System.out.println("[MainTest:checkPairCardCases] Passed test " + (i++) + ".");
-        }
-    }
-
-    @Test
-    @DisplayName("Check all two pair cases, checking should return correct result")
-    void checkTwoPairCases() {
-        int i = 0;
-        for (TestHandPair testHandPair : TestHands.TestHandPairs.TwoPairsCases.ALL) {
-            Optional<Pair<List<Card>, PokerHandStrategy>> result = main.rankHands(testHandPair.hand1, testHandPair.hand2);
-            assertEquals(testHandPair.expectedResult, result.isPresent() ? result.get().getKey() : null);
-            System.out.println("[MainTest:checkTwoPairCardCases] Passed test " + (i++) + ".");
-        }
-    }
-
-    @Test
-    @DisplayName("Check all three of a kind cases, checking should return correct result")
-    void checkThreeOfAKindCases() {
-        int i = 0;
-        for (TestHandPair testHandPair : TestHands.TestHandPairs.ThreeOfAKindCases.ALL) {
-            Optional<Pair<List<Card>, PokerHandStrategy>> result = main.rankHands(testHandPair.hand1, testHandPair.hand2);
-            assertEquals(testHandPair.expectedResult, result.isPresent() ? result.get().getKey() : null);
-            System.out.println("[MainTest:checkThreeOfAKindCases] Passed test " + (i++) + ".");
-        }
-    }
-
-    //... todo: all the other cases for input of hands of same rank
-
-    @Test
-    @DisplayName("Check all high card cases for evaluating a high card against a differently ranked card, checking should return correct result")
+    @DisplayName("Check all cases for evaluating a high card hand against another hand of arbitrary rank, checking should return correct result")
     void checkDifferingHighCardCases() {
+        int j = TestHands.TestHandPairs.DifferingCases.HighCardCases.ALL.size();
         int i = 0;
         for (TestHandPair testHandPair : TestHands.TestHandPairs.DifferingCases.HighCardCases.ALL) {
-            Optional<Pair<List<Card>, PokerHandStrategy>> result = main.rankHands(testHandPair.hand1, testHandPair.hand2);
+            Optional<Pair<Hand, PokerHandStrategy>> result = main.rankHands(testHandPair.hand1, testHandPair.hand2);
             assertEquals(testHandPair.expectedResult, result.isPresent() ? result.get().getKey() : null);
-            System.out.println("[MainTest:checkDifferingHighCardCases] Passed test " + (i++) + ".");
+            System.out.println("[MainTest:checkDifferingHighCardCases] Passed test (" + (++i) + "/" + j + ")");
         }
     }
 
     @Test
-    @DisplayName("Check all pair cases for evaluating a high card against a differently ranked card, checking should return correct result")
+    @DisplayName("Check all cases for evaluating a pair hand against a differently ranked hand, checking should return correct result")
     void checkDifferingPairCases() {
+        int j = TestHands.TestHandPairs.DifferingCases.PairCases.ALL.size();
         int i = 0;
         for (TestHandPair testHandPair : TestHands.TestHandPairs.DifferingCases.PairCases.ALL) {
-            Optional<Pair<List<Card>, PokerHandStrategy>> result = main.rankHands(testHandPair.hand1, testHandPair.hand2);
+            Optional<Pair<Hand, PokerHandStrategy>> result = main.rankHands(testHandPair.hand1, testHandPair.hand2);
             assertEquals(testHandPair.expectedResult, result.isPresent() ? result.get().getKey() : null);
-            System.out.println("[MainTest:checkDifferingPairCases] Passed test " + (i++) + ".");
+            System.out.println("[MainTest:checkDifferingPairCases] Passed test (" + (++i) + "/" + j + ")");
         }
     }
 
     @Test
-    @DisplayName("Check all two pairs cases for evaluating a high card against a differently ranked card, checking should return correct result")
+    @DisplayName("Check all cases for evaluating a two paired hand against a differently ranked hand, checking should return correct result")
     void checkDifferingTwoPairCases() {
+        int j = TestHands.TestHandPairs.DifferingCases.TwoPairCases.ALL.size();
         int i = 0;
         for (TestHandPair testHandPair : TestHands.TestHandPairs.DifferingCases.TwoPairCases.ALL) {
-            Optional<Pair<List<Card>, PokerHandStrategy>> result = main.rankHands(testHandPair.hand1, testHandPair.hand2);
+            Optional<Pair<Hand, PokerHandStrategy>> result = main.rankHands(testHandPair.hand1, testHandPair.hand2);
             assertEquals(testHandPair.expectedResult, result.isPresent() ? result.get().getKey() : null);
-            System.out.println("[MainTest:checkDifferingTwoPairCases] Passed test " + (i++) + ".");
+            System.out.println("[MainTest:checkDifferingTwoPairCases] Passed test (" + (++i) + "/" + j + ")");
         }
     }
 
     @Test
-    @DisplayName("Check all three of a kind cases for evaluating a high card against a differently ranked card, checking should return correct result")
+    @DisplayName("Check all cases for evaluating a three of a kind hand against a differently ranked hand, checking should return correct result")
     void checkDifferingThreeOfKindCases() {
+        int j = TestHands.TestHandPairs.DifferingCases.ThreeOfAKindCases.ALL.size();
         int i = 0;
         for (TestHandPair testHandPair : TestHands.TestHandPairs.DifferingCases.ThreeOfAKindCases.ALL) {
-            Optional<Pair<List<Card>, PokerHandStrategy>> result = main.rankHands(testHandPair.hand1, testHandPair.hand2);
+            Optional<Pair<Hand, PokerHandStrategy>> result = main.rankHands(testHandPair.hand1, testHandPair.hand2);
             assertEquals(testHandPair.expectedResult, result.isPresent() ? result.get().getKey() : null);
-            System.out.println("[MainTest:checkDifferingThreeOfKindCases] Passed test " + (i++) + ".");
+            System.out.println("[MainTest:checkDifferingThreeOfKindCases] Passed test (" + (++i) + "/" + j + ")");
         }
     }
 
     @Test
-    @DisplayName("Check all straight cases for evaluating a high card against a differently ranked card, checking should return correct result")
+    @DisplayName("Check all cases for evaluating a straight hand against a differently ranked hand, checking should return correct result")
     void checkDifferingStraightCases() {
+        int j = TestHands.TestHandPairs.DifferingCases.StraightCases.ALL.size();
         int i = 0;
         for (TestHandPair testHandPair : TestHands.TestHandPairs.DifferingCases.StraightCases.ALL) {
-            Optional<Pair<List<Card>, PokerHandStrategy>> result = main.rankHands(testHandPair.hand1, testHandPair.hand2);
+            Optional<Pair<Hand, PokerHandStrategy>> result = main.rankHands(testHandPair.hand1, testHandPair.hand2);
             assertEquals(testHandPair.expectedResult, result.isPresent() ? result.get().getKey() : null);
-            System.out.println("[MainTest:checkDifferingStraightCases] Passed test " + (i++) + ".");
+            System.out.println("[MainTest:checkDifferingStraightCases] Passed test (" + (++i) + "/" + j + ")");
         }
     }
 
     @Test
-    @DisplayName("Check all flush cases for evaluating a high card against a differently ranked card, checking should return correct result")
+    @DisplayName("Check all cases for evaluating a flush hand against a differently ranked hand, checking should return correct result")
     void checkDifferingFlushCases() {
+        int j = TestHands.TestHandPairs.DifferingCases.FlushCases.ALL.size();
         int i = 0;
         for (TestHandPair testHandPair : TestHands.TestHandPairs.DifferingCases.FlushCases.ALL) {
-            Optional<Pair<List<Card>, PokerHandStrategy>> result = main.rankHands(testHandPair.hand1, testHandPair.hand2);
+            Optional<Pair<Hand, PokerHandStrategy>> result = main.rankHands(testHandPair.hand1, testHandPair.hand2);
             assertEquals(testHandPair.expectedResult, result.isPresent() ? result.get().getKey() : null);
-            System.out.println("[MainTest:checkDifferingFlushCases] Passed test " + (i++) + ".");
+            System.out.println("[MainTest:checkDifferingFlushCases] Passed test (" + (++i) + "/" + j + ")");
         }
     }
 
     @Test
-    @DisplayName("Check all full house cases for evaluating a high card against a differently ranked card, checking should return correct result")
+    @DisplayName("Check all cases for evaluating a full house hand against a differently ranked hand, checking should return correct result")
     void checkDifferingFullHouseCases() {
+        int j = TestHands.TestHandPairs.DifferingCases.FullHouseCases.ALL.size();
         int i = 0;
         for (TestHandPair testHandPair : TestHands.TestHandPairs.DifferingCases.FullHouseCases.ALL) {
-            Optional<Pair<List<Card>, PokerHandStrategy>> result = main.rankHands(testHandPair.hand1, testHandPair.hand2);
+            Optional<Pair<Hand, PokerHandStrategy>> result = main.rankHands(testHandPair.hand1, testHandPair.hand2);
             assertEquals(testHandPair.expectedResult, result.isPresent() ? result.get().getKey() : null);
-            System.out.println("[MainTest:checkDifferingFullHouseCases] Passed test " + (i++) + ".");
+            System.out.println("[MainTest:checkDifferingFullHouseCases] Passed test (" + (++i) + "/" + j + ")");
         }
     }
 
     @Test
-    @DisplayName("Check all four of a kind cases for evaluating a high card against a differently ranked card, checking should return correct result")
+    @DisplayName("Check all cases for evaluating a four of a kind hand against a differently ranked hand, checking should return correct result")
     void checkDifferingFourOfKindCases() {
+        int j = TestHands.TestHandPairs.DifferingCases.FourOfAKindCases.ALL.size();
         int i = 0;
         for (TestHandPair testHandPair : TestHands.TestHandPairs.DifferingCases.FourOfAKindCases.ALL) {
-            Optional<Pair<List<Card>, PokerHandStrategy>> result = main.rankHands(testHandPair.hand1, testHandPair.hand2);
+            Optional<Pair<Hand, PokerHandStrategy>> result = main.rankHands(testHandPair.hand1, testHandPair.hand2);
             assertEquals(testHandPair.expectedResult, result.isPresent() ? result.get().getKey() : null);
-            System.out.println("[MainTest:checkDifferingFourOfKindCases] Passed test " + (i++) + ".");
+            System.out.println("[MainTest:checkDifferingFourOfKindCases] Passed test (" + (++i) + "/" + j + ")");
         }
     }
 
     @Test
-    @DisplayName("Check all straight flush cases for evaluating a high card against a differently ranked card, checking should return correct result")
+    @DisplayName("Check all cases for evaluating a straight flush hand against a differently ranked hand, checking should return correct result")
     void checkDifferingStraightFlushCases() {
+        int j = TestHands.TestHandPairs.DifferingCases.StraightFlushCases.ALL.size();
         int i = 0;
         for (TestHandPair testHandPair : TestHands.TestHandPairs.DifferingCases.StraightFlushCases.ALL) {
-            Optional<Pair<List<Card>, PokerHandStrategy>> result = main.rankHands(testHandPair.hand1, testHandPair.hand2);
+            Optional<Pair<Hand, PokerHandStrategy>> result = main.rankHands(testHandPair.hand1, testHandPair.hand2);
             assertEquals(testHandPair.expectedResult, result.isPresent() ? result.get().getKey() : null);
-            System.out.println("[MainTest:checkDifferingStraightFlushCases] Passed test " + (i++) + ".");
+            System.out.println("[MainTest:checkDifferingStraightFlushCases] Passed test (" + (++i) + "/" + j + ")");
         }
     }
 }

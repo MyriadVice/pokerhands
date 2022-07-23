@@ -1,19 +1,13 @@
 package test.strategytest;
 
-import javafx.util.Pair;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import pokerhands.Card;
-import pokerhands.CardSuit;
-import pokerhands.CardValue;
-import pokerhands.strategies.PokerHandStrategy;
+import pokerhands.*;
 import pokerhands.strategies.TwoPairsStrategy;
 import test.TestHands;
 
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -26,7 +20,6 @@ public class TwoPairStrategyTest {
 
     @BeforeEach
     void setup() {
-        TestHands.setup();
         strategy = new TwoPairsStrategy();
     }
 
@@ -56,200 +49,151 @@ public class TwoPairStrategyTest {
     @DisplayName("Two pair strategy returns correct result for hands with differing high pairs")
     void evaluationOnDifferingHighPairHands() {
         //hand 1 with higher high pair, rest equal
-        List<Card> hand1 = Arrays.asList(
+        Hand hand1 = new Hand(Arrays.asList(
                 new Card(CardSuit.C, CardValue.KING),
                 new Card(CardSuit.C, CardValue.KING),
                 new Card(CardSuit.C, CardValue.JACK),
                 new Card(CardSuit.C, CardValue.JACK),
                 new Card(CardSuit.C, CardValue.TEN)
-        );
-        List<Card> hand2 = Arrays.asList(
+        ));
+        Hand hand2 = new Hand(Arrays.asList(
                 new Card(CardSuit.C, CardValue.QUEEN),
                 new Card(CardSuit.C, CardValue.QUEEN),
                 new Card(CardSuit.C, CardValue.JACK),
                 new Card(CardSuit.C, CardValue.JACK),
                 new Card(CardSuit.C, CardValue.TEN)
-        );
+        ));
 
-        //sort to keep invariants
-        Collections.sort(hand1);
-        Collections.reverse(hand1);
-
-        Collections.sort(hand2);
-        Collections.reverse(hand2);
-
-        Optional<Pair<List<Card>, PokerHandStrategy>> result = strategy.evaluatePair(hand1, hand2);
+        Optional<HandView> result = strategy.evaluatePair(hand1.createView(), hand2.createView());
         assertTrue(result.isPresent());
-        assertEquals(hand1, result.get().getKey());
+        assertEquals(hand1, result.get().getHand());
 
         //hand 1 with higher high pair, hand 2 with higher low pair
-        hand1 = Arrays.asList(
+        hand1 = new Hand(Arrays.asList(
                 new Card(CardSuit.C, CardValue.KING),
                 new Card(CardSuit.C, CardValue.KING),
                 new Card(CardSuit.C, CardValue.NINE),
                 new Card(CardSuit.C, CardValue.NINE),
                 new Card(CardSuit.C, CardValue.FOUR)
-        );
-        hand2 = Arrays.asList(
+        ));
+        hand2 = new Hand(Arrays.asList(
                 new Card(CardSuit.C, CardValue.QUEEN),
                 new Card(CardSuit.C, CardValue.QUEEN),
                 new Card(CardSuit.C, CardValue.TEN),
                 new Card(CardSuit.C, CardValue.TEN),
                 new Card(CardSuit.C, CardValue.FOUR)
-        );
+        ));
 
-        //sort to keep invariants
-        Collections.sort(hand1);
-        Collections.reverse(hand1);
-
-        Collections.sort(hand2);
-        Collections.reverse(hand2);
-
-        result = strategy.evaluatePair(hand1, hand2);
+        result = strategy.evaluatePair(hand1.createView(), hand2.createView());
         assertTrue(result.isPresent());
-        assertEquals(hand1, result.get().getKey());
+        assertEquals(hand1, result.get().getHand());
     }
 
     @Test
     @DisplayName("Two pair strategy returns correct result for hands with equal high pairs")
     void evaluationOnEqualHighPairHands() {
         //hand 2 with higher low pair, rest equal
-        List<Card> hand1 = Arrays.asList(
+        Hand hand1 = new Hand(Arrays.asList(
                 new Card(CardSuit.C, CardValue.KING),
                 new Card(CardSuit.C, CardValue.KING),
                 new Card(CardSuit.C, CardValue.EIGHT),
                 new Card(CardSuit.C, CardValue.EIGHT),
                 new Card(CardSuit.C, CardValue.SIX)
-        );
-        List<Card> hand2 = Arrays.asList(
+        ));
+        Hand hand2 = new Hand(Arrays.asList(
                 new Card(CardSuit.C, CardValue.KING),
                 new Card(CardSuit.C, CardValue.KING),
                 new Card(CardSuit.C, CardValue.NINE),
                 new Card(CardSuit.C, CardValue.NINE),
                 new Card(CardSuit.C, CardValue.SIX)
-        );
+        ));
 
-        //sort to keep invariants
-        Collections.sort(hand1);
-        Collections.reverse(hand1);
-
-        Collections.sort(hand2);
-        Collections.reverse(hand2);
-
-        Optional<Pair<List<Card>, PokerHandStrategy>> result = strategy.evaluatePair(hand1, hand2);
-        assertEquals(hand2, result.get().getKey());
-        assertEquals(hand2, result.get().getKey());
+        Optional<HandView> result = strategy.evaluatePair(hand1.createView(), hand2.createView());
+        assertEquals(hand2, result.get().getHand());
+        assertEquals(hand2, result.get().getHand());
 
         //hand 2 with higher low pair, rest different
-        hand1 = Arrays.asList(
+        hand1 = new Hand(Arrays.asList(
                 new Card(CardSuit.C, CardValue.KING),
                 new Card(CardSuit.C, CardValue.KING),
                 new Card(CardSuit.C, CardValue.EIGHT),
                 new Card(CardSuit.C, CardValue.EIGHT),
                 new Card(CardSuit.C, CardValue.ACE)
-        );
-        hand2 = Arrays.asList(
+        ));
+        hand2 = new Hand(Arrays.asList(
                 new Card(CardSuit.C, CardValue.KING),
                 new Card(CardSuit.C, CardValue.KING),
                 new Card(CardSuit.C, CardValue.NINE),
                 new Card(CardSuit.C, CardValue.NINE),
                 new Card(CardSuit.C, CardValue.SIX)
-        );
+        ));
 
-        //sort to keep invariants
-        Collections.sort(hand1);
-        Collections.reverse(hand1);
-
-        Collections.sort(hand2);
-        Collections.reverse(hand2);
-
-        result = strategy.evaluatePair(hand1, hand2);
-        assertEquals(hand2, result.get().getKey());
-        assertEquals(hand2, result.get().getKey());
+        result = strategy.evaluatePair(hand1.createView(), hand2.createView());
+        assertEquals(hand2, result.get().getHand());
+        assertEquals(hand2, result.get().getHand());
     }
 
     @Test
     @DisplayName("Two pair strategy returns correct result for hands with equal high and low pairs")
     void evaluationOnEqualPairHands() {
         //same pairs, remaining value ranked lower than pairs
-        List<Card> hand1 = Arrays.asList(
+        Hand hand1 = new Hand(Arrays.asList(
                 new Card(CardSuit.C, CardValue.KING),
                 new Card(CardSuit.C, CardValue.KING),
                 new Card(CardSuit.C, CardValue.EIGHT),
                 new Card(CardSuit.C, CardValue.EIGHT),
                 new Card(CardSuit.C, CardValue.SIX)
-        );
-        List<Card> hand2 = Arrays.asList(
+        ));
+        Hand hand2 = new Hand(Arrays.asList(
                 new Card(CardSuit.C, CardValue.KING),
                 new Card(CardSuit.C, CardValue.KING),
                 new Card(CardSuit.C, CardValue.EIGHT),
                 new Card(CardSuit.C, CardValue.EIGHT),
                 new Card(CardSuit.C, CardValue.THREE)
-        );
+        ));
 
-        //sort to keep invariants
-        Collections.sort(hand1);
-        Collections.reverse(hand1);
-
-        Collections.sort(hand2);
-        Collections.reverse(hand2);
-
-        Optional<Pair<List<Card>, PokerHandStrategy>> result = strategy.evaluatePair(hand1, hand2);
+        Optional<HandView> result = strategy.evaluatePair(hand1.createView(), hand2.createView());
         assertTrue(result.isPresent());
-        assertEquals(hand1, result.get().getKey());
+        assertEquals(hand1, result.get().getHand());
 
         //same pairs, remaining value ranked between pairs
-        hand1 = Arrays.asList(
+        hand1 = new Hand(Arrays.asList(
                 new Card(CardSuit.C, CardValue.KING),
                 new Card(CardSuit.C, CardValue.KING),
                 new Card(CardSuit.C, CardValue.FOUR),
                 new Card(CardSuit.C, CardValue.FOUR),
                 new Card(CardSuit.C, CardValue.SIX)
-        );
-        hand2 = Arrays.asList(
+        ));
+        hand2 = new Hand(Arrays.asList(
                 new Card(CardSuit.C, CardValue.KING),
                 new Card(CardSuit.C, CardValue.KING),
                 new Card(CardSuit.C, CardValue.FOUR),
                 new Card(CardSuit.C, CardValue.FOUR),
                 new Card(CardSuit.C, CardValue.FIVE)
-        );
+        ));
 
-        //sort to keep invariants
-        Collections.sort(hand1);
-        Collections.reverse(hand1);
-
-        Collections.sort(hand2);
-        Collections.reverse(hand2);
-
-        result = strategy.evaluatePair(hand1, hand2);
+        result = strategy.evaluatePair(hand1.createView(), hand2.createView());
         assertTrue(result.isPresent());
-        assertEquals(hand1, result.get().getKey());
+        assertEquals(hand1, result.get().getHand());
 
         //same pairs, remaining value ranked higher than pairs
-        hand1 = Arrays.asList(
+        hand1 = new Hand(Arrays.asList(
                 new Card(CardSuit.C, CardValue.FIVE),
                 new Card(CardSuit.C, CardValue.FIVE),
                 new Card(CardSuit.C, CardValue.FOUR),
                 new Card(CardSuit.C, CardValue.FOUR),
                 new Card(CardSuit.C, CardValue.ACE)
-        );
-        hand2 = Arrays.asList(
+        ));
+        hand2 = new Hand(Arrays.asList(
                 new Card(CardSuit.C, CardValue.FIVE),
                 new Card(CardSuit.C, CardValue.FIVE),
                 new Card(CardSuit.C, CardValue.FOUR),
                 new Card(CardSuit.C, CardValue.FOUR),
                 new Card(CardSuit.C, CardValue.JACK)
-        );
+        ));
 
-        //sort to keep invariants
-        Collections.sort(hand1);
-        Collections.reverse(hand1);
-
-        Collections.sort(hand2);
-        Collections.reverse(hand2);
-
-        result = strategy.evaluatePair(hand1, hand2);
+        result = strategy.evaluatePair(hand1.createView(), hand2.createView());
         assertTrue(result.isPresent());
-        assertEquals(hand1, result.get().getKey());
+        assertEquals(hand1, result.get().getHand());
     }
 }

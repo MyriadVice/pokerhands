@@ -1,15 +1,14 @@
 package test.utiltest;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import pokerhands.Card;
 import pokerhands.CardValue;
+import pokerhands.HandView;
 import pokerhands.utils.CardUtils;
 import test.TestHands;
 
 import java.util.Collections;
-import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,62 +17,60 @@ import static org.junit.jupiter.api.Assertions.*;
  **/
 public class ConsecutiveValuesUtilTest {
 
-    @BeforeEach
-    void setup() {
-        TestHands.setup();
-    }
-
     @Test
-    @DisplayName("Getting a sequence of negative length from a hand should return null")
+    @DisplayName("Getting a sequence of negative length from a hand should return no result")
     void noSequenceOfNegativeLength() {
-        assertNull(CardUtils.getConsecutiveValues(TestHands.Sequences.SEQUENCE_THREE_TO_FIVE, -1));
+        assertFalse(CardUtils.getConsecutiveValues(TestHands.Sequences.SEQUENCE_THREE_TO_FIVE, -1).isPresent());
     }
 
     @Test
     @DisplayName("Getting a sequence of zero elements from a hand should return an empty list")
     void noSequenceOfZeroLength() {
-        assertEquals(Collections.emptyList(), CardUtils.getConsecutiveValues(TestHands.Sequences.SEQUENCE_THREE_TO_FIVE, 0));
-        assertEquals(Collections.emptyList(), CardUtils.getConsecutiveValues(TestHands.Sequences.NO_SEQUENCE, 0));
+        assertTrue(CardUtils.getConsecutiveValues(TestHands.Sequences.SEQUENCE_THREE_TO_FIVE, 0).isPresent());
+        assertTrue(CardUtils.getConsecutiveValues(TestHands.Sequences.NO_SEQUENCE, 0).isPresent());
+
+
+        assertEquals(Collections.emptyList(), CardUtils.getConsecutiveValues(TestHands.Sequences.SEQUENCE_THREE_TO_FIVE, 0).get().getCards());
+        assertEquals(Collections.emptyList(), CardUtils.getConsecutiveValues(TestHands.Sequences.NO_SEQUENCE, 0).get().getCards());
     }
 
     @Test
-    @DisplayName("Getting a sequence from a hand that overflows the hands capacity should return null")
+    @DisplayName("Getting a sequence from a hand that overflows the hands size should return no value")
     void noSequenceOfOverflowingLength() {
-        assertNull(CardUtils.getConsecutiveValues(TestHands.Sequences.SEQUENCE_THREE_TO_FIVE, TestHands.HAND_SIZE + 1));
+        assertFalse(CardUtils.getConsecutiveValues(TestHands.Sequences.SEQUENCE_THREE_TO_FIVE, TestHands.HAND_SIZE + 1).isPresent());
     }
 
     @Test
     @DisplayName("Getting a sequence from a hand containing a sequence of the requested length should return the contained sequence")
     void sequenceFromHandWithConsecutiveValues() {
-        List<Card> sequence = CardUtils.getConsecutiveValues(TestHands.Sequences.SEQUENCE_THREE_TO_FIVE, 3);
+        Optional<HandView> sequence = CardUtils.getConsecutiveValues(TestHands.Sequences.SEQUENCE_THREE_TO_FIVE, 3);
 
-        assertNotNull(sequence);
-        assertEquals(3, sequence.size());
+        assertTrue(sequence.isPresent());
+        assertEquals(3, sequence.get().size());
 
         //descending as hand is sorted in descending order
-        assertEquals(CardValue.FIVE, sequence.get(0).getValue());
-        assertEquals(CardValue.FOUR, sequence.get(1).getValue());
-        assertEquals(CardValue.THREE, sequence.get(2).getValue());
+        assertEquals(CardValue.FIVE, sequence.get().valueAt(0));
+        assertEquals(CardValue.FOUR, sequence.get().valueAt(1));
+        assertEquals(CardValue.THREE, sequence.get().valueAt(2));
     }
 
     @Test
-    @DisplayName("Getting a sequence from a hand with a contained shorter sequence should return null")
+    @DisplayName("Getting a sequence from a hand with a contained shorter sequence should return no result")
     void sequenceFromHandWithShorterSequence() {
-        List<Card> sequence = CardUtils.getConsecutiveValues(TestHands.Sequences.SEQUENCE_THREE_TO_FIVE, 4);
-        assertNull(sequence);
+        Optional<HandView> sequence = CardUtils.getConsecutiveValues(TestHands.Sequences.SEQUENCE_THREE_TO_FIVE, 4);
+        assertFalse(sequence.isPresent());
     }
 
     @Test
-    @DisplayName("Getting a sequence from a hand with a contained longer sequence should return a the starting part of" +
-            "the sequence with the requested length")
+    @DisplayName("Getting a sequence from a hand with a contained longer sequence should return a sequence with the requested length")
     void sequenceFromHandWithLongerSequence() {
-        List<Card> sequence = CardUtils.getConsecutiveValues(TestHands.Sequences.SEQUENCE_THREE_TO_FIVE, TestHands.DEFAULT_SEQUENCE_SIZE);
+        Optional<HandView> sequence = CardUtils.getConsecutiveValues(TestHands.Sequences.SEQUENCE_THREE_TO_FIVE, TestHands.DEFAULT_SEQUENCE_SIZE);
 
-        assertNotNull(sequence);
-        assertEquals(TestHands.DEFAULT_SEQUENCE_SIZE, sequence.size());
+        assertTrue(sequence.isPresent());
+        assertEquals(TestHands.DEFAULT_SEQUENCE_SIZE, sequence.get().size());
 
         //descending as hand is sorted in descending order
-        assertEquals(CardValue.FIVE, sequence.get(0).getValue());
-        assertEquals(CardValue.FOUR, sequence.get(1).getValue());
+        assertEquals(CardValue.FIVE, sequence.get().valueAt(0));
+        assertEquals(CardValue.FOUR, sequence.get().valueAt(1));
     }
 }

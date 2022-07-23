@@ -1,16 +1,15 @@
 package pokerhands.strategies;
 
-import javafx.util.Pair;
 import pokerhands.Card;
+import pokerhands.HandView;
 import pokerhands.utils.CardUtils;
 
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Optional;
 
 /**
- * A class representing the {@link PokerHandStrategy} for the full house strategy: 3 cards of the same value, with the
- * remaining 2 cards forming a pair. Ranked by the value of the 3 cards.
+ * A class representing the {@link PokerHandStrategy} for the full house strategy. This strategy is permissible if the
+ * {@link pokerhands.Hand} contains 3 {@link Card}s of the same {@link pokerhands.CardValue}, with the
+ * remaining 2 cards forming a pair. If both hands can be ranked by this strategy, we rank them by the value of the 3-card-pair.
  */
 public class FullHouseStrategy extends PokerHandStrategy {
 
@@ -19,26 +18,24 @@ public class FullHouseStrategy extends PokerHandStrategy {
     }
 
     @Override
-    public boolean isPermissible(List<Card> hand) {
-        List<Card> pairOfThree = CardUtils.getValuePair(hand, 3);
-        if (pairOfThree == null) return false;
+    public boolean isPermissible(HandView hand) {
+        Optional<HandView> pairOfThree = CardUtils.getValuePair(hand, 3);
+        if (!pairOfThree.isPresent()) return false;
 
-        List<Card> remainingCards = new LinkedList<>(hand);
-        remainingCards.removeAll(pairOfThree);
-        List<Card> pairOfTwo = CardUtils.getValuePair(remainingCards, 2);
+        Optional<HandView> pairOfTwo = CardUtils.getValuePair(hand.createView().remove(pairOfThree.get().getCards()), 2);
 
-        return pairOfTwo != null;
+        return pairOfTwo.isPresent();
     }
 
     @Override
-    public Optional<Pair<List<Card>, PokerHandStrategy>> evaluatePair(List<Card> hand1, List<Card> hand2) {
-        List<Card> firstHandPairOfThree = CardUtils.getValuePair(hand1, 3);
-        List<Card> secondHandPairOfThree = CardUtils.getValuePair(hand2, 3);
+    public Optional<HandView> evaluatePair(HandView hand1, HandView hand2) {
+        Optional<HandView> firstHandPairOfThree = CardUtils.getValuePair(hand1, 3);
+        Optional<HandView> secondHandPairOfThree = CardUtils.getValuePair(hand2, 3);
 
-        if (firstHandPairOfThree.get(0).getValue().compareTo(secondHandPairOfThree.get(0).getValue()) > 0)
-            return Optional.of(new Pair<>(hand1, this));
-        if (firstHandPairOfThree.get(0).getValue().compareTo(secondHandPairOfThree.get(0).getValue()) < 0)
-            return Optional.of(new Pair<>(hand2, this));
+        if (firstHandPairOfThree.get().compareValues(secondHandPairOfThree.get(), 0, 0) > 0)
+            return Optional.of(hand1);
+        if (firstHandPairOfThree.get().compareValues(secondHandPairOfThree.get(), 0, 0) < 0)
+            return Optional.of(hand2);
 
         return Optional.empty();
     }

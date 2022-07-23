@@ -1,8 +1,6 @@
 package test;
 
-import pokerhands.Card;
-import pokerhands.CardSuit;
-import pokerhands.CardValue;
+import pokerhands.*;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -16,7 +14,7 @@ public class TestHands {
     public static final int DEFAULT_PAIR_SIZE = 2;
     public static final int DEFAULT_SEQUENCE_SIZE = 2;
 
-    public static List<Card> EMPTY_HAND = Collections.emptyList();
+    public static HandView EMPTY_HAND = new Hand(Collections.emptyList()).createView();
 
     //test hand pairs
     public static class TestHandPairs {
@@ -44,657 +42,6 @@ public class TestHands {
                     NULL_CASE_4
             );
         }
-
-        //high card
-        public static class HighCardCases {
-            //same values
-            public static TestHandPair HIGH_CARD_0 = new TestHandPair(Arrays.asList(
-                    new Card(CardSuit.C, CardValue.ACE),
-                    new Card(CardSuit.D, CardValue.QUEEN),
-                    new Card(CardSuit.S, CardValue.TEN),
-                    new Card(CardSuit.H, CardValue.EIGHT),
-                    new Card(CardSuit.C, CardValue.SIX)
-            ), Arrays.asList(
-                    new Card(CardSuit.C, CardValue.ACE),
-                    new Card(CardSuit.D, CardValue.QUEEN),
-                    new Card(CardSuit.S, CardValue.TEN),
-                    new Card(CardSuit.H, CardValue.EIGHT),
-                    new Card(CardSuit.C, CardValue.SIX)
-            ), 0);
-
-            //first value higher (hand1)
-            public static TestHandPair HIGH_CARD_1 = new TestHandPair(Arrays.asList(
-                    new Card(CardSuit.C, CardValue.ACE),
-                    new Card(CardSuit.D, CardValue.QUEEN),
-                    new Card(CardSuit.S, CardValue.TEN),
-                    new Card(CardSuit.H, CardValue.EIGHT),
-                    new Card(CardSuit.C, CardValue.SIX)
-            ), Arrays.asList(
-                    new Card(CardSuit.D, CardValue.QUEEN),
-                    new Card(CardSuit.S, CardValue.TEN),
-                    new Card(CardSuit.H, CardValue.EIGHT),
-                    new Card(CardSuit.C, CardValue.SIX),
-                    new Card(CardSuit.C, CardValue.FOUR)
-            ), 1);
-
-            //mid value higher (hand1)
-            public static TestHandPair HIGH_CARD_2 = new TestHandPair(Arrays.asList(
-                    new Card(CardSuit.C, CardValue.ACE),
-                    new Card(CardSuit.D, CardValue.QUEEN),
-                    new Card(CardSuit.S, CardValue.TEN),
-                    new Card(CardSuit.H, CardValue.EIGHT),
-                    new Card(CardSuit.C, CardValue.SIX)
-            ), Arrays.asList(
-                    new Card(CardSuit.C, CardValue.ACE),
-                    new Card(CardSuit.D, CardValue.QUEEN),
-                    new Card(CardSuit.H, CardValue.EIGHT),
-                    new Card(CardSuit.C, CardValue.SIX),
-                    new Card(CardSuit.S, CardValue.FOUR)
-
-            ), 1);
-
-            //last value higher (hand1)
-            public static TestHandPair HIGH_CARD_3 = new TestHandPair(Arrays.asList(
-                    new Card(CardSuit.C, CardValue.ACE),
-                    new Card(CardSuit.D, CardValue.QUEEN),
-                    new Card(CardSuit.S, CardValue.TEN),
-                    new Card(CardSuit.H, CardValue.EIGHT),
-                    new Card(CardSuit.C, CardValue.SIX)
-            ), Arrays.asList(
-                    new Card(CardSuit.C, CardValue.ACE),
-                    new Card(CardSuit.D, CardValue.QUEEN),
-                    new Card(CardSuit.S, CardValue.TEN),
-                    new Card(CardSuit.H, CardValue.EIGHT),
-                    new Card(CardSuit.C, CardValue.TWO)
-            ), 1);
-
-            //first value higher (hand2)
-            public static TestHandPair HIGH_CARD_4 = new TestHandPair(Arrays.asList(
-                    new Card(CardSuit.D, CardValue.QUEEN),
-                    new Card(CardSuit.S, CardValue.TEN),
-                    new Card(CardSuit.H, CardValue.EIGHT),
-                    new Card(CardSuit.C, CardValue.SIX),
-                    new Card(CardSuit.C, CardValue.FOUR)
-            ), Arrays.asList(
-                    new Card(CardSuit.C, CardValue.ACE),
-                    new Card(CardSuit.D, CardValue.QUEEN),
-                    new Card(CardSuit.S, CardValue.TEN),
-                    new Card(CardSuit.H, CardValue.EIGHT),
-                    new Card(CardSuit.C, CardValue.SIX)
-            ), 2);
-
-            //mid value higher (hand2)
-            public static TestHandPair HIGH_CARD_5 = new TestHandPair(Arrays.asList(
-                    new Card(CardSuit.C, CardValue.ACE),
-                    new Card(CardSuit.D, CardValue.QUEEN),
-                    new Card(CardSuit.S, CardValue.TEN),
-                    new Card(CardSuit.H, CardValue.SIX),
-                    new Card(CardSuit.C, CardValue.FOUR)
-
-            ), Arrays.asList(
-                    new Card(CardSuit.C, CardValue.ACE),
-                    new Card(CardSuit.D, CardValue.QUEEN),
-                    new Card(CardSuit.S, CardValue.TEN),
-                    new Card(CardSuit.H, CardValue.EIGHT),
-                    new Card(CardSuit.C, CardValue.SIX)
-            ), 2);
-
-            //last value higher (hand2)
-            public static TestHandPair HIGH_CARD_6 = new TestHandPair(Arrays.asList(
-                    new Card(CardSuit.C, CardValue.ACE),
-                    new Card(CardSuit.D, CardValue.QUEEN),
-                    new Card(CardSuit.S, CardValue.TEN),
-                    new Card(CardSuit.H, CardValue.EIGHT),
-                    new Card(CardSuit.C, CardValue.TWO)
-            ), Arrays.asList(
-                    new Card(CardSuit.C, CardValue.ACE),
-                    new Card(CardSuit.D, CardValue.QUEEN),
-                    new Card(CardSuit.S, CardValue.TEN),
-                    new Card(CardSuit.H, CardValue.EIGHT),
-                    new Card(CardSuit.C, CardValue.SIX)
-            ), 2);
-
-            public static List<TestHandPair> ALL = Arrays.asList(
-                    HIGH_CARD_0,
-                    HIGH_CARD_1,
-                    HIGH_CARD_2,
-                    HIGH_CARD_3,
-                    HIGH_CARD_4,
-                    HIGH_CARD_5,
-                    HIGH_CARD_6
-            );
-        }
-
-        //pair
-        public static class PairCases {
-            //one pair
-            public static TestHandPair PAIR_0 = new TestHandPair(Arrays.asList(
-                    new Card(CardSuit.C, CardValue.ACE),
-                    new Card(CardSuit.D, CardValue.QUEEN),
-                    new Card(CardSuit.S, CardValue.TEN),
-                    new Card(CardSuit.H, CardValue.EIGHT),
-                    new Card(CardSuit.C, CardValue.SIX)
-            ), Arrays.asList(
-                    new Card(CardSuit.C, CardValue.ACE),
-                    new Card(CardSuit.D, CardValue.ACE),
-                    new Card(CardSuit.S, CardValue.TEN),
-                    new Card(CardSuit.H, CardValue.EIGHT),
-                    new Card(CardSuit.C, CardValue.SIX)
-            ), 2);
-
-            public static TestHandPair PAIR_1 = new TestHandPair(Arrays.asList(
-                    new Card(CardSuit.C, CardValue.ACE),
-                    new Card(CardSuit.D, CardValue.ACE),
-                    new Card(CardSuit.S, CardValue.TEN),
-                    new Card(CardSuit.H, CardValue.EIGHT),
-                    new Card(CardSuit.C, CardValue.SIX)
-            ), Arrays.asList(
-                    new Card(CardSuit.C, CardValue.ACE),
-                    new Card(CardSuit.D, CardValue.QUEEN),
-                    new Card(CardSuit.S, CardValue.TEN),
-                    new Card(CardSuit.H, CardValue.EIGHT),
-                    new Card(CardSuit.C, CardValue.SIX)
-            ), 1);
-
-            //same values
-            public static TestHandPair PAIR_2 = new TestHandPair(Arrays.asList(
-                    new Card(CardSuit.C, CardValue.ACE),
-                    new Card(CardSuit.D, CardValue.ACE),
-                    new Card(CardSuit.S, CardValue.TEN),
-                    new Card(CardSuit.H, CardValue.EIGHT),
-                    new Card(CardSuit.C, CardValue.SIX)
-            ), Arrays.asList(
-                    new Card(CardSuit.C, CardValue.ACE),
-                    new Card(CardSuit.D, CardValue.ACE),
-                    new Card(CardSuit.S, CardValue.TEN),
-                    new Card(CardSuit.H, CardValue.EIGHT),
-                    new Card(CardSuit.C, CardValue.SIX)
-            ), 0);
-
-            //one higher (hand1, high pair)
-            public static TestHandPair PAIR_3 = new TestHandPair(Arrays.asList(
-                    new Card(CardSuit.C, CardValue.ACE),
-                    new Card(CardSuit.D, CardValue.ACE),
-                    new Card(CardSuit.S, CardValue.TEN),
-                    new Card(CardSuit.H, CardValue.EIGHT),
-                    new Card(CardSuit.C, CardValue.SIX)
-            ), Arrays.asList(
-                    new Card(CardSuit.C, CardValue.ACE),
-                    new Card(CardSuit.D, CardValue.QUEEN),
-                    new Card(CardSuit.S, CardValue.QUEEN),
-                    new Card(CardSuit.H, CardValue.EIGHT),
-                    new Card(CardSuit.C, CardValue.SIX)
-            ), 1);
-
-            //one higher (hand1, mid pair)
-            public static TestHandPair PAIR_4 = new TestHandPair(Arrays.asList(
-                    new Card(CardSuit.C, CardValue.ACE),
-                    new Card(CardSuit.D, CardValue.QUEEN),
-                    new Card(CardSuit.S, CardValue.QUEEN),
-                    new Card(CardSuit.H, CardValue.EIGHT),
-                    new Card(CardSuit.C, CardValue.SIX)
-            ), Arrays.asList(
-                    new Card(CardSuit.C, CardValue.ACE),
-                    new Card(CardSuit.D, CardValue.QUEEN),
-                    new Card(CardSuit.S, CardValue.EIGHT),
-                    new Card(CardSuit.H, CardValue.EIGHT),
-                    new Card(CardSuit.C, CardValue.SIX)
-            ), 1);
-
-            //one higher (hand1, low pair)
-            public static TestHandPair PAIR_5 = new TestHandPair(Arrays.asList(
-                    new Card(CardSuit.C, CardValue.ACE),
-                    new Card(CardSuit.D, CardValue.QUEEN),
-                    new Card(CardSuit.S, CardValue.TEN),
-                    new Card(CardSuit.H, CardValue.EIGHT),
-                    new Card(CardSuit.C, CardValue.EIGHT)
-            ), Arrays.asList(
-                    new Card(CardSuit.C, CardValue.ACE),
-                    new Card(CardSuit.D, CardValue.QUEEN),
-                    new Card(CardSuit.S, CardValue.TEN),
-                    new Card(CardSuit.H, CardValue.SIX),
-                    new Card(CardSuit.C, CardValue.SIX)
-            ), 1);
-
-            //one higher (hand2, high pair)
-            public static TestHandPair PAIR_6 = new TestHandPair(Arrays.asList(
-                    new Card(CardSuit.C, CardValue.ACE),
-                    new Card(CardSuit.D, CardValue.QUEEN),
-                    new Card(CardSuit.S, CardValue.TEN),
-                    new Card(CardSuit.H, CardValue.EIGHT),
-                    new Card(CardSuit.C, CardValue.SIX)
-            ), Arrays.asList(
-                    new Card(CardSuit.C, CardValue.ACE),
-                    new Card(CardSuit.D, CardValue.ACE),
-                    new Card(CardSuit.S, CardValue.TEN),
-                    new Card(CardSuit.H, CardValue.EIGHT),
-                    new Card(CardSuit.C, CardValue.SIX)
-            ), 2);
-
-            //one higher (hand1, mid pair)
-            public static TestHandPair PAIR_7 = new TestHandPair(Arrays.asList(
-                    new Card(CardSuit.C, CardValue.ACE),
-                    new Card(CardSuit.D, CardValue.QUEEN),
-                    new Card(CardSuit.S, CardValue.TEN),
-                    new Card(CardSuit.H, CardValue.TEN),
-                    new Card(CardSuit.C, CardValue.SIX)
-            ), Arrays.asList(
-                    new Card(CardSuit.C, CardValue.ACE),
-                    new Card(CardSuit.D, CardValue.QUEEN),
-                    new Card(CardSuit.S, CardValue.QUEEN),
-                    new Card(CardSuit.H, CardValue.EIGHT),
-                    new Card(CardSuit.C, CardValue.SIX)
-            ), 2);
-
-            //one higher (hand1, low pair)
-            public static TestHandPair PAIR_8 = new TestHandPair(Arrays.asList(
-                    new Card(CardSuit.C, CardValue.ACE),
-                    new Card(CardSuit.D, CardValue.QUEEN),
-                    new Card(CardSuit.S, CardValue.TEN),
-                    new Card(CardSuit.H, CardValue.SIX),
-                    new Card(CardSuit.C, CardValue.SIX)
-            ), Arrays.asList(
-                    new Card(CardSuit.C, CardValue.ACE),
-                    new Card(CardSuit.D, CardValue.QUEEN),
-                    new Card(CardSuit.S, CardValue.TEN),
-                    new Card(CardSuit.H, CardValue.EIGHT),
-                    new Card(CardSuit.C, CardValue.EIGHT)
-            ), 2);
-
-            //equal pairs, first leftover card differs (hand1)
-            public static TestHandPair PAIR_9 = new TestHandPair(Arrays.asList(
-                    new Card(CardSuit.C, CardValue.QUEEN),
-                    new Card(CardSuit.D, CardValue.QUEEN),
-                    new Card(CardSuit.S, CardValue.TEN),
-                    new Card(CardSuit.H, CardValue.SEVEN),
-                    new Card(CardSuit.C, CardValue.FIVE)
-            ), Arrays.asList(
-                    new Card(CardSuit.C, CardValue.QUEEN),
-                    new Card(CardSuit.D, CardValue.QUEEN),
-                    new Card(CardSuit.S, CardValue.NINE),
-                    new Card(CardSuit.H, CardValue.SEVEN),
-                    new Card(CardSuit.C, CardValue.FIVE)
-            ), 1);
-
-            //equal pairs, second leftover card differs (hand1)
-            public static TestHandPair PAIR_10 = new TestHandPair(Arrays.asList(
-                    new Card(CardSuit.C, CardValue.QUEEN),
-                    new Card(CardSuit.D, CardValue.QUEEN),
-                    new Card(CardSuit.S, CardValue.TEN),
-                    new Card(CardSuit.H, CardValue.EIGHT),
-                    new Card(CardSuit.C, CardValue.FOUR)
-            ), Arrays.asList(
-                    new Card(CardSuit.C, CardValue.QUEEN),
-                    new Card(CardSuit.D, CardValue.QUEEN),
-                    new Card(CardSuit.S, CardValue.TEN),
-                    new Card(CardSuit.H, CardValue.SEVEN),
-                    new Card(CardSuit.C, CardValue.FOUR)
-            ), 1);
-
-            //equal pairs, last leftover card differs (hand1)
-            public static TestHandPair PAIR_11 = new TestHandPair(Arrays.asList(
-                    new Card(CardSuit.C, CardValue.QUEEN),
-                    new Card(CardSuit.D, CardValue.QUEEN),
-                    new Card(CardSuit.S, CardValue.TEN),
-                    new Card(CardSuit.H, CardValue.EIGHT),
-                    new Card(CardSuit.C, CardValue.FIVE)
-            ), Arrays.asList(
-                    new Card(CardSuit.C, CardValue.QUEEN),
-                    new Card(CardSuit.D, CardValue.QUEEN),
-                    new Card(CardSuit.S, CardValue.TEN),
-                    new Card(CardSuit.H, CardValue.EIGHT),
-                    new Card(CardSuit.C, CardValue.FOUR)
-            ), 1);
-
-            //equal pairs, first leftover card differs (hand2)
-            public static TestHandPair PAIR_12 = new TestHandPair(Arrays.asList(
-                    new Card(CardSuit.C, CardValue.QUEEN),
-                    new Card(CardSuit.D, CardValue.QUEEN),
-                    new Card(CardSuit.S, CardValue.NINE),
-                    new Card(CardSuit.H, CardValue.SEVEN),
-                    new Card(CardSuit.C, CardValue.FIVE)
-            ), Arrays.asList(
-                    new Card(CardSuit.C, CardValue.QUEEN),
-                    new Card(CardSuit.D, CardValue.QUEEN),
-                    new Card(CardSuit.S, CardValue.TEN),
-                    new Card(CardSuit.H, CardValue.SEVEN),
-                    new Card(CardSuit.C, CardValue.FIVE)
-            ), 2);
-
-            //equal pairs, second leftover card differs (hand2)
-            public static TestHandPair PAIR_13 = new TestHandPair(Arrays.asList(
-                    new Card(CardSuit.C, CardValue.QUEEN),
-                    new Card(CardSuit.D, CardValue.QUEEN),
-                    new Card(CardSuit.S, CardValue.NINE),
-                    new Card(CardSuit.H, CardValue.FIVE),
-                    new Card(CardSuit.C, CardValue.THREE)
-            ), Arrays.asList(
-                    new Card(CardSuit.C, CardValue.QUEEN),
-                    new Card(CardSuit.D, CardValue.QUEEN),
-                    new Card(CardSuit.S, CardValue.NINE),
-                    new Card(CardSuit.H, CardValue.SEVEN),
-                    new Card(CardSuit.C, CardValue.THREE)
-            ), 2);
-
-            //equal pairs, last leftover card differs (hand2)
-            public static TestHandPair PAIR_14 = new TestHandPair(Arrays.asList(
-                    new Card(CardSuit.C, CardValue.QUEEN),
-                    new Card(CardSuit.D, CardValue.QUEEN),
-                    new Card(CardSuit.S, CardValue.NINE),
-                    new Card(CardSuit.H, CardValue.SEVEN),
-                    new Card(CardSuit.C, CardValue.THREE)
-            ), Arrays.asList(
-                    new Card(CardSuit.C, CardValue.QUEEN),
-                    new Card(CardSuit.D, CardValue.QUEEN),
-                    new Card(CardSuit.S, CardValue.NINE),
-                    new Card(CardSuit.H, CardValue.SEVEN),
-                    new Card(CardSuit.C, CardValue.FIVE)
-            ), 2);
-
-            public static List<TestHandPair> ALL = Arrays.asList(
-                    PAIR_0,
-                    PAIR_1,
-                    PAIR_2,
-                    PAIR_3,
-                    PAIR_4,
-                    PAIR_5,
-                    PAIR_6,
-                    PAIR_7,
-                    PAIR_8,
-                    PAIR_9,
-                    PAIR_10,
-                    PAIR_11,
-                    PAIR_12,
-                    PAIR_13,
-                    PAIR_14
-            );
-        }
-
-        //two pairs
-        public static class TwoPairsCases {
-            //high pair different rest equal (hand1)
-            public static TestHandPair TWO_PAIR_0 = new TestHandPair(Arrays.asList(
-                    new Card(CardSuit.C, CardValue.ACE),
-                    new Card(CardSuit.D, CardValue.ACE),
-                    new Card(CardSuit.S, CardValue.TEN),
-                    new Card(CardSuit.H, CardValue.TEN),
-                    new Card(CardSuit.C, CardValue.SIX)
-            ), Arrays.asList(
-                    new Card(CardSuit.C, CardValue.QUEEN),
-                    new Card(CardSuit.D, CardValue.QUEEN),
-                    new Card(CardSuit.S, CardValue.TEN),
-                    new Card(CardSuit.H, CardValue.TEN),
-                    new Card(CardSuit.C, CardValue.SIX)
-            ), 1);
-
-            //high pair different rest equal (hand2)
-            public static TestHandPair TWO_PAIR_1 = new TestHandPair(Arrays.asList(
-                    new Card(CardSuit.C, CardValue.QUEEN),
-                    new Card(CardSuit.D, CardValue.QUEEN),
-                    new Card(CardSuit.S, CardValue.TEN),
-                    new Card(CardSuit.H, CardValue.TEN),
-                    new Card(CardSuit.C, CardValue.SIX)
-            ), Arrays.asList(
-                    new Card(CardSuit.C, CardValue.ACE),
-                    new Card(CardSuit.D, CardValue.ACE),
-                    new Card(CardSuit.S, CardValue.TEN),
-                    new Card(CardSuit.H, CardValue.TEN),
-                    new Card(CardSuit.C, CardValue.SIX)
-            ), 2);
-
-            //high pair different, low pair different, rest equal, hand1 has higher low pair (hand1)
-            public static TestHandPair TWO_PAIR_2 = new TestHandPair(Arrays.asList(
-                    new Card(CardSuit.C, CardValue.ACE),
-                    new Card(CardSuit.D, CardValue.ACE),
-                    new Card(CardSuit.S, CardValue.TEN),
-                    new Card(CardSuit.H, CardValue.TEN),
-                    new Card(CardSuit.C, CardValue.SIX)
-            ), Arrays.asList(
-                    new Card(CardSuit.C, CardValue.QUEEN),
-                    new Card(CardSuit.D, CardValue.QUEEN),
-                    new Card(CardSuit.S, CardValue.NINE),
-                    new Card(CardSuit.H, CardValue.NINE),
-                    new Card(CardSuit.C, CardValue.SIX)
-            ), 1);
-
-            //high pair different, low pair different, rest equal, hand2 has higher low pair (hand1)
-            public static TestHandPair TWO_PAIR_3 = new TestHandPair(Arrays.asList(
-                    new Card(CardSuit.C, CardValue.ACE),
-                    new Card(CardSuit.D, CardValue.ACE),
-                    new Card(CardSuit.S, CardValue.NINE),
-                    new Card(CardSuit.H, CardValue.NINE),
-                    new Card(CardSuit.C, CardValue.SIX)
-            ), Arrays.asList(
-                    new Card(CardSuit.C, CardValue.QUEEN),
-                    new Card(CardSuit.D, CardValue.QUEEN),
-                    new Card(CardSuit.S, CardValue.TEN),
-                    new Card(CardSuit.H, CardValue.TEN),
-                    new Card(CardSuit.C, CardValue.SIX)
-            ), 1);
-
-            //high pair different, low pair different, rest equal, hand1 has higher low pair (hand2)
-            public static TestHandPair TWO_PAIR_4 = new TestHandPair(Arrays.asList(
-                    new Card(CardSuit.C, CardValue.QUEEN),
-                    new Card(CardSuit.D, CardValue.QUEEN),
-                    new Card(CardSuit.S, CardValue.TEN),
-                    new Card(CardSuit.H, CardValue.TEN),
-                    new Card(CardSuit.C, CardValue.SIX)
-            ), Arrays.asList(
-                    new Card(CardSuit.C, CardValue.ACE),
-                    new Card(CardSuit.D, CardValue.ACE),
-                    new Card(CardSuit.S, CardValue.NINE),
-                    new Card(CardSuit.H, CardValue.NINE),
-                    new Card(CardSuit.C, CardValue.SIX)
-            ), 2);
-
-            //high pair different, low pair different, rest equal, hand2 has higher low pair (hand1)
-            public static TestHandPair TWO_PAIR_5 = new TestHandPair(Arrays.asList(
-                    new Card(CardSuit.C, CardValue.QUEEN),
-                    new Card(CardSuit.D, CardValue.QUEEN),
-                    new Card(CardSuit.S, CardValue.NINE),
-                    new Card(CardSuit.H, CardValue.NINE),
-                    new Card(CardSuit.C, CardValue.SIX)
-            ), Arrays.asList(
-                    new Card(CardSuit.C, CardValue.ACE),
-                    new Card(CardSuit.D, CardValue.ACE),
-                    new Card(CardSuit.S, CardValue.TEN),
-                    new Card(CardSuit.H, CardValue.TEN),
-                    new Card(CardSuit.C, CardValue.SIX)
-            ), 2);
-
-            //all different, hand1 has high pair, hand1 has high rest
-            public static TestHandPair TWO_PAIR_6 = new TestHandPair(Arrays.asList(
-                    new Card(CardSuit.C, CardValue.ACE),
-                    new Card(CardSuit.D, CardValue.ACE),
-                    new Card(CardSuit.S, CardValue.NINE),
-                    new Card(CardSuit.H, CardValue.NINE),
-                    new Card(CardSuit.C, CardValue.SEVEN)
-            ), Arrays.asList(
-                    new Card(CardSuit.C, CardValue.QUEEN),
-                    new Card(CardSuit.D, CardValue.QUEEN),
-                    new Card(CardSuit.S, CardValue.TEN),
-                    new Card(CardSuit.H, CardValue.TEN),
-                    new Card(CardSuit.C, CardValue.SIX)
-            ), 1);
-
-            //all different, hand1 has high pair, hand2 has high rest
-            public static TestHandPair TWO_PAIR_7 = new TestHandPair(Arrays.asList(
-                    new Card(CardSuit.C, CardValue.ACE),
-                    new Card(CardSuit.D, CardValue.ACE),
-                    new Card(CardSuit.S, CardValue.NINE),
-                    new Card(CardSuit.H, CardValue.NINE),
-                    new Card(CardSuit.C, CardValue.SIX)
-            ), Arrays.asList(
-                    new Card(CardSuit.C, CardValue.QUEEN),
-                    new Card(CardSuit.D, CardValue.QUEEN),
-                    new Card(CardSuit.S, CardValue.TEN),
-                    new Card(CardSuit.H, CardValue.TEN),
-                    new Card(CardSuit.C, CardValue.SEVEN)
-            ), 1);
-
-            //equal high pair, differing low pair, equal rest
-            public static TestHandPair TWO_PAIR_8 = new TestHandPair(Arrays.asList(
-                    new Card(CardSuit.C, CardValue.ACE),
-                    new Card(CardSuit.D, CardValue.ACE),
-                    new Card(CardSuit.S, CardValue.NINE),
-                    new Card(CardSuit.H, CardValue.NINE),
-                    new Card(CardSuit.C, CardValue.THREE)
-            ), Arrays.asList(
-                    new Card(CardSuit.C, CardValue.ACE),
-                    new Card(CardSuit.D, CardValue.ACE),
-                    new Card(CardSuit.S, CardValue.SEVEN),
-                    new Card(CardSuit.H, CardValue.SEVEN),
-                    new Card(CardSuit.C, CardValue.THREE)
-            ), 1);
-
-            //equal high pair, differing low pair, differing rest (high low pair has higher rest)
-            public static TestHandPair TWO_PAIR_9 = new TestHandPair(Arrays.asList(
-                    new Card(CardSuit.C, CardValue.ACE),
-                    new Card(CardSuit.D, CardValue.ACE),
-                    new Card(CardSuit.S, CardValue.NINE),
-                    new Card(CardSuit.H, CardValue.NINE),
-                    new Card(CardSuit.C, CardValue.THREE)
-            ), Arrays.asList(
-                    new Card(CardSuit.C, CardValue.ACE),
-                    new Card(CardSuit.D, CardValue.ACE),
-                    new Card(CardSuit.S, CardValue.SEVEN),
-                    new Card(CardSuit.H, CardValue.SEVEN),
-                    new Card(CardSuit.C, CardValue.TWO)
-            ), 1);
-
-            //equal high pair, differing low pair, differing rest (high low pair has lower rest)
-            public static TestHandPair TWO_PAIR_10 = new TestHandPair(Arrays.asList(
-                    new Card(CardSuit.C, CardValue.ACE),
-                    new Card(CardSuit.D, CardValue.ACE),
-                    new Card(CardSuit.S, CardValue.NINE),
-                    new Card(CardSuit.H, CardValue.NINE),
-                    new Card(CardSuit.C, CardValue.TWO)
-            ), Arrays.asList(
-                    new Card(CardSuit.C, CardValue.ACE),
-                    new Card(CardSuit.D, CardValue.ACE),
-                    new Card(CardSuit.S, CardValue.SEVEN),
-                    new Card(CardSuit.H, CardValue.SEVEN),
-                    new Card(CardSuit.C, CardValue.THREE)
-            ), 1);
-
-            //equal high pair, equal low pair, differing rest
-            public static TestHandPair TWO_PAIR_11 = new TestHandPair(Arrays.asList(
-                    new Card(CardSuit.C, CardValue.ACE),
-                    new Card(CardSuit.D, CardValue.ACE),
-                    new Card(CardSuit.S, CardValue.NINE),
-                    new Card(CardSuit.H, CardValue.NINE),
-                    new Card(CardSuit.C, CardValue.TWO)
-            ), Arrays.asList(
-                    new Card(CardSuit.C, CardValue.ACE),
-                    new Card(CardSuit.D, CardValue.ACE),
-                    new Card(CardSuit.S, CardValue.NINE),
-                    new Card(CardSuit.H, CardValue.NINE),
-                    new Card(CardSuit.C, CardValue.THREE)
-            ), 2);
-
-            public static List<TestHandPair> ALL = Arrays.asList(
-                    TWO_PAIR_0,
-                    TWO_PAIR_1,
-                    TWO_PAIR_2,
-                    TWO_PAIR_3,
-                    TWO_PAIR_4,
-                    TWO_PAIR_5,
-                    TWO_PAIR_6,
-                    TWO_PAIR_7,
-                    TWO_PAIR_8,
-                    TWO_PAIR_9,
-                    TWO_PAIR_10,
-                    TWO_PAIR_11
-            );
-        }
-
-        //three of kind
-        public static class ThreeOfAKindCases {
-            //pair equal, rest equal
-            public static TestHandPair TWO_PAIR_0 = new TestHandPair(Arrays.asList(
-                    new Card(CardSuit.C, CardValue.ACE),
-                    new Card(CardSuit.D, CardValue.ACE),
-                    new Card(CardSuit.S, CardValue.ACE),
-                    new Card(CardSuit.H, CardValue.TEN),
-                    new Card(CardSuit.C, CardValue.SIX)
-            ), Arrays.asList(
-                    new Card(CardSuit.C, CardValue.ACE),
-                    new Card(CardSuit.D, CardValue.ACE),
-                    new Card(CardSuit.S, CardValue.ACE),
-                    new Card(CardSuit.H, CardValue.TEN),
-                    new Card(CardSuit.C, CardValue.SIX)
-            ), 0);
-
-            //pair equal, rest different
-            public static TestHandPair TWO_PAIR_1 = new TestHandPair(Arrays.asList(
-                    new Card(CardSuit.C, CardValue.ACE),
-                    new Card(CardSuit.D, CardValue.ACE),
-                    new Card(CardSuit.S, CardValue.ACE),
-                    new Card(CardSuit.H, CardValue.NINE),
-                    new Card(CardSuit.C, CardValue.THREE)
-            ), Arrays.asList(
-                    new Card(CardSuit.C, CardValue.ACE),
-                    new Card(CardSuit.D, CardValue.ACE),
-                    new Card(CardSuit.S, CardValue.ACE),
-                    new Card(CardSuit.H, CardValue.TEN),
-                    new Card(CardSuit.C, CardValue.SIX)
-            ), 2); //2 wins by pair
-
-            //pair different, rest equal (rest lower than pair value)
-            public static TestHandPair TWO_PAIR_2 = new TestHandPair(Arrays.asList(
-                    new Card(CardSuit.C, CardValue.ACE),
-                    new Card(CardSuit.D, CardValue.ACE),
-                    new Card(CardSuit.S, CardValue.ACE),
-                    new Card(CardSuit.H, CardValue.NINE),
-                    new Card(CardSuit.C, CardValue.THREE)
-            ), Arrays.asList(
-                    new Card(CardSuit.C, CardValue.QUEEN),
-                    new Card(CardSuit.D, CardValue.QUEEN),
-                    new Card(CardSuit.S, CardValue.QUEEN),
-                    new Card(CardSuit.H, CardValue.NINE),
-                    new Card(CardSuit.C, CardValue.THREE)
-            ), 1);
-
-            //pair different, rest equal (rest higher than pair value for card with higher pair)
-            public static TestHandPair TWO_PAIR_3 = new TestHandPair(Arrays.asList(
-                    new Card(CardSuit.C, CardValue.SEVEN),
-                    new Card(CardSuit.D, CardValue.SEVEN),
-                    new Card(CardSuit.S, CardValue.SEVEN),
-                    new Card(CardSuit.H, CardValue.FIVE),
-                    new Card(CardSuit.C, CardValue.TWO)
-            ), Arrays.asList(
-                    new Card(CardSuit.H, CardValue.ACE),
-                    new Card(CardSuit.C, CardValue.JACK),
-                    new Card(CardSuit.C, CardValue.NINE),
-                    new Card(CardSuit.D, CardValue.NINE),
-                    new Card(CardSuit.S, CardValue.NINE)
-            ), 2);
-
-            //pair different, rest equal (rest higher than pair value for card with lower pair)
-            public static TestHandPair TWO_PAIR_4 = new TestHandPair(Arrays.asList(
-                    new Card(CardSuit.H, CardValue.ACE),
-                    new Card(CardSuit.C, CardValue.JACK),
-                    new Card(CardSuit.C, CardValue.SEVEN),
-                    new Card(CardSuit.D, CardValue.SEVEN),
-                    new Card(CardSuit.S, CardValue.SEVEN)
-            ), Arrays.asList(
-                    new Card(CardSuit.C, CardValue.NINE),
-                    new Card(CardSuit.D, CardValue.NINE),
-                    new Card(CardSuit.S, CardValue.NINE),
-                    new Card(CardSuit.H, CardValue.TWO),
-                    new Card(CardSuit.C, CardValue.FOUR)
-            ), 2);
-
-            public static List<TestHandPair> ALL = Arrays.asList(
-                    TWO_PAIR_0,
-                    TWO_PAIR_1,
-                    TWO_PAIR_2,
-                    TWO_PAIR_3,
-                    TWO_PAIR_4
-            );
-        }
-
-        //... todo: rest of equally ranked hand cases
 
         //all test combinations of two hands of different ranks, ordered by the rank of the first hand
         public static class DifferingCases {
@@ -930,283 +277,221 @@ public class TestHands {
         //opposite to the other defined test hands, for these it is guaranteed that they satisfy their rank and none of the above ranks
 
         //high card
-        public static List<Card> HIGH_CARD = Arrays.asList(
+        public static HandView HIGH_CARD = new Hand(Arrays.asList(
                 new Card(CardSuit.C, CardValue.ACE),
                 new Card(CardSuit.D, CardValue.QUEEN),
                 new Card(CardSuit.S, CardValue.TEN),
                 new Card(CardSuit.H, CardValue.EIGHT),
                 new Card(CardSuit.C, CardValue.SIX)
-        );
+        )).createView();
         //pair
-        public static List<Card> PAIR = Arrays.asList(
+        public static HandView PAIR = new Hand(Arrays.asList(
                 new Card(CardSuit.C, CardValue.ACE),
                 new Card(CardSuit.D, CardValue.ACE),
                 new Card(CardSuit.S, CardValue.TEN),
                 new Card(CardSuit.H, CardValue.EIGHT),
                 new Card(CardSuit.C, CardValue.SIX)
-        );
+        )).createView();
         //two pairs
-        public static List<Card> TWO_PAIRS = Arrays.asList(
+        public static HandView TWO_PAIRS = new Hand(Arrays.asList(
                 new Card(CardSuit.C, CardValue.ACE),
                 new Card(CardSuit.D, CardValue.ACE),
                 new Card(CardSuit.S, CardValue.TEN),
                 new Card(CardSuit.H, CardValue.TEN),
                 new Card(CardSuit.C, CardValue.SIX)
-        );
+        )).createView();
         //three of kind
-        public static List<Card> THREE_OF_A_KIND = Arrays.asList(
+        public static HandView THREE_OF_A_KIND = new Hand(Arrays.asList(
                 new Card(CardSuit.C, CardValue.ACE),
                 new Card(CardSuit.D, CardValue.QUEEN),
                 new Card(CardSuit.S, CardValue.QUEEN),
                 new Card(CardSuit.H, CardValue.QUEEN),
                 new Card(CardSuit.C, CardValue.SIX)
-        );
+        )).createView();
         //straight
-        public static List<Card> STRAIGHT = Arrays.asList(
+        public static HandView STRAIGHT = new Hand(Arrays.asList(
                 new Card(CardSuit.C, CardValue.ACE),
                 new Card(CardSuit.D, CardValue.KING),
                 new Card(CardSuit.S, CardValue.QUEEN),
                 new Card(CardSuit.H, CardValue.JACK),
                 new Card(CardSuit.C, CardValue.TEN)
-        );
+        )).createView();
         //flush
-        public static List<Card> FLUSH = Arrays.asList(
+        public static HandView FLUSH = new Hand(Arrays.asList(
                 new Card(CardSuit.C, CardValue.ACE),
                 new Card(CardSuit.C, CardValue.QUEEN),
                 new Card(CardSuit.C, CardValue.TEN),
                 new Card(CardSuit.C, CardValue.EIGHT),
                 new Card(CardSuit.C, CardValue.SIX)
-        );
+        )).createView();
         //full house
-        public static List<Card> FULL_HOUSE = Arrays.asList(
+        public static HandView FULL_HOUSE = new Hand(Arrays.asList(
                 new Card(CardSuit.D, CardValue.QUEEN),
                 new Card(CardSuit.S, CardValue.QUEEN),
                 new Card(CardSuit.H, CardValue.QUEEN),
                 new Card(CardSuit.C, CardValue.SIX),
                 new Card(CardSuit.C, CardValue.SIX)
-        );
+        )).createView();
         //four of kind
-        public static List<Card> FOUR_OF_A_KIND = Arrays.asList(
+        public static HandView FOUR_OF_A_KIND = new Hand(Arrays.asList(
                 new Card(CardSuit.C, CardValue.QUEEN),
                 new Card(CardSuit.D, CardValue.QUEEN),
                 new Card(CardSuit.S, CardValue.QUEEN),
                 new Card(CardSuit.H, CardValue.QUEEN),
                 new Card(CardSuit.C, CardValue.SIX)
-        );
+        )).createView();
         //straight flush
-        public static List<Card> STRAIGHT_FLUSH = Arrays.asList(
+        public static HandView STRAIGHT_FLUSH = new Hand(Arrays.asList(
                 new Card(CardSuit.C, CardValue.ACE),
                 new Card(CardSuit.C, CardValue.KING),
                 new Card(CardSuit.C, CardValue.QUEEN),
                 new Card(CardSuit.C, CardValue.JACK),
                 new Card(CardSuit.C, CardValue.TEN)
-        );
+        )).createView();
     }
 
     //value pairs
     public static class ValuePairs {
-        public static List<Card> NO_VALUE_PAIR = Arrays.asList(
+        public static HandView NO_VALUE_PAIR = new Hand(Arrays.asList(
                 new Card(CardSuit.C, CardValue.ACE),
                 new Card(CardSuit.C, CardValue.TWO),
                 new Card(CardSuit.C, CardValue.THREE),
                 new Card(CardSuit.C, CardValue.FOUR),
                 new Card(CardSuit.C, CardValue.FIVE)
-        );
-        public static List<Card> VALUE_PAIR_OF_2_ACE = Arrays.asList(
+        )).createView();
+        public static HandView VALUE_PAIR_OF_2_ACE = new Hand(Arrays.asList(
                 new Card(CardSuit.C, CardValue.FOUR),
                 new Card(CardSuit.C, CardValue.TWO),
                 new Card(CardSuit.C, CardValue.ACE),
                 new Card(CardSuit.C, CardValue.THREE),
                 new Card(CardSuit.C, CardValue.ACE)
-        );
-        public static List<Card> VALUE_PAIR_OF_2_KING_2_QUEEN = Arrays.asList(
+        )).createView();
+        public static HandView VALUE_PAIR_OF_2_KING_2_QUEEN = new Hand(Arrays.asList(
                 new Card(CardSuit.C, CardValue.ACE),
                 new Card(CardSuit.C, CardValue.KING),
                 new Card(CardSuit.C, CardValue.KING),
                 new Card(CardSuit.C, CardValue.QUEEN),
                 new Card(CardSuit.C, CardValue.QUEEN)
-        );
-        public static List<Card> VALUE_PAIR_OF_3_JACK_2_TEN = Arrays.asList(
+        )).createView();
+        public static HandView VALUE_PAIR_OF_3_JACK_2_TEN = new Hand(Arrays.asList(
                 new Card(CardSuit.C, CardValue.JACK),
                 new Card(CardSuit.C, CardValue.JACK),
                 new Card(CardSuit.C, CardValue.JACK),
                 new Card(CardSuit.C, CardValue.TEN),
                 new Card(CardSuit.C, CardValue.TEN)
-        );
-        public static List<Card> VALUE_PAIR_3_ACE = Arrays.asList(
+        )).createView();
+        public static HandView VALUE_PAIR_3_ACE = new Hand(Arrays.asList(
                 new Card(CardSuit.C, CardValue.ACE),
                 new Card(CardSuit.C, CardValue.ACE),
                 new Card(CardSuit.C, CardValue.ACE),
                 new Card(CardSuit.C, CardValue.THREE),
                 new Card(CardSuit.C, CardValue.NINE)
-        );
-        public static List<Card> VALUE_PAIR_4_ACE = Arrays.asList(
+        )).createView();
+        public static HandView VALUE_PAIR_4_ACE = new Hand(Arrays.asList(
                 new Card(CardSuit.C, CardValue.ACE),
                 new Card(CardSuit.C, CardValue.ACE),
                 new Card(CardSuit.C, CardValue.ACE),
                 new Card(CardSuit.C, CardValue.ACE),
                 new Card(CardSuit.C, CardValue.QUEEN)
-        );
-        public static List<Card> VALUE_PAIR_5_ACE = Arrays.asList(
+        )).createView();
+        public static HandView VALUE_PAIR_5_ACE = new Hand(Arrays.asList(
                 new Card(CardSuit.C, CardValue.ACE),
                 new Card(CardSuit.C, CardValue.ACE),
                 new Card(CardSuit.C, CardValue.ACE),
                 new Card(CardSuit.C, CardValue.ACE),
                 new Card(CardSuit.C, CardValue.ACE)
-        );
+        )).createView();
     }
 
     //sequences
     public static class Sequences {
-        public static List<Card> NO_SEQUENCE = Arrays.asList(
+        public static HandView NO_SEQUENCE = new Hand(Arrays.asList(
                 new Card(CardSuit.C, CardValue.ACE),
                 new Card(CardSuit.C, CardValue.THREE),
                 new Card(CardSuit.C, CardValue.FIVE),
                 new Card(CardSuit.C, CardValue.SEVEN),
                 new Card(CardSuit.C, CardValue.NINE)
-        );
-        public static List<Card> SEQUENCE_THREE_TO_FOUR = Arrays.asList(
+        )).createView();
+        public static HandView SEQUENCE_THREE_TO_FOUR = new Hand(Arrays.asList(
                 new Card(CardSuit.C, CardValue.ACE),
                 new Card(CardSuit.C, CardValue.THREE),
                 new Card(CardSuit.C, CardValue.FOUR),
                 new Card(CardSuit.C, CardValue.QUEEN),
                 new Card(CardSuit.C, CardValue.NINE)
-        );
-        public static List<Card> SEQUENCE_THREE_TO_FIVE = Arrays.asList(
+        )).createView();
+        public static HandView SEQUENCE_THREE_TO_FIVE = new Hand(Arrays.asList(
                 new Card(CardSuit.C, CardValue.ACE),
                 new Card(CardSuit.C, CardValue.THREE),
                 new Card(CardSuit.C, CardValue.FOUR),
                 new Card(CardSuit.C, CardValue.FIVE),
                 new Card(CardSuit.C, CardValue.NINE)
-        );
-        public static List<Card> SEQUENCE_THREE_TO_SIX = Arrays.asList(
+        )).createView();
+        public static HandView SEQUENCE_THREE_TO_SIX = new Hand(Arrays.asList(
                 new Card(CardSuit.C, CardValue.ACE),
                 new Card(CardSuit.C, CardValue.THREE),
                 new Card(CardSuit.C, CardValue.FOUR),
                 new Card(CardSuit.C, CardValue.FIVE),
                 new Card(CardSuit.C, CardValue.SIX)
-        );
-        public static List<Card> FULL_SEQUENCE_THREE_TO_SEVEN_SAME_SUIT = Arrays.asList(
+        )).createView();
+        public static HandView FULL_SEQUENCE_THREE_TO_SEVEN_SAME_SUIT = new Hand(Arrays.asList(
                 new Card(CardSuit.C, CardValue.THREE),
                 new Card(CardSuit.C, CardValue.FOUR),
                 new Card(CardSuit.C, CardValue.FIVE),
                 new Card(CardSuit.C, CardValue.SIX),
                 new Card(CardSuit.C, CardValue.SEVEN)
-        );
-        public static List<Card> FULL_SEQUENCE_THREE_TO_SEVEN_DIFF_SUIT = Arrays.asList(
+        )).createView();
+        public static HandView FULL_SEQUENCE_THREE_TO_SEVEN_DIFF_SUIT = new Hand(Arrays.asList(
                 new Card(CardSuit.C, CardValue.THREE),
                 new Card(CardSuit.C, CardValue.FOUR),
                 new Card(CardSuit.S, CardValue.FIVE),
                 new Card(CardSuit.C, CardValue.SIX),
                 new Card(CardSuit.C, CardValue.SEVEN)
-        );
-        public static List<Card> SEQUENCES_THREE_TO_FIVE_NINE_TO_TEN = Arrays.asList(
+        )).createView();
+        public static HandView SEQUENCES_THREE_TO_FIVE_NINE_TO_TEN = new Hand(Arrays.asList(
                 new Card(CardSuit.C, CardValue.THREE),
                 new Card(CardSuit.C, CardValue.FOUR),
                 new Card(CardSuit.C, CardValue.FIVE),
                 new Card(CardSuit.C, CardValue.NINE),
                 new Card(CardSuit.C, CardValue.TEN)
-        );
+        )).createView();
     }
 
     //suit pairs
     public static class SuitPairs {
-        public static List<Card> SUIT_PAIR_H = Arrays.asList(
+        public static HandView SUIT_PAIR_H = new Hand(Arrays.asList(
                 new Card(CardSuit.C, CardValue.ACE),
                 new Card(CardSuit.H, CardValue.ACE),
                 new Card(CardSuit.H, CardValue.ACE),
                 new Card(CardSuit.S, CardValue.ACE),
                 new Card(CardSuit.D, CardValue.ACE)
-        );
-        public static List<Card> SUIT_PAIR_H_AND_S = Arrays.asList(
+        )).createView();
+        public static HandView SUIT_PAIR_H_AND_S = new Hand(Arrays.asList(
                 new Card(CardSuit.C, CardValue.ACE),
                 new Card(CardSuit.H, CardValue.KING),
                 new Card(CardSuit.H, CardValue.QUEEN),
                 new Card(CardSuit.S, CardValue.JACK),
                 new Card(CardSuit.S, CardValue.TEN)
-        );
-        public static List<Card> SUIT_PAIR_3_H = Arrays.asList(
+        )).createView();
+        public static HandView SUIT_PAIR_3_H = new Hand(Arrays.asList(
                 new Card(CardSuit.C, CardValue.ACE),
                 new Card(CardSuit.H, CardValue.KING),
                 new Card(CardSuit.H, CardValue.KING),
                 new Card(CardSuit.H, CardValue.QUEEN),
                 new Card(CardSuit.S, CardValue.QUEEN)
-        );
-        public static List<Card> FULL_SUIT_PAIR_S_NO_SEQ = Arrays.asList(
+        )).createView();
+        public static HandView FULL_SUIT_PAIR_S_NO_SEQ = new Hand(Arrays.asList(
                 new Card(CardSuit.S, CardValue.ACE),
                 new Card(CardSuit.S, CardValue.QUEEN),
                 new Card(CardSuit.S, CardValue.TEN),
                 new Card(CardSuit.S, CardValue.EIGHT),
                 new Card(CardSuit.S, CardValue.SIX)
-        );
-        public static List<Card> FULL_SUIT_PAIR_S_FULL_SEQ = Arrays.asList(
+        )).createView();
+        public static HandView FULL_SUIT_PAIR_S_FULL_SEQ = new Hand(Arrays.asList(
                 new Card(CardSuit.S, CardValue.ACE),
                 new Card(CardSuit.S, CardValue.KING),
                 new Card(CardSuit.S, CardValue.QUEEN),
                 new Card(CardSuit.S, CardValue.JACK),
                 new Card(CardSuit.S, CardValue.TEN)
-        );
-    }
-
-    public static void setup() {
-        //perhaps this could be done better with refactoring ...
-
-        //sort all hands (except for empty hand which is implicitly sorted)
-        Collections.sort(ValuePairs.NO_VALUE_PAIR);
-        Collections.reverse(ValuePairs.NO_VALUE_PAIR);
-
-        Collections.sort(ValuePairs.VALUE_PAIR_OF_2_ACE);
-        Collections.reverse(ValuePairs.VALUE_PAIR_OF_2_ACE);
-
-        Collections.sort(ValuePairs.VALUE_PAIR_OF_2_KING_2_QUEEN);
-        Collections.reverse(ValuePairs.VALUE_PAIR_OF_2_KING_2_QUEEN);
-
-        Collections.sort(ValuePairs.VALUE_PAIR_OF_3_JACK_2_TEN);
-        Collections.reverse(ValuePairs.VALUE_PAIR_OF_3_JACK_2_TEN);
-
-        Collections.sort(ValuePairs.VALUE_PAIR_3_ACE);
-        Collections.reverse(ValuePairs.VALUE_PAIR_3_ACE);
-
-        Collections.sort(ValuePairs.VALUE_PAIR_5_ACE);
-        Collections.reverse(ValuePairs.VALUE_PAIR_5_ACE);
-
-        Collections.sort(ValuePairs.VALUE_PAIR_4_ACE);
-        Collections.reverse(ValuePairs.VALUE_PAIR_4_ACE);
-
-        Collections.sort(Sequences.NO_SEQUENCE);
-        Collections.reverse(Sequences.NO_SEQUENCE);
-
-        Collections.sort(Sequences.SEQUENCE_THREE_TO_FIVE);
-        Collections.reverse(Sequences.SEQUENCE_THREE_TO_FIVE);
-
-        Collections.sort(Sequences.SEQUENCE_THREE_TO_SIX);
-        Collections.reverse(Sequences.SEQUENCE_THREE_TO_SIX);
-
-        Collections.sort(Sequences.SEQUENCE_THREE_TO_FOUR);
-        Collections.reverse(Sequences.SEQUENCE_THREE_TO_FOUR);
-
-        Collections.sort(Sequences.FULL_SEQUENCE_THREE_TO_SEVEN_SAME_SUIT);
-        Collections.reverse(Sequences.FULL_SEQUENCE_THREE_TO_SEVEN_SAME_SUIT);
-
-        Collections.sort(Sequences.FULL_SEQUENCE_THREE_TO_SEVEN_DIFF_SUIT);
-        Collections.reverse(Sequences.FULL_SEQUENCE_THREE_TO_SEVEN_DIFF_SUIT);
-
-        Collections.sort(Sequences.SEQUENCES_THREE_TO_FIVE_NINE_TO_TEN);
-        Collections.reverse(Sequences.SEQUENCES_THREE_TO_FIVE_NINE_TO_TEN);
-
-        Collections.sort(SuitPairs.SUIT_PAIR_H);
-        Collections.reverse(SuitPairs.SUIT_PAIR_H);
-
-        Collections.sort(SuitPairs.SUIT_PAIR_H_AND_S);
-        Collections.reverse(SuitPairs.SUIT_PAIR_H_AND_S);
-
-        Collections.sort(SuitPairs.SUIT_PAIR_3_H);
-        Collections.reverse(SuitPairs.SUIT_PAIR_3_H);
-
-        Collections.sort(SuitPairs.FULL_SUIT_PAIR_S_NO_SEQ);
-        Collections.reverse(SuitPairs.FULL_SUIT_PAIR_S_NO_SEQ);
-
-        Collections.sort(SuitPairs.FULL_SUIT_PAIR_S_FULL_SEQ);
-        Collections.reverse(SuitPairs.FULL_SUIT_PAIR_S_FULL_SEQ);
+        )).createView();
     }
 }

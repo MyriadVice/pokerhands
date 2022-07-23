@@ -1,19 +1,13 @@
 package test.strategytest;
 
-import javafx.util.Pair;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import pokerhands.Card;
-import pokerhands.CardSuit;
-import pokerhands.CardValue;
-import pokerhands.strategies.PokerHandStrategy;
+import pokerhands.*;
 import pokerhands.strategies.StraightStrategy;
 import test.TestHands;
 
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -26,7 +20,6 @@ public class StraightStrategyTest {
 
     @BeforeEach
     void setup() {
-        TestHands.setup();
         strategy = new StraightStrategy();
     }
 
@@ -59,30 +52,23 @@ public class StraightStrategyTest {
     @DisplayName("Straight strategy returns correct hand for two fully sequences hands")
     void evaluationOnEqualSequenceHands() {
         //hand1 with higher ranked high card
-        List<Card> hand1 = Arrays.asList(
+        Hand hand1 = new Hand(Arrays.asList(
                 new Card(CardSuit.C, CardValue.ACE),
                 new Card(CardSuit.C, CardValue.KING),
                 new Card(CardSuit.C, CardValue.QUEEN),
                 new Card(CardSuit.C, CardValue.JACK),
                 new Card(CardSuit.C, CardValue.TEN)
-        );
-        List<Card> hand2 = Arrays.asList(
+        ));
+        Hand hand2 = new Hand(Arrays.asList(
                 new Card(CardSuit.C, CardValue.SIX),
                 new Card(CardSuit.C, CardValue.FIVE),
                 new Card(CardSuit.C, CardValue.FOUR),
                 new Card(CardSuit.C, CardValue.THREE),
                 new Card(CardSuit.C, CardValue.TWO)
-        );
+        ));
 
-        //sort to keep invariants
-        Collections.sort(hand1);
-        Collections.reverse(hand1);
-
-        Collections.sort(hand2);
-        Collections.reverse(hand2);
-
-        Optional<Pair<List<Card>, PokerHandStrategy>> result = strategy.evaluatePair(hand1, hand2);
-        assertEquals(hand1, result.get().getKey());
-        assertEquals(hand1, result.get().getKey());
+        Optional<HandView> result = strategy.evaluatePair(hand1.createView(), hand2.createView());
+        assertEquals(hand1, result.get().getHand());
+        assertEquals(hand1, result.get().getHand());
     }
 }

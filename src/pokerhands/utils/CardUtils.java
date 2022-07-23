@@ -1,84 +1,97 @@
 package pokerhands.utils;
 
-import pokerhands.Card;
-import pokerhands.CardSuit;
+import pokerhands.*;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
- * A collection of utility functions for working with {@link pokerhands.Card}s.
+ * A collection of utility functions for working with {@link pokerhands.Card}s
  **/
 public class CardUtils {
 
     /**
-     * This function is used to retrieve a subset of amount cards from the passed set of cards that all have the same value
-     * {@link pokerhands.CardValue}. In case multiple pairs are found, the subset with the highest value is returned.
+     * Function used to retrieve a set of cards from the passed {@link Hand} that all have the same {@link CardValue}. The set
+     * is returned as a {@link HandView} on the passed hand and contains as many cards of equal value as specified by the
+     * amount parameter. In case multiple sets are found, the subset with the highest value card is returned. If no such pair
+     * exists, we return no value.
      **/
-    public static List<Card> getValuePair(List<Card> cards, int amount) {
-        if (amount == 0) return Collections.emptyList();
+    public static Optional<HandView> getValuePair(HandView cards, int amount) {
+        if (amount < 0) return Optional.empty();
+        if (amount == 0) return Optional.of(cards.createView(0, 0));
 
         int lastSequenceStart = 0;
         int consecutiveEntries = 1;
         for (int i = 1; i < cards.size(); i++) {
-            if (cards.get(i).getValue().compareTo(cards.get(lastSequenceStart).getValue()) == 0 || amount == 1) {
+            if (cards.compareValues(cards, i, lastSequenceStart) == 0 || amount == 1) {
                 consecutiveEntries++;
-                if (consecutiveEntries == amount || amount == 1)
-                    return new LinkedList<>(cards.subList(lastSequenceStart, lastSequenceStart + amount));
+                if (consecutiveEntries >= amount || amount == 1)
+                    return Optional.of(cards.createView(lastSequenceStart, lastSequenceStart + consecutiveEntries).narrowView(0, amount));
             } else {
                 lastSequenceStart = i;
                 consecutiveEntries = 1;
             }
         }
 
-        return null;
+        return Optional.empty();
     }
 
     /**
-     * This function is used to retrieve a subset of amount cards from the passed set of cards that for a consecutive,
-     * descending order. If no such order is found, null is returned.
+     * Function used to retrieve a subset of cards from the passed {@link Hand} that forms a consecutive, descending order. The
+     * set of cards is returned as a {@link HandView} on the passed hand and contains as many cards of equal value as
+     * specified by the amount parameter. If no such order is found we return no result.
      **/
-    public static List<Card> getConsecutiveValues(List<Card> cards, int amount) {
-        if (amount == 0) return Collections.emptyList();
+    public static Optional<HandView> getConsecutiveValues(HandView cards, int amount) {
+        if (amount < 0) return Optional.empty();
 
         int lastSequenceStart = 0;
-        int lastCardValue = cards.get(0).getValue().value;
+        int lastCardValue = cards.valueAt(0).value;
         int consecutiveEntries = 1;
         for (int i = 1; i < cards.size(); i++) {
-            if (cards.get(i).getValue().value == (lastCardValue - 1)) {
+            if (cards.valueAt(i).value == (lastCardValue - 1) || amount == 0) {
                 consecutiveEntries++;
-                if (consecutiveEntries == amount) return cards.subList(lastSequenceStart, lastSequenceStart + amount);
+                if (consecutiveEntries >= amount || amount == 1)
+                    return Optional.of(cards.createView().narrowView(lastSequenceStart, lastSequenceStart + amount));
             } else {
                 lastSequenceStart = i;
                 consecutiveEntries = 1;
             }
-            lastCardValue = cards.get(i).getValue().value;
+            lastCardValue = cards.valueAt(i).value;
         }
 
-        return null;
+        return Optional.empty();
     }
 
     /**
-     * Function for retrieving a pair of amount many cards from the passed list that all share the same {@link pokerhands.CardSuit}.
-     * If more then one such pairs exists, we return one of them, making no assumptions about the contained values.
-     */
-    public static List<Card> getSuitPair(List<Card> hand, int amount) {
-        if (amount < 0) return null;
+     * Function used to retrieve a set of cards from the passed {@link Hand} that all have the same {@link CardSuit}. The set
+     * is returned as a {@link HandView} on the passed hand and contains as many cards of equal suit as specified by the
+     * amount parameter. In case multiple sets are found, wen make no assumption on the nature of the returned set beyond
+     * these criteria. If no such pair exists, we return no value.
+     **/
+    public static Optional<HandView> getSuitPair(HandView hand, int amount) {
+
+        if (amount < 0) return Optional.empty();
+        if (amount == 0) return Optional.of(new HandView(hand, 0, 0));
 
         HashMap<CardSuit, List<Card>> suitOccurrences = new HashMap<>();
-        for (Card c : hand) {
+        for (Card c : hand.getCards()) {
             if (!suitOccurrences.containsKey(c.getSuit())) {
                 suitOccurrences.put(c.getSuit(), new LinkedList<>());
             }
             suitOccurrences.get(c.getSuit()).add(c);
         }
 
+        CardSuit pairSuit = null;
+        Set<Card> toRemove = new HashSet<>();
         for (CardSuit suit : suitOccurrences.keySet()) {
-            if (suitOccurrences.get(suit).size() >= amount) return suitOccurrences.get(suit).subList(0, amount);
+            if (pairSuit == null && suitOccurrences.get(suit).size() >= amount) {
+                pairSuit = suit;
+                continue;
+            }
+            toRemove.addAll(suitOccurrences.get(suit));
         }
 
-        return null;
+        if (pairSuit != null) return Optional.of(hand.createView().remove(toRemove).narrowView(0, amount));
+
+        return Optional.empty();
     }
 }

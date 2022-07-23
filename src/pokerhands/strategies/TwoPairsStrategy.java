@@ -1,16 +1,14 @@
 package pokerhands.strategies;
 
-import javafx.util.Pair;
-import pokerhands.Card;
+import pokerhands.HandView;
 import pokerhands.utils.CardUtils;
 
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Optional;
 
 /**
- * A class representing the {@link PokerHandStrategy} for the two pairs strategy: he hand contains 2 different pairs.
- * Hands which both contain 2 pairs are ranked by the value of their highest pair. Hands with the same highest pair are
+ * A class representing the {@link PokerHandStrategy} for the two pairs strategy. This strategy is permissible on a
+ * {@link pokerhands.Hand} if the hand contains 2 potentially different pairs of same {@link pokerhands.CardValue}s. Hands
+ * which both contain 2 pairs are ranked by the value of their highest pair. Hands with the same highest pair are
  * ranked by the value of their other pair. If these values are the same the hands are ranked by the value of the remaining card.
  */
 public class TwoPairsStrategy extends PokerHandStrategy {
@@ -20,66 +18,40 @@ public class TwoPairsStrategy extends PokerHandStrategy {
     }
 
     @Override
-    public boolean isPermissible(List<Card> hand) {
-        List<Card> firstPair = CardUtils.getValuePair(hand, 2);
-        if (firstPair == null) return false; //no pair found
+    public boolean isPermissible(HandView hand) {
+        Optional<HandView> firstPair = CardUtils.getValuePair(hand, 2);
+        if (!firstPair.isPresent()) return false;
 
-        List<Card> remainingCards = new LinkedList<>(hand);
-        remainingCards.removeAll(firstPair);
-        List<Card> secondPair = CardUtils.getValuePair(remainingCards, 2);
+        Optional<HandView> secondPair = CardUtils.getValuePair(hand.createView().remove(firstPair.get().getCards()), 2);
 
-        return secondPair != null;
+        return secondPair.isPresent();
     }
 
     @Override
-    public Optional<Pair<List<Card>, PokerHandStrategy>> evaluatePair(List<Card> hand1, List<Card> hand2) {
-        Card firstHandCard = null;
-        Card secondHandCard = null;
+    public Optional<HandView> evaluatePair(HandView hand1, HandView hand2) {
+        Optional<HandView> firstPair;
+        Optional<HandView> secondPair;
 
-        //now, we need to find which cards to compare
-        //first, we try to rank by value of the highest pair
-        List<Card> firstHandHighPair = CardUtils.getValuePair(hand1, 2);
-        List<Card> secondHandHighPair = CardUtils.getValuePair(hand2, 2);
+        HandView firstHandView = hand1.createView();
+        HandView secondHandView = hand2.createView();
 
-        firstHandCard = firstHandHighPair.get(0);
-        secondHandCard = secondHandHighPair.get(0);
+        for (int i = 0; i < 2; i++) {
+            firstPair = CardUtils.getValuePair(firstHandView, 2);
+            secondPair = CardUtils.getValuePair(secondHandView, 2);
 
-        //in case the highest values are equal, we rank by the value of the other pair instead
-        if (firstHandHighPair.get(0).compareTo(secondHandHighPair.get(0)) == 0) {
-            //get second pair of the cards
-            List<Card> firstHandRemainingCards = new LinkedList<>(hand1);
-            firstHandRemainingCards.removeAll(firstHandHighPair);
-            List<Card> firstHandLowPair = CardUtils.getValuePair(firstHandRemainingCards, 2);
+            if (firstPair.get().compareValues(secondPair.get(), 0, 0) > 0)
+                return Optional.of(firstHandView);
+            if (firstPair.get().compareValues(secondPair.get(), 0, 0) < 0)
+                return Optional.of(secondHandView);
 
-            List<Card> secondHandRemainingCards = new LinkedList<>(hand2);
-            secondHandRemainingCards.removeAll(secondHandHighPair);
-            List<Card> secondHandLowPair = CardUtils.getValuePair(secondHandRemainingCards, 2);
-
-            firstHandCard = firstHandLowPair.get(0);
-            secondHandCard = secondHandLowPair.get(0);
-
-            //in case, the two values of the lower pair of the cards are also the equal, we compare by the value of the
-            //remaining card
-            if (firstHandLowPair.get(0).compareTo(secondHandLowPair.get(0)) == 0) {
-                //remove second pair, thus that only one card remains which is the leftover card
-                List<Card> firstHandLeftover = new LinkedList(hand1);
-                firstHandLeftover.removeAll(firstHandHighPair);
-                firstHandLeftover.removeAll(firstHandLowPair);
-
-                List<Card> secondHandLeftover = new LinkedList(hand2);
-                secondHandLeftover.removeAll(secondHandHighPair);
-                secondHandLeftover.removeAll(secondHandLowPair);
-
-                //note that now, we only have one card left in the list which is the leftover card
-                firstHandCard = firstHandLeftover.get(0);
-                secondHandCard = secondHandLeftover.get(0);
-            }
+            firstHandView.remove(firstPair.get().getCards());
+            secondHandView.remove(secondPair.get().getCards());
         }
 
-        if (firstHandCard.getValue().compareTo(secondHandCard.getValue()) > 0)
-            return Optional.of(new Pair<>(hand1, this));
-        if (firstHandCard.getValue().compareTo(secondHandCard.getValue()) < 0)
-            return Optional.of(new Pair<>(hand2, this));
+        if (firstHandView.compareValues(secondHandView, 0, 0) > 0)
+            return Optional.of(hand1);
+        if (firstHandView.compareValues(secondHandView, 0, 0) < 0)
+            return Optional.of(hand2);
 
         return Optional.empty();
     }

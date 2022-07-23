@@ -1,7 +1,7 @@
 package pokerhands;
 
 /**
- * Card class representing a poker card with its suit {@link CardSuit} and value {@link CardValue}.
+ * Card class representing a poker card with its {@link CardSuit} and {@link CardValue}.
  */
 public class Card implements Comparable<Card> {
     private CardSuit suit;
@@ -25,6 +25,13 @@ public class Card implements Comparable<Card> {
         int valueCmp = this.value.compareTo(c.value);
         if (valueCmp == 0) return this.getSuit().compareTo(c.suit);
         return valueCmp;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Card)) return false;
+
+        return this.compareTo((Card) o) == 0;
     }
 
     @Override
